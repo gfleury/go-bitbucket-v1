@@ -16,12 +16,19 @@ func main() {
 
 	client := bitbucketv1.NewAPIClient(
 		ctx,
-		bitbucketv1.NewConfiguration("http://amazonaws.com/rest"),
+		bitbucketv1.NewConfiguration("https://stash.domain.com/rest"),
 	)
-	response, err := client.DefaultApi.GetUsers(nil)
+	username := "george.fleury"
+	response, err := client.DefaultApi.GetSSHKeys(username)
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
-	fmt.Printf("%v", response)
 
+	repos, err := bitbucketv1.GetRepositoriesResponse(response)
+
+	if err == nil {
+		for _, repo := range repos {
+			fmt.Println(repo.Name)
+		}
+	}
 }
