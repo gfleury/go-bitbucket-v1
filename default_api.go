@@ -6998,7 +6998,7 @@ func (a *DefaultApiService) GetUser(username string) (*APIResponse, error) {
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/users/"
 
-	localVarPath = fmt.Sprint("%s%s", localVarPath, username)
+	localVarPath = fmt.Sprintf("%s%s", localVarPath, username)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
