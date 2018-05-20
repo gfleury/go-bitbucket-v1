@@ -6,10 +6,11 @@ package bitbucketv1
 
 import (
 	"fmt"
-	"golang.org/x/net/context"
 	"io/ioutil"
 	"net/url"
 	"strings"
+
+	"golang.org/x/net/context"
 )
 
 // Linger please
@@ -2903,7 +2904,7 @@ Streams an archive of the repository&#39;s contents at the requested commit. If 
     @param "path" (string) paths to include in the streamed archive; may be repeated to include multiple paths
     @param "prefix" (string) a prefix to apply to all entries in the streamed archive; if the supplied prefix does not end                  with a trailing &lt;code&gt;/&lt;/code&gt;, one will be added automatically
 @return */
-func (a *DefaultApiService) GetArchive(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -2913,6 +2914,8 @@ func (a *DefaultApiService) GetArchive(localVarOptionals map[string]interface{})
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -3058,7 +3061,7 @@ Retrieve the branches matching the supplied &lt;strong&gt;filterText&lt;/strong&
     @param "filterText" (string) the text to match on
     @param "orderBy" (string) ordering of refs either ALPHABETICAL (by name) or MODIFICATION (last updated)
 @return */
-func (a *DefaultApiService) GetBranches(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetBranches(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3068,6 +3071,8 @@ func (a *DefaultApiService) GetBranches(localVarOptionals map[string]interface{}
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/branches"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -3631,7 +3636,7 @@ Retrieve a page of commits from a given starting commit or \&quot;between\&quot;
     @param "until" (string) the commit ID (SHA1) or ref (inclusively) to retrieve commits before
     @param "withCounts" (bool) optionally include the total number of commits and total number of unique authors
 @return */
-func (a *DefaultApiService) GetCommits(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetCommits(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3640,7 +3645,7 @@ func (a *DefaultApiService) GetCommits(localVarOptionals map[string]interface{})
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits"
+	localVarPath := fmt.Sprintf("%s/api/1.0/projects/%s/repos/%s/commits", a.client.cfg.BasePath, project, repository)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -3688,6 +3693,9 @@ func (a *DefaultApiService) GetCommits(localVarOptionals map[string]interface{})
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["withCounts"].(bool); localVarOk {
 		localVarQueryParams.Add("withCounts", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -6040,7 +6048,7 @@ Retrieve the repository matching the supplied &lt;strong&gt;projectKey&lt;/stron
 @param projectKey2 the parent project key
 @param repositorySlug the repository slug
 @return */
-func (a *DefaultApiService) GetRepository(projectKey string, projectKey2 string, repositorySlug string) (*APIResponse, error) {
+func (a *DefaultApiService) GetRepository(projectKey string, repositorySlug string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -6051,7 +6059,6 @@ func (a *DefaultApiService) GetRepository(projectKey string, projectKey2 string,
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey2), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -6735,7 +6742,7 @@ Retrieve the tags matching the supplied &lt;strong&gt;filterText&lt;/strong&gt; 
     @param "filterText" (string) the text to match on
     @param "orderBy" (string) ordering of refs either ALPHABETICAL (by name) or MODIFICATION (last updated)
 @return */
-func (a *DefaultApiService) GetTags(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetTags(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -6745,6 +6752,8 @@ func (a *DefaultApiService) GetTags(localVarOptionals map[string]interface{}) (*
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/tags"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -6854,11 +6863,8 @@ func (a *DefaultApiService) GetTask(taskId int64) (*APIResponse, error) {
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
-/* DefaultApiService
-Retrieve the user matching the supplied &lt;strong&gt;userSlug&lt;/strong&gt;.  &lt;p&gt;
-* @param ctx context.Context for authentication, logging, tracing, etc.
-@return */
-func (a *DefaultApiService) GetUser(ctx context.Context) (*APIResponse, error) {
+/*GetSSHKeys retrieve ssh keys per user, param */
+func (a *DefaultApiService) GetSSHKeys(user string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -6867,7 +6873,132 @@ func (a *DefaultApiService) GetUser(ctx context.Context) (*APIResponse, error) {
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/users/{userSlug}"
+	localVarPath := a.client.cfg.BasePath + "/ssh/1.0/keys"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if len(user) != 0 {
+		localVarQueryParams.Add("user", user)
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/*CreateSSHKey create ssh key for user, params user and text  */
+func (a *DefaultApiService) CreateSSHKey(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/ssh/1.0/keys"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if err := typeCheckParameter(localVarOptionals["user"], "string", "user"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["text"], "string", "text"); err != nil {
+		return nil, err
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["user"].(string); localVarOk {
+		localVarQueryParams.Add("user", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["text"].(string); localVarOk {
+		localVarFormParams.Add("text", parameterToString(localVarTempParam, ""))
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/* DefaultApiService
+Retrieve the user matching the supplied &lt;strong&gt;userSlug&lt;/strong&gt;.  &lt;p&gt;
+* @param ctx context.Context for authentication, logging, tracing, etc.
+@return */
+func (a *DefaultApiService) GetUser(username string) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/api/1.0/users/"
+
+	localVarPath = fmt.Sprintf("%s%s", localVarPath, username)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -9731,7 +9862,7 @@ Gets the commits accessible from the {@code from} commit but not in the {@code t
     @param "to" (string) the target commit (can be a partial/full commit ID or qualified/unqualified ref name)
     @param "fromRepo" (string) an optional parameter specifying the source repository containing the source commit                  if that commit is not present in the current repository; the repository can be specified                  by either its ID &lt;em&gt;fromRepo&#x3D;42&lt;/em&gt; or by its project key plus its repo slug separated by                  a slash: &lt;em&gt;fromRepo&#x3D;projectKey/repoSlug&lt;/em&gt;
 @return */
-func (a *DefaultApiService) StreamCommits(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) StreamCommits(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -9740,7 +9871,7 @@ func (a *DefaultApiService) StreamCommits(localVarOptionals map[string]interface
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/compare/commits"
+	localVarPath := fmt.Sprintf("%s/api/1.0/projects/%s/repos/%s/compare/commits", a.client.cfg.BasePath, project, repository)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -10016,7 +10147,7 @@ Gets a diff of the changes available in the {@code from} commit but not in the {
     @param "contextLines" (int32) an optional number of context lines to include around each added or removed lines in the diff
     @param "whitespace" (string) an optional whitespace flag which can be set to &lt;code&gt;ignore-all&lt;/code&gt;
 @return */
-func (a *DefaultApiService) StreamDiff_37(path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) StreamDiff_37(project, repository, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -10025,8 +10156,7 @@ func (a *DefaultApiService) StreamDiff_37(path string, localVarOptionals map[str
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/compare/diff{path}"
-	localVarPath = strings.Replace(localVarPath, "{"+"path"+"}", fmt.Sprintf("%v", path), -1)
+	localVarPath := fmt.Sprintf("%s/api/1.0/projects/%s/repos/%s/compare/diff%s", a.client.cfg.BasePath, project, repository, path)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

@@ -7,6 +7,9 @@ package bitbucketv1
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 // APIResponse contains generic data from API Response
@@ -26,6 +29,191 @@ type APIResponse struct {
 	// been drained.
 	Payload []byte `json:"-"`
 	Values  map[string]interface{}
+}
+
+type Project struct {
+	Key         string `json:"key"`
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Public      bool   `json:"public"`
+	Type        string `json:"type"`
+	Links       struct {
+		Self []struct {
+			Href string `json:"href"`
+		} `json:"self"`
+	} `json:"links"`
+}
+
+// Repository contains data from a BitBucket Repository
+type Repository struct {
+	Slug          string  `json:"slug"`
+	ID            int     `json:"id"`
+	Name          string  `json:"name"`
+	ScmID         string  `json:"scmId"`
+	State         string  `json:"state"`
+	StatusMessage string  `json:"statusMessage"`
+	Forkable      bool    `json:"forkable"`
+	Project       Project `json:"project"`
+	Public        bool    `json:"public"`
+	Links         struct {
+		Clone []struct {
+			Href string `json:"href"`
+			Name string `json:"name"`
+		} `json:"clone"`
+		Self []struct {
+			Href string `json:"href"`
+		} `json:"self"`
+	} `json:"links"`
+}
+
+// SSHKey contains data from a SSHKey in the BitBucket Server
+type SSHKey struct {
+	ID    int    `json:"id"`
+	Text  string `json:"text"`
+	Label string `json:"label"`
+}
+
+// Commit contains data from a commit in BitBucket
+type Commit struct {
+	ID        string `json:"id"`
+	DisplayID string `json:"displayId"`
+	Author    struct {
+		Name         string `json:"name"`
+		EmailAddress string `json:"emailAddress"`
+	} `json:"author"`
+	AuthorTimestamp int64 `json:"authorTimestamp"`
+	Committer       struct {
+		Name         string `json:"name"`
+		EmailAddress string `json:"emailAddress"`
+	} `json:"committer"`
+	CommitterTimestamp int64  `json:"committerTimestamp"`
+	Message            string `json:"message"`
+	Parents            []struct {
+		ID        string `json:"id"`
+		DisplayID string `json:"displayId"`
+	} `json:"parents"`
+}
+
+type Diff struct {
+	Diffs []struct {
+		Source struct {
+			Components []string `json:"components"`
+			Parent     string   `json:"parent"`
+			Name       string   `json:"name"`
+			Extension  string   `json:"extension"`
+			ToString   string   `json:"toString"`
+		} `json:"source"`
+		Destination struct {
+			Components []string `json:"components"`
+			Parent     string   `json:"parent"`
+			Name       string   `json:"name"`
+			Extension  string   `json:"extension"`
+			ToString   string   `json:"toString"`
+		} `json:"destination"`
+		Hunks []struct {
+			SourceLine      int `json:"sourceLine"`
+			SourceSpan      int `json:"sourceSpan"`
+			DestinationLine int `json:"destinationLine"`
+			DestinationSpan int `json:"destinationSpan"`
+			Segments        []struct {
+				Type  string `json:"type"`
+				Lines []struct {
+					Destination int    `json:"destination"`
+					Source      int    `json:"source"`
+					Line        string `json:"line"`
+					Truncated   bool   `json:"truncated"`
+				} `json:"lines"`
+				Truncated bool `json:"truncated"`
+			} `json:"segments"`
+			Truncated bool `json:"truncated"`
+		} `json:"hunks"`
+		Truncated    bool    `json:"truncated"`
+		ContextLines float64 `json:"contextLines"`
+		FromHash     string  `json:"fromHash"`
+		ToHash       string  `json:"toHash"`
+		WhiteSpace   string  `json:"whiteSpace"`
+	} `json:"diffs"`
+	Truncated    bool    `json:"truncated"`
+	ContextLines float64 `json:"contextLines"`
+	FromHash     string  `json:"fromHash"`
+	ToHash       string  `json:"toHash"`
+	WhiteSpace   string  `json:"whiteSpace"`
+}
+
+// Tag contaings git Tag information
+type Tag struct {
+	ID              string `json:"id"`
+	DisplayID       string `json:"displayId"`
+	Type            string `json:"type"`
+	LatestCommit    string `json:"latestCommit"`
+	LatestChangeset string `json:"latestChangeset"`
+	Hash            string `json:"hash"`
+}
+
+// Branch contains git Branch information
+type Branch struct {
+	ID              string `json:"id"`
+	DisplayID       string `json:"displayId"`
+	Type            string `json:"type"`
+	LatestCommit    string `json:"latestCommit"`
+	LatestChangeset string `json:"latestChangeset"`
+	IsDefault       bool   `json:"isDefault"`
+}
+
+func (k *SSHKey) String() string {
+	parts := make([]string, 1, 2)
+	parts[0] = strings.TrimSpace(k.Text)
+	return strings.Join(parts, " ")
+}
+
+// GetCommitsResponse cast Commits into structure
+func GetCommitsResponse(r *APIResponse) ([]Commit, error) {
+	var m []Commit
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
+// GetTagsResponse cast Tags into structure
+func GetTagsResponse(r *APIResponse) ([]Tag, error) {
+	var m []Tag
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
+// GetBranchesResponse cast Tags into structure
+func GetBranchesResponse(r *APIResponse) ([]Branch, error) {
+	var m []Branch
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
+// GetRepositoriesResponse cast Repositories into structure
+func GetRepositoriesResponse(r *APIResponse) ([]Repository, error) {
+	var m []Repository
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
+// GetRepositoryResponse cast Repositories into structure
+func GetRepositoryResponse(r *APIResponse) (Repository, error) {
+	var m Repository
+	err := mapstructure.Decode(r.Values, &m)
+	return m, err
+}
+
+// GetDiffResponse cast Diff into structure
+func GetDiffResponse(r *APIResponse) (Diff, error) {
+	var m Diff
+	err := mapstructure.Decode(r.Values, &m)
+	return m, err
+}
+
+// GetSSHKeysResponse cast SSHKeys into structure
+func GetSSHKeysResponse(r *APIResponse) ([]SSHKey, error) {
+	var m []SSHKey
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
 }
 
 // NewAPIResponse create new APIResponse from http.Response
