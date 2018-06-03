@@ -11495,10 +11495,13 @@ Update the repository matching the &lt;strong&gt;repositorySlug&lt;/strong&gt; s
 @param projectKey2 the parent project key
 @param repositorySlug the repository slug
 @return */
-func (a *DefaultApiService) UpdateRepository(projectKey string, projectKey2 string, repositorySlug string) (*APIResponse, error) {
+func (a *DefaultApiService) UpdateRepository(projectKey, repositorySlug string) (*APIResponse, error) {
+	return a.UpdateRepositoryWithOptions(projectKey, repositorySlug, nil, []string{})
+}
+
+func (a *DefaultApiService) UpdateRepositoryWithOptions(projectKey, repositorySlug string, localVarPostBody interface{}, localVarHTTPContentTypes []string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
-		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
@@ -11506,15 +11509,11 @@ func (a *DefaultApiService) UpdateRepository(projectKey string, projectKey2 stri
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey2), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
