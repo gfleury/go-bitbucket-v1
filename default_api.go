@@ -925,9 +925,12 @@ Create a new repository. Requires an existing project in which this repository w
 @param projectKey the parent project key
 @return */
 func (a *DefaultApiService) CreateRepository(projectKey string) (*APIResponse, error) {
+	return a.CreateRepositoryWithOptions(projectKey, nil, []string{})
+}
+
+func (a *DefaultApiService) CreateRepositoryWithOptions(projectKey string, localVarPostBody interface{}, localVarHTTPContentTypes []string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
-		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
@@ -939,9 +942,6 @@ func (a *DefaultApiService) CreateRepository(projectKey string) (*APIResponse, e
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1722,7 +1722,7 @@ Schedule the repository matching the supplied &lt;strong&gt;projectKey&lt;/stron
 @param projectKey2 the parent project key
 @param repositorySlug the repository slug
 @return */
-func (a *DefaultApiService) DeleteRepository(projectKey string, projectKey2 string, repositorySlug string) (*APIResponse, error) {
+func (a *DefaultApiService) DeleteRepository(projectKey, repositorySlug string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -1733,7 +1733,6 @@ func (a *DefaultApiService) DeleteRepository(projectKey string, projectKey2 stri
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey2), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -10990,7 +10989,7 @@ Unassigns a participant from the REVIEWER role they may have been given in a pul
  @param userSlug the slug for the user changing their status
  @param pullRequestId2 the id of the pull request within the repository
  @return */
-func (a *DefaultApiService) UnassignParticipantRole_44(pullRequestId int64, userSlug string, pullRequestId2 int64) (*APIResponse, error) {
+func (a *DefaultApiService) UnassignParticipantRole_44(pullRequestID int64, userSlug string, pullRequestId2 int64) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -11000,7 +10999,7 @@ func (a *DefaultApiService) UnassignParticipantRole_44(pullRequestId int64, user
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/participants/{userSlug}"
-	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestID), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"userSlug"+"}", fmt.Sprintf("%v", userSlug), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestId2), -1)
 
