@@ -31,6 +31,19 @@ type APIResponse struct {
 	Values  map[string]interface{}
 }
 
+type SelfLink struct {
+	Href string `json:"href"`
+}
+
+type CloneLink struct {
+	Href string `json:"href"`
+	Name string `json:"name"`
+}
+
+type Links struct {
+	Self []SelfLink `json:"self"`
+}
+
 type Project struct {
 	Key         string `json:"key"`
 	ID          int    `json:"id"`
@@ -38,11 +51,7 @@ type Project struct {
 	Description string `json:"description"`
 	Public      bool   `json:"public"`
 	Type        string `json:"type"`
-	Links       struct {
-		Self []struct {
-			Href string `json:"href"`
-		} `json:"self"`
-	} `json:"links"`
+	Links       Links  `json:"links"`
 }
 
 // Repository contains data from a BitBucket Repository
@@ -57,14 +66,67 @@ type Repository struct {
 	Project       Project `json:"project"`
 	Public        bool    `json:"public"`
 	Links         struct {
-		Clone []struct {
-			Href string `json:"href"`
-			Name string `json:"name"`
-		} `json:"clone"`
-		Self []struct {
-			Href string `json:"href"`
-		} `json:"self"`
+		Clone []CloneLink `json:"clone"`
+		Self  []SelfLink  `json:"self"`
 	} `json:"links"`
+}
+
+type UserWithNameEmail struct {
+	Name         string `json:"name"`
+	EmailAddress string `json:"emailAddress"`
+}
+
+type User struct {
+	Name        string `json:"name"`
+	Email       string `json:"emailAddress"`
+	ID          string `json:"id"`
+	DisplayName string `json:"displayName"`
+	Active      bool   `json:"active"`
+	Slug        string `json:"slug"`
+	Type        string `json:"type"`
+	Links       Links  `json:"links"`
+}
+
+type UserWithMetadata struct {
+	User     User   `json:"user"`
+	Role     string `json:"role"`
+	Approved bool   `json:"approved"`
+	Status   string `json:"status"`
+}
+
+type MergeResult struct {
+	Outcome string `json:"outcome"`
+	Current bool   `json:"current"`
+}
+
+type PullRequestRef struct {
+	ID           string     `json:"id"`
+	DisplayID    string     `json:"displayId"`
+	LatestCommit string     `json:"latestCommit"`
+	Repository   Repository `json:"repository"`
+}
+
+type PullRequest struct {
+	ID           int                `json:"id"`
+	Version      int                `json:"version"`
+	Title        string             `json:"title"`
+	State        string             `json:"state"`
+	Open         bool               `json:"open"`
+	Closed       bool               `json:"closed"`
+	CreatedDate  int64              `json:"createdDate"`
+	UpdatedDate  int64              `json:"updatedDate"`
+	FromRef      PullRequestRef     `json:"fromRef"`
+	ToRef        PullRequestRef     `json:"toRef"`
+	Locked       bool               `json:"locked"`
+	Author       UserWithMetadata   `json:"author"`
+	Reviewers    []UserWithMetadata `json:"reviewers"`
+	Participants []UserWithMetadata `json:"participants"`
+	Properties   struct {
+		MergeResult       MergeResult `json:"mergeResult"`
+		ResolvedTaskCount int         `json:"resolvedTaskCount"`
+		OpenTaskCount     int         `json:"openTaskCount"`
+	} `json:"properties"`
+	Links Links `json:"links"`
 }
 
 // SSHKey contains data from a SSHKey in the BitBucket Server
@@ -76,19 +138,13 @@ type SSHKey struct {
 
 // Commit contains data from a commit in BitBucket
 type Commit struct {
-	ID        string `json:"id"`
-	DisplayID string `json:"displayId"`
-	Author    struct {
-		Name         string `json:"name"`
-		EmailAddress string `json:"emailAddress"`
-	} `json:"author"`
-	AuthorTimestamp int64 `json:"authorTimestamp"`
-	Committer       struct {
-		Name         string `json:"name"`
-		EmailAddress string `json:"emailAddress"`
-	} `json:"committer"`
-	CommitterTimestamp int64  `json:"committerTimestamp"`
-	Message            string `json:"message"`
+	ID                 string            `json:"id"`
+	DisplayID          string            `json:"displayId"`
+	Author             UserWithNameEmail `json:"author"`
+	AuthorTimestamp    int64             `json:"authorTimestamp"`
+	Committer          UserWithNameEmail `json:"committer"`
+	CommitterTimestamp int64             `json:"committerTimestamp"`
+	Message            string            `json:"message"`
 	Parents            []struct {
 		ID        string `json:"id"`
 		DisplayID string `json:"displayId"`
