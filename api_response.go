@@ -79,7 +79,7 @@ type UserWithNameEmail struct {
 type User struct {
 	Name        string `json:"name"`
 	Email       string `json:"emailAddress"`
-	ID          string `json:"id"`
+	ID          int    `json:"id"`
 	DisplayName string `json:"displayName"`
 	Active      bool   `json:"active"`
 	Slug        string `json:"slug"`
@@ -110,6 +110,7 @@ type PullRequest struct {
 	ID           int                `json:"id"`
 	Version      int                `json:"version"`
 	Title        string             `json:"title"`
+	Description  string             `json:"description"`
 	State        string             `json:"state"`
 	Open         bool               `json:"open"`
 	Closed       bool               `json:"closed"`
