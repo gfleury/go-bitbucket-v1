@@ -217,4 +217,5 @@ Class | Method | HTTP request | Description
 ## Authors
 
 George Fleury 
+
 Sanket Patel
