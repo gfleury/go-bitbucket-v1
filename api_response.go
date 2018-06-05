@@ -109,6 +109,13 @@ type MergeResult struct {
 	Current bool   `json:"current"`
 }
 
+type MergeGetResponse struct {
+	CanMerge   bool                     `json:"canMerge"`
+	Conflicted bool                     `json:"conflicted"`
+	Outcome    string                   `json:"outcome"`
+	Vetoes     []map[string]interface{} `json:"vetoes"`
+}
+
 type PullRequestRef struct {
 	ID           string     `json:"id"`
 	DisplayID    string     `json:"displayId"`
