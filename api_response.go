@@ -76,7 +76,7 @@ type UserWithNameEmail struct {
 	EmailAddress string `json:"emailAddress"`
 }
 
-type User struct {
+type UserWithLinks struct {
 	Name        string `json:"name"`
 	Email       string `json:"emailAddress"`
 	ID          int    `json:"id"`
@@ -87,11 +87,21 @@ type User struct {
 	Links       Links  `json:"links"`
 }
 
+type User struct {
+	Name        string `json:"name"`
+	Email       string `json:"emailAddress"`
+	ID          int    `json:"id"`
+	DisplayName string `json:"displayName"`
+	Active      bool   `json:"active"`
+	Slug        string `json:"slug"`
+	Type        string `json:"type"`
+}
+
 type UserWithMetadata struct {
-	User     User   `json:"user"`
-	Role     string `json:"role"`
-	Approved bool   `json:"approved"`
-	Status   string `json:"status"`
+	User     UserWithLinks `json:"user"`
+	Role     string        `json:"role"`
+	Approved bool          `json:"approved"`
+	Status   string        `json:"status"`
 }
 
 type MergeResult struct {
@@ -139,13 +149,13 @@ type SSHKey struct {
 
 // Commit contains data from a commit in BitBucket
 type Commit struct {
-	ID                 string            `json:"id"`
-	DisplayID          string            `json:"displayId"`
-	Author             UserWithNameEmail `json:"author"`
-	AuthorTimestamp    int64             `json:"authorTimestamp"`
-	Committer          UserWithNameEmail `json:"committer"`
-	CommitterTimestamp int64             `json:"committerTimestamp"`
-	Message            string            `json:"message"`
+	ID                 string `json:"id"`
+	DisplayID          string `json:"displayId"`
+	Author             User   `json:"author"`
+	AuthorTimestamp    int64  `json:"authorTimestamp"`
+	Committer          User   `json:"committer"`
+	CommitterTimestamp int64  `json:"committerTimestamp"`
+	Message            string `json:"message"`
 	Parents            []struct {
 		ID        string `json:"id"`
 		DisplayID string `json:"displayId"`

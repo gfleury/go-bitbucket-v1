@@ -6370,6 +6370,10 @@ Retrieve the repository matching the supplied &lt;strong&gt;projectKey&lt;/stron
 @param repositorySlug the repository slug
 @return */
 func (a *DefaultApiService) GetPullRequestCommits(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
+	return a.GetPullRequestCommitsWithOptions(projectKey, repositorySlug, pullRequestID, make(map[string]interface{}))
+}
+
+func (a *DefaultApiService) GetPullRequestCommitsWithOptions(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -6386,6 +6390,21 @@ func (a *DefaultApiService) GetPullRequestCommits(projectKey, repositorySlug str
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
