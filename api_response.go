@@ -162,6 +162,15 @@ type Commit struct {
 	} `json:"parents"`
 }
 
+type BuildStatus struct {
+	State       string `json:"state"`
+	Key         string `json:"key"`
+	Name        string `json:"name"`
+	Url         string `json:"url"`
+	Description string `json:"description`
+	DateAdded   int64  `json:"dateAdded"`
+}
+
 type Diff struct {
 	Diffs []struct {
 		Source struct {
