@@ -8150,16 +8150,17 @@ func (a *DefaultApiService) ListParticipants(pullRequestID int64) (*APIResponse,
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "version" (int32) the current version of the pull request. If the server&#39;s version isn&#39;t the same as the specified                 version the operation will fail. To determine the current version of the pull request it should be                 fetched from the server prior to this operation. Look for the &#39;version&#39; attribute in the returned                 JSON structure.
  @return */
-func (a *DefaultApiService) Merge(pullRequestID int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) Merge(projectKey, repositorySlug string, pullRequestID int64, localVarOptionals map[string]interface{}, localVarPostBody interface{}, localVarHTTPContentTypes []string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
-		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/merge"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestID), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -8173,8 +8174,6 @@ func (a *DefaultApiService) Merge(pullRequestID int64, localVarOptionals map[str
 	if localVarTempParam, localVarOk := localVarOptionals["version"].(int32); localVarOk {
 		localVarQueryParams.Add("version", parameterToString(localVarTempParam, ""))
 	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
