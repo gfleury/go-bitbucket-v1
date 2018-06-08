@@ -125,7 +125,7 @@ type PullRequestRef struct {
 
 type PullRequest struct {
 	ID           int                `json:"id"`
-	Version      int                `json:"version"`
+	Version      int32                `json:"version"`
 	Title        string             `json:"title"`
 	Description  string             `json:"description"`
 	State        string             `json:"state"`
