@@ -55,12 +55,17 @@ type Configuration struct {
 }
 
 // NewConfiguration create new configuration
-func NewConfiguration(basePath string) *Configuration {
+func NewConfiguration(basePath string, options ...func(*Configuration)) *Configuration {
 	cfg := &Configuration{
 		BasePath:      basePath,
 		DefaultHeader: make(map[string]string),
 		UserAgent:     "go-bitbucket/1.0.0/go",
 	}
+
+	for _, option := range options {
+		option(cfg)
+	}
+
 	return cfg
 }
 
