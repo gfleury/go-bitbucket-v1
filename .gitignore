@@ -23,3 +23,9 @@ _testmain.go
 *.test
 *.prof
 .vscode
+
+# OS generated files
+.DS_Store
+
+# IDEA files
+**/.idea
