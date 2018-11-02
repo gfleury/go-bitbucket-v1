@@ -760,7 +760,10 @@ func (a *DefaultApiService) CreateComment_1(projectKey, repositorySlug string, p
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + fmt.Sprintf("/api/1.0/projects/%s/repos/%s/pull-requests/%d/comments", projectKey, repositorySlug, pullRequestID)
+	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestID), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
