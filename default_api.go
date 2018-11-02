@@ -5096,7 +5096,7 @@ func (a *DefaultApiService) GetMergeConfig(scmId string) (*APIResponse, error) {
 	 @param "withAttributes" (bool) (optional) defaults to true, whether to return additional pull request attributes
 	 @param "withProperties" (bool) (optional) defaults to true, whether to return additional pull request properties
  @return */
-func (a *DefaultApiService) GetPage(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetPullRequestsPage(projectKey, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -5106,6 +5106,8 @@ func (a *DefaultApiService) GetPage(localVarOptionals map[string]interface{}) (*
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
