@@ -3848,7 +3848,7 @@ func (a *DefaultApiService) GetCommits_8(pullRequestID int64, localVarOptionals 
 	 @param "blame" (string) if present the blame will be returned for the file as well.
 	 @param "noContent" (string) if present and used with blame only the blame is retrieved instead of the contents.
  @return */
-func (a *DefaultApiService) GetContent(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetContent(projectKey string, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
