@@ -3868,7 +3868,9 @@ func (a *DefaultApiService) getContentWithPath(projectKey string, repositorySlug
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/browse{path}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"path"+"}", fmt.Sprintf("/%v", path), -1)
+	if path != "" {
+		localVarPath = localVarPath + "/" + path
+	}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
