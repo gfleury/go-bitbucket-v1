@@ -3849,6 +3849,14 @@ func (a *DefaultApiService) GetCommits_8(pullRequestID int64, localVarOptionals 
 	 @param "noContent" (string) if present and used with blame only the blame is retrieved instead of the contents.
  @return */
 func (a *DefaultApiService) GetContent(projectKey string, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	return a.getContentWithPath(projectKey, repositorySlug, "", localVarOptionals)
+}
+
+func (a *DefaultApiService) GetContent_0(projectKey string, repositorySlug string, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	return a.getContentWithPath(projectKey, repositorySlug, path, localVarOptionals)
+}
+
+func (a *DefaultApiService) getContentWithPath(projectKey string, repositorySlug string, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3857,9 +3865,10 @@ func (a *DefaultApiService) GetContent(projectKey string, repositorySlug string,
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/browse"
+	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/browse/{path}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"path"+"}", fmt.Sprintf("%v", path), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
