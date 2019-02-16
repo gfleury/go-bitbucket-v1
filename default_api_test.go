@@ -6576,7 +6576,11 @@ func TestDefaultApiService_UpdateWebhook(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		webhookId int32
+		projectKey               string
+		repositorySlug           string
+		webhookId                int32
+		localVarPostBody         interface{}
+		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
 		name    string
@@ -6592,7 +6596,7 @@ func TestDefaultApiService_UpdateWebhook(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.UpdateWebhook(tt.args.webhookId)
+			got, err := a.UpdateWebhook(tt.args.projectKey, tt.args.repositorySlug, tt.args.webhookId, tt.args.localVarPostBody, tt.args.localVarHTTPContentTypes)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.UpdateWebhook() error = %v, wantErr %v", err, tt.wantErr)
 				return

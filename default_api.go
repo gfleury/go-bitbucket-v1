@@ -12310,24 +12310,22 @@ Update an existing webhook.  &lt;p&gt;  The authenticated user must have &lt;str
 * @param ctx context.Context for authentication, logging, tracing, etc.
 @param webhookId the existing webhook id
 @return */
-func (a *DefaultApiService) UpdateWebhook(webhookId int32) (*APIResponse, error) {
+func (a *DefaultApiService) UpdateWebhook(projectKey, repositorySlug string, webhookId int32, localVarPostBody interface{}, localVarHTTPContentTypes []string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
-		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks/{webhookId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"webhookId"+"}", fmt.Sprintf("%v", webhookId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
