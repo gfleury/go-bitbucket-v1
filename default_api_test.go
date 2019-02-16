@@ -1521,6 +1521,8 @@ func TestDefaultApiService_FindWebhooks(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
+		repositorySlug    string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -1537,7 +1539,7 @@ func TestDefaultApiService_FindWebhooks(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.FindWebhooks(tt.args.localVarOptionals)
+			got, err := a.FindWebhooks(tt.args.projectKey, tt.args.repositorySlug, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.FindWebhooks() error = %v, wantErr %v", err, tt.wantErr)
 				return

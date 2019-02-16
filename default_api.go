@@ -2636,7 +2636,7 @@ func (a *DefaultApiService) FindUsersNotInGroup(localVarOptionals map[string]int
 	 @param "event" (string) list of {@link com.atlassian.webhooks.WebhookEvent} ids to filter for
 	 @param "statistics" (bool) {@code true} if statistics should be provided for all found webhooks
  @return */
-func (a *DefaultApiService) FindWebhooks(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) FindWebhooks(projectKey, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -2646,6 +2646,8 @@ func (a *DefaultApiService) FindWebhooks(localVarOptionals map[string]interface{
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
