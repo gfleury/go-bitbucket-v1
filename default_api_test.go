@@ -1189,7 +1189,9 @@ func TestDefaultApiService_DeleteWebhook(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		webhookId int32
+		projectKey     string
+		repositorySlug string
+		webhookId      int32
 	}
 	tests := []struct {
 		name    string
@@ -1205,7 +1207,7 @@ func TestDefaultApiService_DeleteWebhook(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.DeleteWebhook(tt.args.webhookId)
+			got, err := a.DeleteWebhook(tt.args.projectKey, tt.args.repositorySlug, tt.args.webhookId)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.DeleteWebhook() error = %v, wantErr %v", err, tt.wantErr)
 				return
