@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/url"
 	"strings"
 
@@ -3267,16 +3268,20 @@ func (a *DefaultApiService) GetApplicationProperties() (*APIResponse, error) {
 /*
 	 DefaultApiService
 	 Streams an archive of the repository&#39;s contents at the requested commit. If no &lt;code&gt;at&#x3D;&lt;/code&gt; commit is  requested, an archive of the default branch is streamed.  &lt;p&gt;  The &lt;code&gt;filename&#x3D;&lt;/code&gt; query parameter may be used to specify the exact filename to include in the  &lt;code&gt;\&quot;Content-Disposition\&quot;&lt;/code&gt; header. If an explicit filename is not provided, one will be automatically  generated based on what is being archived. Its format depends on the &lt;code&gt;at&#x3D;&lt;/code&gt; value:  &lt;ul&gt;      &lt;li&gt;No &lt;code&gt;at&#x3D;&lt;/code&gt; commit:      &lt;code&gt;&amp;lt;slug&amp;gt;-&amp;lt;default-branch-name&amp;gt;@&amp;lt;commit&amp;gt;.&amp;lt;format&amp;gt;&lt;/code&gt;;      e.g. example-master@43c2f8a0fe8.zip&lt;/li&gt;      &lt;li&gt;&lt;code&gt;at&#x3D;sha&lt;/code&gt;: &lt;code&gt;&amp;lt;slug&amp;gt;-&amp;lt;at&amp;gt;.&amp;lt;format&amp;gt;&lt;/code&gt;; e.g.      example-09bcbb00100cfbb5310fb6834a1d5ce6cac253e9.tar.gz&lt;/li&gt;      &lt;li&gt;&lt;code&gt;at&#x3D;branchOrTag&lt;/code&gt;: &lt;code&gt;&amp;lt;slug&amp;gt;-&amp;lt;branchOrTag&amp;gt;@&amp;lt;commit&amp;gt;.&amp;lt;format&amp;gt;&lt;/code&gt;;      e.g. example-feature@bbb225f16e1.tar      &lt;ul&gt;          &lt;li&gt;If the branch or tag is qualified (e.g. &lt;code&gt;refs/heads/master&lt;/code&gt;, the short name          (&lt;code&gt;master&lt;/code&gt;) will be included in the filename&lt;/li&gt;          &lt;li&gt;If the branch or tag&#39;s &lt;i&gt;short name&lt;/i&gt; includes slashes (e.g. &lt;code&gt;release/4.6&lt;/code&gt;),          they will be converted to hyphens in the filename (&lt;code&gt;release-4.5&lt;/code&gt;)&lt;/li&gt;      &lt;/ul&gt;      &lt;/li&gt;  &lt;/ul&gt;  &lt;p&gt;  Archives may be requested in the following formats by adding the &lt;code&gt;format&#x3D;&lt;/code&gt; query parameter:  &lt;ul&gt;      &lt;li&gt;&lt;code&gt;zip&lt;/code&gt;: A zip file using standard compression (Default)&lt;/li&gt;      &lt;li&gt;&lt;code&gt;tar&lt;/code&gt;: An uncompressed tarball&lt;/li&gt;      &lt;li&gt;&lt;code&gt;tar.gz&lt;/code&gt; or &lt;code&gt;tgz&lt;/code&gt;: A GZip-compressed tarball&lt;/li&gt;  &lt;/ul&gt;  The contents of the archive may be filtered by using the &lt;code&gt;path&#x3D;&lt;/code&gt; query parameter to specify paths to  include. &lt;code&gt;path&#x3D;&lt;/code&gt; may be specified multiple times to include multiple paths.  &lt;p&gt;  The &lt;code&gt;prefix&#x3D;&lt;/code&gt; query parameter may be used to define a directory (or multiple directories) where  the archive&#39;s contents should be placed. If the prefix does not end with &lt;code&gt;/&lt;/code&gt;, one will be added  automatically. The prefix is &lt;i&gt;always&lt;/i&gt; treated as a directory; it is not possible to use it to prepend  characters to the entries in the archive.  &lt;p&gt;  Archives of public repositories may be streamed by any authenticated or anonymous user. Streaming archives for  non-public repositories requires an &lt;i&gt;authenticated user&lt;/i&gt; with at least &lt;b&gt;REPO_READ&lt;/b&gt; permission.
-
+	 * @param ctx context.Context for authentication, logging, tracing, etc.
 	 @param optional (nil or map[string]interface{}) with one or more of:
 		 @param "at" (string) the commit to stream an archive of; if not supplied, an archive of the default branch is streamed
 		 @param "filename" (string) a filename to include the \&quot;Content-Disposition\&quot; header
 		 @param "format" (string) the format to stream the archive in; must be one of: zip, tar, tar.gz or tgz
 		 @param "path" (string) paths to include in the streamed archive; may be repeated to include multiple paths
 		 @param "prefix" (string) a prefix to apply to all entries in the streamed archive; if the supplied prefix does not end                  with a trailing &lt;code&gt;/&lt;/code&gt;, one will be added automatically
-	 @return
+		 @param "apibasepath" (string) defaults to "/api/1.0" - in some installations, the value is "/archive/latest". Used as part of the URL endpoint. Not used as an actual parameter
+
+	 @param writer Where the archive's content is streamed out.
+
+@return the size of the archive written out
 */
-func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}, writer io.Writer) (int64, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3285,7 +3290,16 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive"
+	if err := typeCheckParameter(localVarOptionals["apibasepath"], "string", "apibasepath"); err != nil {
+		return 0, err
+	}
+	apibasepath, _ := localVarOptionals["apibasepath"].(string)
+	if apibasepath == "" {
+		apibasepath = "/api/1.0"
+	}
+
+	//localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive"
+	localVarPath := a.client.cfg.BasePath + apibasepath + "/projects/{projectKey}/repos/{repositorySlug}/archive"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 
@@ -3294,19 +3308,19 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	localVarFormParams := url.Values{}
 
 	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["filename"], "string", "filename"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["format"], "string", "format"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["path"], "string", "path"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["prefix"], "string", "prefix"); err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
@@ -3319,7 +3333,9 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 		localVarQueryParams.Add("format", parameterToString(localVarTempParam, ""))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["path"].(string); localVarOk {
-		localVarQueryParams.Add("path", parameterToString(localVarTempParam, ""))
+		for _, path := range strings.Split(parameterToString(localVarTempParam, ""), ",") {
+			localVarQueryParams.Add("path", path)
+		}
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["prefix"].(string); localVarOk {
 		localVarQueryParams.Add("prefix", parameterToString(localVarTempParam, ""))
@@ -3343,20 +3359,19 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	}
 	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHTTPResponse == nil {
-		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+		return 0, err
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return 0, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes)
 	}
-
-	return NewRawAPIResponse(localVarHTTPResponse)
+	return io.Copy(writer, localVarHTTPResponse.Body)
 }
 
 /*
