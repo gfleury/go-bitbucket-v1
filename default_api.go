@@ -6,6 +6,7 @@ package bitbucketv1
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/url"
 	"strings"
