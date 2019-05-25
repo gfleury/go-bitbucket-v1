@@ -4135,7 +4135,7 @@ func (a *DefaultApiService) GetContent_10(localVarOptionals map[string]interface
 	 @param "hardwrap" (bool) (Optional) Whether the markup implementation should convert newlines to breaks.                    If not specified, {@link MarkupService} will use the value of the                    &lt;code&gt;markup.render.hardwrap&lt;/code&gt; property, which is &lt;code&gt;true&lt;/code&gt; by default
 	 @param "htmlEscape" (bool) (Optional) true if HTML should be escaped in the input markup, false otherwise.                    If not specified, {@link MarkupService} will use the value of the                    &lt;code&gt;markup.render.html.escape&lt;/code&gt; property, which is &lt;code&gt;true&lt;/code&gt; by default
  @return */
-func (a *DefaultApiService) GetContent_11(path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -4144,9 +4144,11 @@ func (a *DefaultApiService) GetContent_11(path string, localVarOptionals map[str
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/raw/{path}"
-	localVarPath = strings.Replace(localVarPath, "{"+"path"+"}", fmt.Sprintf("%v", path), -1)
-
+	localVarPath := a.client.cfg.BasePath + "/" + projectKey + "/repos/" + repositorySlug + "/raw/" + path
+	localVarPath = strings.Replace(localVarPath, "/rest/", "/projects/", 1)
+	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
+	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
+	fmt.Println("localVarPath", localVarPath)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
@@ -4208,7 +4210,9 @@ func (a *DefaultApiService) GetContent_11(path string, localVarOptionals map[str
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	result := NewAPIResponse(localVarHTTPResponse)
+	result.Payload, err = ioutil.ReadAll(localVarHTTPResponse.Body)
+	return result, err
 }
 
 /* DefaultApiService
