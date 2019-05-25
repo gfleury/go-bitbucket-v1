@@ -4577,7 +4577,7 @@ func (a *DefaultApiService) GetContent_10(projectKey, repositorySlug string, loc
 /*
 	 DefaultApiService
 	 Retrieve the raw content for a file path at a specified revision.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_READ&lt;/strong&gt; permission for the specified repository to call this  resource.
-
+	 * @param ctx context.Context for authentication, logging, tracing, etc.
 	 @param path the file path to retrieve content from
 	 @param optional (nil or map[string]interface{}) with one or more of:
 		 @param "at" (string) the commit ID or ref to retrieve the content for.
@@ -4586,7 +4586,7 @@ func (a *DefaultApiService) GetContent_10(projectKey, repositorySlug string, loc
 		 @param "htmlEscape" (bool) (Optional) true if HTML should be escaped in the input markup, false otherwise.                    If not specified, {@link MarkupService} will use the value of the                    &lt;code&gt;markup.render.html.escape&lt;/code&gt; property, which is &lt;code&gt;true&lt;/code&gt; by default
 	 @return
 */
-func (a *DefaultApiService) GetContent_11(projectKey, repositorySlug, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -4663,7 +4663,9 @@ func (a *DefaultApiService) GetContent_11(projectKey, repositorySlug, path strin
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewRawAPIResponse(localVarHTTPResponse)
+	result := NewAPIResponse(localVarHTTPResponse)
+	result.Payload, err = ioutil.ReadAll(localVarHTTPResponse.Body)
+	return result, err
 }
 
 /*
