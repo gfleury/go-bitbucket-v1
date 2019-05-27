@@ -4148,7 +4148,6 @@ func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path strin
 	localVarPath = strings.Replace(localVarPath, "/rest/", "/projects/", 1)
 	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
 	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
-	fmt.Println("localVarPath", localVarPath)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
