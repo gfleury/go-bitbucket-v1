@@ -353,7 +353,7 @@ Test whether a pull request can be merged.  &lt;p&gt;  A pull request may not be
 * @param ctx context.Context for authentication, logging, tracing, etc.
 @param pullRequestId the ID of the pull request within the repository
 @return */
-func (a *DefaultApiService) CanMerge(pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) CanMerge(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -363,6 +363,8 @@ func (a *DefaultApiService) CanMerge(pullRequestID int64) (*APIResponse, error) 
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/merge"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestID), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -525,7 +527,7 @@ func (a *DefaultApiService) ClearUserCaptchaChallenge(localVarOptionals map[stri
 Retrieve the total number of {@link TaskState#OPEN open} and  {@link TaskState#RESOLVED resolved} tasks associated with a pull request.
 * @param ctx context.Context for authentication, logging, tracing, etc.
 @return */
-func (a *DefaultApiService) CountPullRequestTasks(ctx context.Context) (*APIResponse, error) {
+func (a *DefaultApiService) CountPullRequestTasks(projectKey, repositorySlug string, pullRequestId int64) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -535,6 +537,9 @@ func (a *DefaultApiService) CountPullRequestTasks(ctx context.Context) (*APIResp
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/tasks/count"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -579,7 +584,7 @@ func (a *DefaultApiService) CountPullRequestTasks(ctx context.Context) (*APIResp
 Create a new pull request between two branches. The branches may be in the same repository, or different ones.  When using different repositories, they must still be in the same {@link Repository#getHierarchyId() hierarchy}.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_READ&lt;/strong&gt; permission for the \&quot;from\&quot; and \&quot;to\&quot;repositories to  call this resource.
 * @param ctx context.Context for authentication, logging, tracing, etc.
 @return */
-func (a *DefaultApiService) Create(ctx context.Context) (*APIResponse, error) {
+func (a *DefaultApiService) Create(projectKey, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -589,10 +594,32 @@ func (a *DefaultApiService) Create(ctx context.Context) (*APIResponse, error) {
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+
+	if err := typeCheckParameter(localVarOptionals["from"], "string", "from"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["to"], "string", "to"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["fromRepo"], "string", "fromRepo"); err != nil {
+		return nil, err
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["from"].(string); localVarOk {
+		localVarQueryParams.Add("from", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["to"].(string); localVarOk {
+		localVarQueryParams.Add("to", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["fromRepo"].(string); localVarOk {
+		localVarQueryParams.Add("fromRepo", parameterToString(localVarTempParam, ""))
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

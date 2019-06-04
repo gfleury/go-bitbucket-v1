@@ -214,7 +214,9 @@ func TestDefaultApiService_CanMerge(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		pullRequestID int64
+		projectKey     string
+		repositorySlug string
+		pullRequestID  int64
 	}
 	tests := []struct {
 		name    string
@@ -230,7 +232,7 @@ func TestDefaultApiService_CanMerge(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.CanMerge(tt.args.pullRequestID)
+			got, err := a.CanMerge(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.CanMerge() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -313,7 +315,9 @@ func TestDefaultApiService_CountPullRequestTasks(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		ctx context.Context
+		projectKey     string
+		repositorySlug string
+		pullRequestId  int64
 	}
 	tests := []struct {
 		name    string
@@ -329,7 +333,7 @@ func TestDefaultApiService_CountPullRequestTasks(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.CountPullRequestTasks(tt.args.ctx)
+			got, err := a.CountPullRequestTasks(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestId)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.CountPullRequestTasks() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -346,7 +350,9 @@ func TestDefaultApiService_Create(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		ctx context.Context
+		projectKey        string
+		repositorySlug    string
+		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
 		name    string
@@ -362,7 +368,7 @@ func TestDefaultApiService_Create(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.Create(tt.args.ctx)
+			got, err := a.Create(tt.args.projectKey, tt.args.repositorySlug, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.Create() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -2103,8 +2109,8 @@ func TestDefaultApiService_GetContent(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		projectKey string
-		repositorySlug string
+		projectKey        string
+		repositorySlug    string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
