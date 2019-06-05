@@ -125,7 +125,7 @@ type PullRequestRef struct {
 
 type PullRequest struct {
 	ID           int                `json:"id"`
-	Version      int32                `json:"version"`
+	Version      int32              `json:"version"`
 	Title        string             `json:"title"`
 	Description  string             `json:"description"`
 	State        string             `json:"state"`
@@ -295,6 +295,13 @@ func GetDiffResponse(r *APIResponse) (Diff, error) {
 // GetSSHKeysResponse cast SSHKeys into structure
 func GetSSHKeysResponse(r *APIResponse) ([]SSHKey, error) {
 	var m []SSHKey
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
+// GetPullRequestResponse cast PullRequest into structure
+func GetPullRequestResponse(r *APIResponse) (PullRequest, error) {
+	var m PullRequest
 	err := mapstructure.Decode(r.Values["values"], &m)
 	return m, err
 }
