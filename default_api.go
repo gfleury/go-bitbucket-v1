@@ -5,6 +5,7 @@
 package bitbucketv1
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/url"
@@ -611,18 +612,13 @@ func (a *DefaultApiService) Create(projectKey, repositorySlug string, localVarOp
 		return nil, err
 	}
 
-	if localVarTempParam, localVarOk := localVarOptionals["from"].(string); localVarOk {
-		localVarQueryParams.Add("from", parameterToString(localVarTempParam, ""))
-	}
-	if localVarTempParam, localVarOk := localVarOptionals["to"].(string); localVarOk {
-		localVarQueryParams.Add("to", parameterToString(localVarTempParam, ""))
-	}
-	if localVarTempParam, localVarOk := localVarOptionals["fromRepo"].(string); localVarOk {
-		localVarQueryParams.Add("fromRepo", parameterToString(localVarTempParam, ""))
+	localVarPostBody, err := json.Marshal(localVarOptionals)
+	if err != nil {
+		return nil, err
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
