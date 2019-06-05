@@ -602,16 +602,6 @@ func (a *DefaultApiService) Create(projectKey, repositorySlug string, localVarOp
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if err := typeCheckParameter(localVarOptionals["from"], "string", "from"); err != nil {
-		return nil, err
-	}
-	if err := typeCheckParameter(localVarOptionals["to"], "string", "to"); err != nil {
-		return nil, err
-	}
-	if err := typeCheckParameter(localVarOptionals["fromRepo"], "string", "fromRepo"); err != nil {
-		return nil, err
-	}
-
 	localVarPostBody, err := json.Marshal(localVarOptionals)
 	if err != nil {
 		return nil, err
