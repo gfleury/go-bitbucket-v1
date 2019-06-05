@@ -302,7 +302,7 @@ func GetSSHKeysResponse(r *APIResponse) ([]SSHKey, error) {
 // GetPullRequestResponse cast PullRequest into structure
 func GetPullRequestResponse(r *APIResponse) (PullRequest, error) {
 	var m PullRequest
-	err := mapstructure.Decode(r.Values["values"], &m)
+	err := mapstructure.Decode(r.Values, &m)
 	return m, err
 }
 
