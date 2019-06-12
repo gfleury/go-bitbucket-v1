@@ -174,7 +174,7 @@ type BuildStatus struct {
 	Key         string `json:"key"`
 	Name        string `json:"name"`
 	Url         string `json:"url"`
-	Description string `json:"description`
+	Description string `json:"description"`
 	DateAdded   int64  `json:"dateAdded"`
 }
 
