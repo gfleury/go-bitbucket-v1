@@ -7,6 +7,7 @@ package bitbucketv1
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/url"
 	"strings"
@@ -2962,8 +2963,12 @@ func (a *DefaultApiService) GetApplicationProperties(ctx context.Context) (*APIR
 	 @param "format" (string) the format to stream the archive in; must be one of: zip, tar, tar.gz or tgz
 	 @param "path" (string) paths to include in the streamed archive; may be repeated to include multiple paths
 	 @param "prefix" (string) a prefix to apply to all entries in the streamed archive; if the supplied prefix does not end                  with a trailing &lt;code&gt;/&lt;/code&gt;, one will be added automatically
- @return */
-func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	 @param "apibasepath" (string) defaults to "/api/1.0" - in some installations, the value is "/archive/latest". Used as part of the URL endpoint. Not used as an actual parameter
+
+ @param writer Where the archive's content is streamed out.
+
+@return the size of the archive written out */
+func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}, writer io.Writer) (int64, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -2972,7 +2977,16 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive"
+	if err := typeCheckParameter(localVarOptionals["apibasepath"], "string", "apibasepath"); err != nil {
+		return 0, err
+	}
+	apibasepath, _ := localVarOptionals["apibasepath"].(string)
+	if apibasepath == "" {
+		apibasepath = "/api/1.0"
+	}
+
+	//localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive"
+	localVarPath := a.client.cfg.BasePath + apibasepath +"/projects/{projectKey}/repos/{repositorySlug}/archive"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 
@@ -2981,19 +2995,19 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	localVarFormParams := url.Values{}
 
 	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["filename"], "string", "filename"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["format"], "string", "format"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["path"], "string", "path"); err != nil {
-		return nil, err
+		return 0, err
 	}
 	if err := typeCheckParameter(localVarOptionals["prefix"], "string", "prefix"); err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
@@ -3006,7 +3020,9 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 		localVarQueryParams.Add("format", parameterToString(localVarTempParam, ""))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["path"].(string); localVarOk {
-		localVarQueryParams.Add("path", parameterToString(localVarTempParam, ""))
+		for _, path := range strings.Split(parameterToString(localVarTempParam, ""), ",") {
+			localVarQueryParams.Add("path", path)
+		}
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["prefix"].(string); localVarOk {
 		localVarQueryParams.Add("prefix", parameterToString(localVarTempParam, ""))
@@ -3030,20 +3046,19 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	}
 	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHTTPResponse == nil {
-		return NewBitbucketAPIResponse(localVarHTTPResponse)
+		return 0, err
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
 		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		return 0, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes)
 	}
-
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return io.Copy(writer, localVarHTTPResponse.Body)
 }
 
 /* DefaultApiService
@@ -4133,7 +4148,7 @@ func (a *DefaultApiService) GetContent_10(localVarOptionals map[string]interface
 	 @param "hardwrap" (bool) (Optional) Whether the markup implementation should convert newlines to breaks.                    If not specified, {@link MarkupService} will use the value of the                    &lt;code&gt;markup.render.hardwrap&lt;/code&gt; property, which is &lt;code&gt;true&lt;/code&gt; by default
 	 @param "htmlEscape" (bool) (Optional) true if HTML should be escaped in the input markup, false otherwise.                    If not specified, {@link MarkupService} will use the value of the                    &lt;code&gt;markup.render.html.escape&lt;/code&gt; property, which is &lt;code&gt;true&lt;/code&gt; by default
  @return */
-func (a *DefaultApiService) GetContent_11(path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -4142,9 +4157,10 @@ func (a *DefaultApiService) GetContent_11(path string, localVarOptionals map[str
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/raw/{path}"
-	localVarPath = strings.Replace(localVarPath, "{"+"path"+"}", fmt.Sprintf("%v", path), -1)
-
+	localVarPath := a.client.cfg.BasePath + "/" + projectKey + "/repos/" + repositorySlug + "/raw/" + path
+	localVarPath = strings.Replace(localVarPath, "/rest/", "/projects/", 1)
+	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
+	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
@@ -4206,7 +4222,9 @@ func (a *DefaultApiService) GetContent_11(path string, localVarOptionals map[str
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	result := NewAPIResponse(localVarHTTPResponse)
+	result.Payload, err = ioutil.ReadAll(localVarHTTPResponse.Body)
+	return result, err
 }
 
 /* DefaultApiService
