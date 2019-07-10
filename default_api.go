@@ -4595,7 +4595,6 @@ func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path strin
 	)
 
 	// create path and map variables
-<<<<<<< HEAD
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/raw/{path}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
@@ -4603,12 +4602,6 @@ func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path strin
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
-=======
-	localVarPath := a.client.cfg.BasePath + "/" + projectKey + "/repos/" + repositorySlug + "/raw/" + path
-	localVarPath = strings.Replace(localVarPath, "/rest/", "/projects/", 1)
-	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
-	// https://bitbucket.global.standardchartered.com/projects/CISO/repos/planes/raw/enactments/tes_mattermost.yaml?at=refs%2Fheads%2Fstate%2Fdev
->>>>>>> 2cd48ac (Cleanup the debug)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
@@ -5260,10 +5253,73 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_14(projectKey string, 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
+// AddRepositoryPermissionGroup https://docs.atlassian.com/bitbucket-server/rest/5.16.0/bitbucket-rest.html#idm8297426496
+func (a *DefaultApiService) SetRepositoryPermissionGroups(projectKey, repositorySlug, permission, groupNames []string, localVarHTTPContentTypes []string) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Put")
+		localVarFileName   string
+		localVarFileBytes  []byte
+		localVarPostBody   interface{}
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/groups"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{
+		"name":       groupNames,
+		"permission": []string{permission},
+	}
+	localVarFormParams := url.Values{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil {
+		if localVarHTTPResponse != nil {
+			return NewBitbucketAPIResponse(localVarHTTPResponse)
+		}
+		return nil, err
+	}
+	if localVarHTTPResponse == nil {
+		return nil, nil
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+	if localVarHTTPResponse.StatusCode == 204 {
+		return nil, nil
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
 /*
 	 DefaultApiService
 	 Retrieve a page of groups that have no granted permissions for the specified repository.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_ADMIN&lt;/strong&gt; permission for the specified repository or a higher  project or global permission to call this resource.
-
+	 * @param ctx context.Context for authentication, logging, tracing, etc.
 	 @param optional (nil or map[string]interface{}) with one or more of:
 		 @param "filter" (string) if specified only group names containing the supplied string will be returned
 	 @return
