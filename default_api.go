@@ -5254,7 +5254,7 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_14(projectKey string, 
 }
 
 // AddRepositoryPermissionGroup https://docs.atlassian.com/bitbucket-server/rest/5.16.0/bitbucket-rest.html#idm8297426496
-func (a *DefaultApiService) SetRepositoryPermissionGroups(projectKey, repositorySlug, permission, groupNames []string, localVarHTTPContentTypes []string) (*APIResponse, error) {
+func (a *DefaultApiService) SetRepositoryPermissionGroups(projectKey, repositorySlug, permission string, groupNames []string, localVarHTTPContentTypes []string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarFileName   string
