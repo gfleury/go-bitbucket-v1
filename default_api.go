@@ -9415,7 +9415,7 @@ func (a *DefaultApiService) SetMergeConfig(scmId string) (*APIResponse, error) {
 	 @param "permission" (string) the permission to grant
 	 @param "name" (string) the names of the groups
  @return */
-func (a *DefaultApiService) SetPermissionForGroup(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) SetPermissionForGroup(projectKey string, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -9425,7 +9425,9 @@ func (a *DefaultApiService) SetPermissionForGroup(localVarOptionals map[string]i
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/groups"
-
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+	
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
@@ -9475,7 +9477,8 @@ func (a *DefaultApiService) SetPermissionForGroup(localVarOptionals map[string]i
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	// No body parsing (a successful 204 response has no content)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
