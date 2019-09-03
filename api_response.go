@@ -125,7 +125,7 @@ type PullRequestRef struct {
 
 type PullRequest struct {
 	ID           int                `json:"id"`
-	Version      int32                `json:"version"`
+	Version      int32              `json:"version"`
 	Title        string             `json:"title"`
 	Description  string             `json:"description"`
 	State        string             `json:"state"`
@@ -242,6 +242,47 @@ type Branch struct {
 	LatestCommit    string `json:"latestCommit"`
 	LatestChangeset string `json:"latestChangeset"`
 	IsDefault       bool   `json:"isDefault"`
+}
+
+/**
+
+https://docs.atlassian.com/bitbucket-server/rest/5.5.2/bitbucket-access-tokens-rest.html
+{
+    "id": "252973515069",
+    "createdDate": 1503289426223,
+    "lastAuthenticated": 1503289517336,
+    "name": "token name",
+    "permissions": [
+        "REPO_ADMIN",
+        "PROJECT_READ"
+    ],
+    "user": {
+        "name": "jcitizen",
+        "emailAddress": "jane@example.com",
+        "id": 101,
+        "displayName": "Jane Citizen",
+        "active": true,
+        "slug": "jcitizen",
+        "type": "NORMAL"
+    },
+    "token": "MjUyOTczNTE1MDY5On2rDbID2EgYpH8AVOECHv0saruQ"
+}
+*/
+type AccessTokenResponse struct {
+	ID                string   `json:"id"`
+	CreatedDate       int64    `json:"createdDate"`
+	LastAuthenticated int64    `json:"lastAuthenticated"`
+	Name              string   `json:"name"`
+	Permissions       []string `json:"permissions"`
+	User              User     `json:"user"`
+	Token             string   `json:"token"`
+}
+
+// GetAccessTokenResponse cast AccessTokenResponse into structure
+func GetAccessTokenResponse(r *APIResponse) (AccessTokenResponse, error) {
+	var m AccessTokenResponse
+	err := mapstructure.Decode(r.Values, &m)
+	return m, err
 }
 
 func (k *SSHKey) String() string {
