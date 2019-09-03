@@ -9893,6 +9893,97 @@ func (a *DefaultApiService) SetPermissionForUsers_33(localVarOptionals map[strin
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
+
+/**
+https://docs.atlassian.com/bitbucket-server/rest/5.5.2/bitbucket-access-tokens-rest.html
+{
+    "id": "252973515069",
+    "createdDate": 1503289426223,
+    "lastAuthenticated": 1503289517336,
+    "name": "token name",
+    "permissions": [
+        "REPO_ADMIN",
+        "PROJECT_READ"
+    ],
+    "user": {
+        "name": "jcitizen",
+        "emailAddress": "jane@example.com",
+        "id": 101,
+        "displayName": "Jane Citizen",
+        "active": true,
+        "slug": "jcitizen",
+        "type": "NORMAL"
+    },
+    "token": "MjUyOTczNTE1MDY5On2rDbID2EgYpH8AVOECHv0saruQ"
+}
+ @param optional (nil or map[string]interface{}) with one or more of:
+	 @param "name" (string) the names of the users
+	 @param "permission" (string) the permission to grant
+ @return */
+func (a *DefaultApiService) CreateAccessToken(userSlug, tokenName string, repoAdmin, projectRead bool) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Put")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	// /rest/access-tokens/1.0/users/{userSlug}
+	localVarPath := a.client.cfg.BasePath + "/access-tokens/1.0/users/" + userSlug
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+
+	permissions := make([]string, 0)
+	if repoAdmin {
+		permissions = append(permissions, "REPO_ADMIN")
+	}
+	if projectRead {
+		permissions = append(permissions, "PROJECT_READ")
+	}
+	localVarPostBody = map[string]interface{}{
+		"name":        tokenName,
+		"permissions": permissions,
+	}
+
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
 /* DefaultApiService
 Set the current log level for the root logger.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;ADMIN&lt;/strong&gt; permission or higher to call this resource.
 * @param ctx context.Context for authentication, logging, tracing, etc.
