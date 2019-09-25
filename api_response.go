@@ -5,6 +5,7 @@
 package bitbucketv1
 
 import (
+	"io/ioutil"
 	"encoding/json"
 	"net/http"
 	"strings"
@@ -364,4 +365,15 @@ func NewBitbucketAPIResponse(r *http.Response) (*APIResponse, error) {
 		return nil, err
 	}
 	return response, err
+}
+
+func NewRawAPIResponse(r *http.Response) (*APIResponse, error) {
+	response := &APIResponse{Response: r}
+	raw, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response.Payload = raw
+	return response, nil
 }

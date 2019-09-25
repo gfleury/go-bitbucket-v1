@@ -2226,6 +2226,8 @@ func TestDefaultApiService_GetContent_11(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
+		repositorySlug    string
 		path              string
 		localVarOptionals map[string]interface{}
 	}
@@ -2236,14 +2238,14 @@ func TestDefaultApiService_GetContent_11(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/repos/%7BrepositorySlug%7D/raw/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//raw/: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.GetContent_11(tt.args.path, tt.args.localVarOptionals)
+			got, err := a.GetContent_11(tt.args.projectKey, tt.args.repositorySlug, tt.args.path, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.GetContent_11() error = %v, wantErr %v", err, tt.wantErr)
 				return
