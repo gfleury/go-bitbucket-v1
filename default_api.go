@@ -2755,7 +2755,7 @@ func (a *DefaultApiService) ForkRepository(projectKey, repositorySlug string,
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
 		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %s, Url: %s, Body: %s", localVarHTTPResponse.Status, localVarPath, bodyBytes))
 	}
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
