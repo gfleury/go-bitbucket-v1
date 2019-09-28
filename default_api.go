@@ -7404,6 +7404,179 @@ func (a *DefaultApiService) GetSSHKeys(user string) (*APIResponse, error) {
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
+//https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp17
+type KeysResponse struct {
+	Size       int  `json:"size"`
+	Limit      int  `json:"limit"`
+	IsLastPage bool `json:"isLastPage"`
+	Values     []struct {
+		Key struct {
+			ID    int    `json:"id"`
+			Text  string `json:"text"`
+			Label string `json:"label"`
+		} `json:"key"`
+		Project struct {
+			Key         string `json:"key"`
+			ID          int    `json:"id"`
+			Name        string `json:"name"`
+			Description string `json:"description"`
+			Public      bool   `json:"public"`
+			Type        string `json:"type"`
+			Links       struct {
+				Self []struct {
+					Href string `json:"href"`
+				} `json:"self"`
+			} `json:"links"`
+		} `json:"project"`
+		Permission string `json:"permission"`
+	} `json:"values"`
+	Start int `json:"start"`
+}
+
+/*GetSSHRepoKeys retrieve ssh keys per repo, params
+
+https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp17
+
+/REST/KEYS/1.0//PROJECTS/{PROJECTKEY}/REPOS/{REPOSITORYSLUG}/SSH?FILTER&EFFECTIVE&PERMISSION
+
+*/
+func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFilter string, repoKeysOnly, writeKeysOnly bool) (*KeysResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/keys/1.0/projects/{projectKey}/repos/{repositorySlug}/ssh"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if writeKeysOnly {
+		localVarQueryParams.Set("permission", "REPO_WRITE")
+	}
+	if repoKeysOnly {
+		localVarQueryParams.Add("effective", "true")
+	}
+	if sshKeyFilter != "" {
+		localVarQueryParams.Add("filter", sshKeyFilter)
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil {
+		return nil, err
+	}
+	defer localVarHTTPResponse.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		return nil, errors.New(fmt.Sprintf("Error reading %s: %s", localVarPath, localVarHTTPResponse.Status))
+	}
+	typedResp := KeysResponse{}
+	err = json.Unmarshal(bodyBytes, &typedResp)
+	return &typedResp, err
+}
+
+
+/*CreateSSHKey create ssh key for repository, params user and text
+/rest/keys/1.0/projects/{projectKey}/repos/{repositorySlug}/ssh
+{
+    "key": {
+        "text": "ssh-rsa AAAAB3... me@127.0.0.1"
+    },
+    "permission": "REPO_WRITE"
+}
+https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp16*/
+func (a *DefaultApiService) CreateRepoSSHKey(projectKey, repositorySlug, sshPubKey string, isWrite bool) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/keys/1.0/projects/{projectKey}/repos/{repositorySlug}/ssh"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	permissions := "REPO_READ"
+	if isWrite {
+		permissions = "REPO_WRITE"
+	}
+	localVarPostBody = map[string]interface{}{
+		"key":        map[string]interface{}{
+			"text": sshPubKey,
+		},
+		"permissions": permissions,
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
 /*CreateSSHKey create ssh key for user, params user and text  */
 func (a *DefaultApiService) CreateSSHKey(localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
