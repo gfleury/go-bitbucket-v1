@@ -6,6 +6,7 @@ package bitbucketv1
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -8249,7 +8250,7 @@ func (a *DefaultApiService) GetSSHKeys(user string) (*APIResponse, error) {
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
-//https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp17
+// https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp17
 type KeysResponse struct {
 	Size       int  `json:"size"`
 	Limit      int  `json:"limit"`
@@ -8278,12 +8279,12 @@ type KeysResponse struct {
 	Start int `json:"start"`
 }
 
-/*GetSSHRepoKeys retrieve ssh keys per repo, params
+/*
+GetSSHRepoKeys retrieve ssh keys per repo, params
 
 https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp17
 
 /REST/KEYS/1.0//PROJECTS/{PROJECTKEY}/REPOS/{REPOSITORYSLUG}/SSH?FILTER&EFFECTIVE&PERMISSION
-
 */
 func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFilter string, repoKeysOnly, writeKeysOnly bool) (*KeysResponse, error) {
 	var (
@@ -8349,16 +8350,19 @@ func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFil
 	return &typedResp, err
 }
 
-
-/*CreateSSHKey create ssh key for repository, params user and text
+/*
+CreateSSHKey create ssh key for repository, params user and text
 /rest/keys/1.0/projects/{projectKey}/repos/{repositorySlug}/ssh
-{
-    "key": {
-        "text": "ssh-rsa AAAAB3... me@127.0.0.1"
-    },
-    "permission": "REPO_WRITE"
-}
-https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp16*/
+
+	{
+	    "key": {
+	        "text": "ssh-rsa AAAAB3... me@127.0.0.1"
+	    },
+	    "permission": "REPO_WRITE"
+	}
+
+https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp16
+*/
 func (a *DefaultApiService) CreateRepoSSHKey(projectKey, repositorySlug, sshPubKey string, isWrite bool) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
@@ -8381,7 +8385,7 @@ func (a *DefaultApiService) CreateRepoSSHKey(projectKey, repositorySlug, sshPubK
 		permissions = "REPO_WRITE"
 	}
 	localVarPostBody = map[string]interface{}{
-		"key":        map[string]interface{}{
+		"key": map[string]interface{}{
 			"text": sshPubKey,
 		},
 		"permissions": permissions,
