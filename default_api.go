@@ -5,6 +5,8 @@
 package bitbucketv1
 
 import (
+	"errors"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
