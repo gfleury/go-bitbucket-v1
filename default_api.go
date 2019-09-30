@@ -8380,15 +8380,15 @@ func (a *DefaultApiService) CreateRepoSSHKey(projectKey, repositorySlug, sshPubK
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	permissions := "REPO_READ"
+	permission := "REPO_READ"
 	if isWrite {
-		permissions = "REPO_WRITE"
+		permission = "REPO_WRITE"
 	}
 	localVarPostBody = map[string]interface{}{
 		"key": map[string]interface{}{
 			"text": sshPubKey,
 		},
-		"permissions": permissions,
+		"permission": permission,
 	}
 
 	// to determine the Content-Type header
