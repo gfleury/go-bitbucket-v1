@@ -12617,9 +12617,6 @@ func (a *DefaultApiService) StreamFiles(projectKey, repositorySlug string, local
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
-		return nil, err
-	}
 	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
 		return nil, err
 	}
