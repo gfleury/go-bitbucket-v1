@@ -11387,7 +11387,7 @@ func (a *DefaultApiService) StreamDiff_41(path string, localVarOptionals map[str
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "at" (string) the commit ID or ref (e.g. a branch or tag) to list the files at.              If not specified the default branch will be used instead.
  @return */
-func (a *DefaultApiService) StreamFiles(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) StreamFiles(projectKey, repositorySlug, path, at string, limit, start int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -11396,19 +11396,25 @@ func (a *DefaultApiService) StreamFiles(localVarOptionals map[string]interface{}
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/files"
+	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/" + projectKey + "/repos/" + repositorySlug + "/files"
+	if path != "" {
+		localVarPath = localVarPath + "/" + path
+	}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
-		return nil, err
+	if at != "" {
+		localVarQueryParams.Add("at", at)
+	}
+	if limit > 0 {
+		localVarQueryParams.Add("limit", fmt.Sprintf("%d", limit))
+	}
+	if start > 0 {
+		localVarQueryParams.Add("start", fmt.Sprintf("%d", start))
 	}
 
-	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
-		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
-	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
