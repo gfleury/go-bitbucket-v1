@@ -10855,7 +10855,7 @@ func (a *DefaultApiService) StreamDiff_39(path string, localVarOptionals map[str
 	 @param "whitespace" (string) optional whitespace flag which can be set to &lt;code&gt;ignore-all&lt;/code&gt;
 	 @param "withComments" (bool) &lt;code&gt;true&lt;/code&gt; to embed comments in the diff (the default); otherwise, &lt;code&gt;false&lt;/code&gt;                      to stream the diff without comments
  @return */
-func (a *DefaultApiService) StreamDiff_40(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetPullRequestDiff(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -10865,6 +10865,9 @@ func (a *DefaultApiService) StreamDiff_40(localVarOptionals map[string]interface
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/diff"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"pullRequestId"+"}", fmt.Sprintf("%v", pullRequestID), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
