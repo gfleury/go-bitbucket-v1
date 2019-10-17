@@ -2794,6 +2794,7 @@ func TestDefaultApiService_GetProject(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
+		key string
 	}
 	tests := []struct {
 		name    string
@@ -2802,14 +2803,14 @@ func TestDefaultApiService_GetProject(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{key: "7BprojectKey"}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/7BprojectKey: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.GetProject(tt.args.ctx)
+			got, err := a.GetProject(tt.args.ctx, tt.args.key)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.GetProject() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -5129,8 +5130,8 @@ func TestDefaultApiService_SetPermissionForGroup(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		projectKey string
-		repositorySlug string
+		projectKey        string
+		repositorySlug    string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
