@@ -5129,8 +5129,8 @@ func TestDefaultApiService_SetPermissionForGroup(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		projectKey string
-		repositorySlug string
+		projectKey        string
+		repositorySlug    string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -5763,11 +5763,14 @@ func TestDefaultApiService_StreamDiff_39(t *testing.T) {
 	}
 }
 
-func TestDefaultApiService_StreamDiff_40(t *testing.T) {
+func TestDefaultApiService_GetPullRequestDiff(t *testing.T) {
 	type fields struct {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
+		repositorySlug    string
+		pullRequestID     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -5777,20 +5780,24 @@ func TestDefaultApiService_StreamDiff_40(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/repos/%7BrepositorySlug%7D/pull-requests/%7BpullRequestId%7D/diff: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{
+			projectKey:     "projectKey",
+			repositorySlug: "repositorySlug",
+			pullRequestID:  1,
+		}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/projectKey/repos/repositorySlug/pull-requests/1/diff: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.StreamDiff_40(tt.args.localVarOptionals)
+			got, err := a.GetPullRequestDiff(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.StreamDiff_40() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.GetPullRequestDiff() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.StreamDiff_40() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.GetPullRequestDiff() = %v, want %v", got, tt.want)
 			}
 		})
 	}
