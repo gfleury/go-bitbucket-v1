@@ -5221,7 +5221,7 @@ func (a *DefaultApiService) GetPullRequestsPage(projectKey, repositorySlug strin
 Retrieve the project matching the supplied &lt;strong&gt;projectKey&lt;/strong&gt;.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;PROJECT_VIEW&lt;/strong&gt; permission for the specified project to call this  resource.
 * @param ctx context.Context for authentication, logging, tracing, etc.
 @return */
-func (a *DefaultApiService) GetProject(ctx context.Context) (*APIResponse, error) {
+func (a *DefaultApiService) GetProject(ctx context.Context, projectKey string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -5231,6 +5231,7 @@ func (a *DefaultApiService) GetProject(ctx context.Context) (*APIResponse, error
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
