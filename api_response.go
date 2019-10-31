@@ -274,6 +274,19 @@ type Content struct {
 	Revision string `json:"revision"`
 }
 
+type WebhookConfiguration struct {
+  Secret          string     `json:"secret"`
+}
+
+type Webhook struct {
+	ID              int        `json:"id"`
+	Name            string     `json:"name"`
+	Events          []string   `json:"events"`
+	Url             string     `json:"url"`
+	Active          bool       `json:"active"`
+	Configuration   WebhookConfiguration     `json:"configuration"`
+}
+
 func (k *SSHKey) String() string {
 	parts := make([]string, 1, 2)
 	parts[0] = strings.TrimSpace(k.Text)
@@ -341,6 +354,13 @@ func GetContentResponse(r *APIResponse) (Content, error) {
 	var c Content
 	err := mapstructure.Decode(r.Values, &c)
 	return c, err
+}
+
+// GetWebhooksResponse cast Webhooks into structure
+func GetWebhooksResponse(r *APIResponse) ([]Webhook, error) {
+	var h []Webhook
+	err := mapstructure.Decode(r.Values["values"], &h)
+	return h, err
 }
 
 // NewAPIResponse create new APIResponse from http.Response
