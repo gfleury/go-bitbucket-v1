@@ -219,6 +219,83 @@ func TestGetSSHKeysResponse(t *testing.T) {
 	}
 }
 
+func TestGetWebhooksResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []Webhook
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{ "values": []interface{}{} },
+				},
+			},
+			want: []Webhook{},
+			wantErr: false,
+		},
+		{
+			name: "Single webhook",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"values": []interface{}{map[string]interface{}{
+							"id": 1,
+							"name": "foo",
+							"url": "http://bitbucket.localhost/hook",
+							"active": false,
+							"events": []string{ "repo:modified" },
+							"configuration": map[string]interface{}{
+								"secret": "password",
+							},
+						}},
+					},
+				},
+			},
+			want: []Webhook{
+				Webhook{
+					ID: 1,
+					Name: "foo",
+					Url: "http://bitbucket.localhost/hook",
+					Active: false,
+					Events: []string{ "repo:modified" },
+					Configuration: WebhookConfiguration{
+						Secret: "password",
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{ "values": "not an array" },
+				},
+			},
+			want: nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetWebhooksResponse(tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetWebhooksResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetWebhooksResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestNewAPIResponse(t *testing.T) {
 	type args struct {
 		r *http.Response
