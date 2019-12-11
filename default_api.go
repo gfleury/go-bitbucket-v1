@@ -14683,3 +14683,66 @@ func (a *DefaultApiService) SearchCode(query SearchQuery) (*APIResponse, error) 
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
+
+//  "http://<ourstashurl>/stash/rest/api/latest/projects/<projectname>/repos/<reponame>/commits?at=refs/heads/deploy&start=0&limit=0"
+func (a *DefaultApiService) GetHeadCommit(project, repository, branch string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+	// create path and map variables
+	if err := typeCheckParameter(localVarOptionals["apibasepath"], "string", "apibasepath"); err != nil {
+		return nil, err
+	}
+	apibasepath, _ := localVarOptionals["apibasepath"].(string)
+	if apibasepath == "" {
+		apibasepath = "/api/1.0" // or "apibasepath": "/api/latest"
+	}
+
+	localVarPath := a.client.cfg.BasePath + apibasepath + "/projects/{projectKey}/repos/{repositorySlug}/commits?at=refs/heads/{branch}&start=0&limit=1"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"branch"+"}", fmt.Sprintf("%v", branch), -1)
+
+	fmt.Println("localVarPath", localVarPath)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
