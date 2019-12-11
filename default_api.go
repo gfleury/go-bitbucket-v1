@@ -13062,7 +13062,7 @@ func (a *DefaultApiService) GetHeadCommit(project, repository, branch string, lo
 		apibasepath = "/api/1.0" // or "apibasepath": "/api/latest"
 	}
 
-	localVarPath := a.client.cfg.BasePath + apibasepath + "/projects/{projectKey}/repos/{repositorySlug}/commits?at=refs/heads/{branch}&start=0&limit=1"
+	localVarPath := a.client.cfg.BasePath + apibasepath + "/projects/{projectKey}/repos/{repositorySlug}/commits?until=refs/heads/{branch}&start=0&limit=1"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"branch"+"}", fmt.Sprintf("%v", branch), -1)
