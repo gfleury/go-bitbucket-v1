@@ -14706,8 +14706,6 @@ func (a *DefaultApiService) GetHeadCommit(project, repository, branch string, lo
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"branch"+"}", fmt.Sprintf("%v", branch), -1)
 
-	fmt.Println("localVarPath", localVarPath)
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
