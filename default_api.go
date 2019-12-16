@@ -2063,7 +2063,7 @@ func (a *DefaultApiService) DeleteWebhook(projectKey, repositorySlug string, web
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
