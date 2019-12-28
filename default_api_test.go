@@ -5267,6 +5267,8 @@ func TestDefaultApiService_SetPermissionForUser(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
+		repositorySlug    string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -5276,14 +5278,14 @@ func TestDefaultApiService_SetPermissionForUser(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/repos/%7BrepositorySlug%7D/permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.SetPermissionForUser(tt.args.localVarOptionals)
+			got, err := a.SetPermissionForUser(tt.args.projectKey, tt.args.repositorySlug, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.SetPermissionForUser() error = %v, wantErr %v", err, tt.wantErr)
 				return

@@ -9699,11 +9699,13 @@ func (a *DefaultApiService) SetPermissionForGroups_32(localVarOptionals map[stri
 /* DefaultApiService
  Promote or demote a user&#39;s permission level for the specified repository. Available repository permissions are:  &lt;ul&gt;      &lt;li&gt;REPO_READ&lt;/li&gt;      &lt;li&gt;REPO_WRITE&lt;/li&gt;      &lt;li&gt;REPO_ADMIN&lt;/li&gt;  &lt;/ul&gt;  See the &lt;a href&#x3D;\&quot;https://confluence.atlassian.com/display/BitbucketServer/Using+repository+permissions\&quot;&gt;Bitbucket  Server documentation&lt;/a&gt; for a detailed explanation of what each permission entails.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_ADMIN&lt;/strong&gt; permission for the specified repository or a higher  project or global permission to call this resource. In addition, a user may not reduce their own permission level unless  they have a project or global permission that already implies that permission.
  * @param ctx context.Context for authentication, logging, tracing, etc.
+ @param "projectKey" (string) name of the project to grant permission to
+ @param "repositorySlug" (string) repository slug
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "name" (string) the names of the users
 	 @param "permission" (string) the permission to grant
  @return */
-func (a *DefaultApiService) SetPermissionForUser(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) SetPermissionForUser(projectKey string, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -9713,6 +9715,8 @@ func (a *DefaultApiService) SetPermissionForUser(localVarOptionals map[string]in
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/users"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
