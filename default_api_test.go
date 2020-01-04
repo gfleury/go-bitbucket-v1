@@ -5234,6 +5234,7 @@ func TestDefaultApiService_SetPermissionForGroups_32(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -5243,14 +5244,14 @@ func TestDefaultApiService_SetPermissionForGroups_32(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.SetPermissionForGroups_32(tt.args.localVarOptionals)
+			got, err := a.SetPermissionForGroups_32(tt.args.projectKey, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.SetPermissionForGroups_32() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -5335,6 +5336,7 @@ func TestDefaultApiService_SetPermissionForUsers_33(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -5344,14 +5346,14 @@ func TestDefaultApiService_SetPermissionForUsers_33(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.SetPermissionForUsers_33(tt.args.localVarOptionals)
+			got, err := a.SetPermissionForUsers_33(tt.args.projectKey, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.SetPermissionForUsers_33() error = %v, wantErr %v", err, tt.wantErr)
 				return

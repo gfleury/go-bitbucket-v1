@@ -9633,7 +9633,7 @@ func (a *DefaultApiService) SetPermissionForGroups(localVarOptionals map[string]
 	 @param "permission" (string) The permission to grant.                        See the [permissions documentation](https://confluence.atlassian.com/display/BitbucketServer/Using+project+permissions)                        for a detailed explanation of what each permission entails.                        Available project permissions are:                        &lt;ul&gt;                            &lt;li&gt;PROJECT_READ&lt;/li&gt;                            &lt;li&gt;PROJECT_WRITE&lt;/li&gt;                            &lt;li&gt;PROJECT_ADMIN&lt;/li&gt;                        &lt;/ul&gt;
 	 @param "name" (string) the names of the groups
  @return */
-func (a *DefaultApiService) SetPermissionForGroups_32(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) SetPermissionForGroups_32(projectKey string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -9643,6 +9643,7 @@ func (a *DefaultApiService) SetPermissionForGroups_32(localVarOptionals map[stri
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/permissions/groups"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -9693,7 +9694,7 @@ func (a *DefaultApiService) SetPermissionForGroups_32(localVarOptionals map[stri
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
@@ -9847,7 +9848,7 @@ func (a *DefaultApiService) SetPermissionForUsers(localVarOptionals map[string]i
 	 @param "name" (string) the names of the users
 	 @param "permission" (string) the permission to grant. See the [permissions documentation](https://confluence.atlassian.com/display/BitbucketServer/Using+project+permissions)                        for a detailed explanation of what each permission entails.                        Available project permissions are:                        &lt;ul&gt;                            &lt;li&gt;PROJECT_READ&lt;/li&gt;                            &lt;li&gt;PROJECT_WRITE&lt;/li&gt;                            &lt;li&gt;PROJECT_ADMIN&lt;/li&gt;                        &lt;/ul&gt;
  @return */
-func (a *DefaultApiService) SetPermissionForUsers_33(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) SetPermissionForUsers_33(projectKey string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -9857,6 +9858,7 @@ func (a *DefaultApiService) SetPermissionForUsers_33(localVarOptionals map[strin
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/permissions/users"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -9907,7 +9909,7 @@ func (a *DefaultApiService) SetPermissionForUsers_33(localVarOptionals map[strin
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
