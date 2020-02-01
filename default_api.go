@@ -8453,7 +8453,9 @@ func (a *DefaultApiService) CreateSSHKey(localVarOptionals map[string]interface{
 		localVarQueryParams.Add("user", parameterToString(localVarTempParam, ""))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["text"].(string); localVarOk {
-		localVarFormParams.Add("text", parameterToString(localVarTempParam, ""))
+		localVarPostBody = map[string]interface{}{
+			"text": localVarTempParam,
+		}
 	}
 
 	// to determine the Content-Type header
