@@ -7721,7 +7721,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission(localVarOptionals map[stri
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "filter" (string) if specified only group names containing the supplied string will be returned
  @return */
-func (a *DefaultApiService) GetUsersWithAnyPermission_23(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetUsersWithAnyPermission_23(projectKey string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -7731,6 +7731,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_23(localVarOptionals map[s
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/permissions/users"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -7784,7 +7785,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_23(localVarOptionals map[s
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "filter" (string) if specified only group names containing the supplied string will be returned
  @return */
-func (a *DefaultApiService) GetUsersWithAnyPermission_24(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetUsersWithAnyPermission_24(projectKey string, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -7794,6 +7795,8 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_24(localVarOptionals map[s
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/users"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
