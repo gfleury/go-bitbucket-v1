@@ -9055,7 +9055,7 @@ func (a *DefaultApiService) RevokePermissionsForUser(localVarOptionals map[strin
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
@@ -9064,7 +9064,7 @@ func (a *DefaultApiService) RevokePermissionsForUser(localVarOptionals map[strin
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "name" (string) the name of the user
  @return */
-func (a *DefaultApiService) RevokePermissionsForUser_30(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) RevokePermissionsForUser_30(projectKey string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -9074,6 +9074,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_30(localVarOptionals map[st
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/permissions/users"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -9118,7 +9119,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_30(localVarOptionals map[st
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
@@ -9127,7 +9128,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_30(localVarOptionals map[st
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "name" (string) the name of the user
  @return */
-func (a *DefaultApiService) RevokePermissionsForUser_31(localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) RevokePermissionsForUser_31(projectKey string, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -9137,6 +9138,8 @@ func (a *DefaultApiService) RevokePermissionsForUser_31(localVarOptionals map[st
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/users"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -9181,7 +9184,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_31(localVarOptionals map[st
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService

@@ -4934,6 +4934,7 @@ func TestDefaultApiService_RevokePermissionsForUser_30(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -4943,14 +4944,14 @@ func TestDefaultApiService_RevokePermissionsForUser_30(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.RevokePermissionsForUser_30(tt.args.localVarOptionals)
+			got, err := a.RevokePermissionsForUser_30(tt.args.projectKey, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.RevokePermissionsForUser_30() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -4967,6 +4968,8 @@ func TestDefaultApiService_RevokePermissionsForUser_31(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
+		repositorySlug    string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -4976,14 +4979,14 @@ func TestDefaultApiService_RevokePermissionsForUser_31(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/repos/%7BrepositorySlug%7D/permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.RevokePermissionsForUser_31(tt.args.localVarOptionals)
+			got, err := a.RevokePermissionsForUser_31(tt.args.projectKey, tt.args.repositorySlug, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.RevokePermissionsForUser_31() error = %v, wantErr %v", err, tt.wantErr)
 				return
