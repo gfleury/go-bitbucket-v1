@@ -233,10 +233,10 @@ func TestGetWebhooksResponse(t *testing.T) {
 			name: "Empty list",
 			args: args{
 				r: &APIResponse{
-					Values: map[string]interface{}{ "values": []interface{}{} },
+					Values: map[string]interface{}{"values": []interface{}{}},
 				},
 			},
-			want: []Webhook{},
+			want:    []Webhook{},
 			wantErr: false,
 		},
 		{
@@ -245,11 +245,11 @@ func TestGetWebhooksResponse(t *testing.T) {
 				r: &APIResponse{
 					Values: map[string]interface{}{
 						"values": []interface{}{map[string]interface{}{
-							"id": 1,
-							"name": "foo",
-							"url": "http://bitbucket.localhost/hook",
+							"id":     1,
+							"name":   "foo",
+							"url":    "http://bitbucket.localhost/hook",
 							"active": false,
-							"events": []string{ "repo:modified" },
+							"events": []string{"repo:modified"},
 							"configuration": map[string]interface{}{
 								"secret": "password",
 							},
@@ -259,11 +259,11 @@ func TestGetWebhooksResponse(t *testing.T) {
 			},
 			want: []Webhook{
 				Webhook{
-					ID: 1,
-					Name: "foo",
-					Url: "http://bitbucket.localhost/hook",
+					ID:     1,
+					Name:   "foo",
+					Url:    "http://bitbucket.localhost/hook",
 					Active: false,
-					Events: []string{ "repo:modified" },
+					Events: []string{"repo:modified"},
 					Configuration: WebhookConfiguration{
 						Secret: "password",
 					},
@@ -275,10 +275,10 @@ func TestGetWebhooksResponse(t *testing.T) {
 			name: "Bad response",
 			args: args{
 				r: &APIResponse{
-					Values: map[string]interface{}{ "values": "not an array" },
+					Values: map[string]interface{}{"values": "not an array"},
 				},
 			},
-			want: nil,
+			want:    nil,
 			wantErr: true,
 		},
 	}
@@ -291,6 +291,90 @@ func TestGetWebhooksResponse(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetWebhooksResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetUsersPermissionResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []UserPermission
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": []interface{}{}},
+				},
+			},
+			want:    []UserPermission{},
+			wantErr: false,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "Single user permission",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"values": []interface{}{map[string]interface{}{
+							"user": map[string]interface{}{
+								"name": "jcitizen",
+								// TODO: This field should be emailAddress according to the REST API
+								// documentation, but is defined as Email in the User struct. Mapstruct #
+								// therefore only decodes this when reffered to as 'email', which is plain wrong.
+								// "email":       "jane@example.com",
+								"id":          101,
+								"displayName": "Jane Citizen",
+								"active":      true,
+								"slug":        "jcitizen",
+								"type":        "NORMAL",
+							},
+							"permission": "REPO_ADMIN",
+						}},
+					},
+				},
+			},
+			want: []UserPermission{
+				UserPermission{
+					User: User{
+						Name: "jcitizen",
+						// Email:       "jane@example.com",
+						ID:          101,
+						DisplayName: "Jane Citizen",
+						Active:      true,
+						Slug:        "jcitizen",
+						Type:        "NORMAL",
+					},
+					Permission: "REPO_ADMIN",
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetUsersPermissionResponse(tt.args.r)
+			if err != nil && !tt.wantErr {
+				t.Errorf("GetUsersPermissionResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetUsersPermissionResponse() = %v, want %v", got, tt.want)
 			}
 		})
 	}
