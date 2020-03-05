@@ -416,7 +416,7 @@ func NewAPIResponse(r *http.Response) *APIResponse {
 // NewAPIResponseWithError create new erroneous API response from http.response and error
 func NewAPIResponseWithError(r *http.Response, err error) (*APIResponse, error) {
 
-	response := &APIResponse{Response: r, Message: err.Error()}
+	response := &APIResponse{Response: r, Message: strings.ReplaceAll(err.Error(), "\"", "")}
 	return response, err
 }
 
