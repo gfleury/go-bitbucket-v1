@@ -293,6 +293,36 @@ type Webhook struct {
 	Configuration WebhookConfiguration `json:"configuration"`
 }
 
+// WebHookCallback contains payload to use while reading handling webhooks from bitbucket
+type WebHookCallback struct {
+	Actor      Actor      `json:"actor"`
+	Repository Repository `json:"repository"`
+	Push       struct {
+		Changes []Change `json:"changes"`
+	} `json:"push"`
+}
+
+// Actor contains the actor of reported changes from a webhook
+type Actor struct {
+	Username    string `json:"username"`
+	DisplayName string `json:"displayName"`
+}
+
+// Change contains changes reported by webhooks
+type Change struct {
+	Created bool        `json:"created"`
+	Closed  bool        `json:"closed"`
+	Old     interface{} `json:"old"`
+	New     struct {
+		Type   string `json:"type"`
+		Name   string `json:"name"`
+		Target struct {
+			Type string `json:"type"`
+			Hash string `json:"hash"`
+		} `json:"target"`
+	} `json:"new"`
+}
+
 func (k *SSHKey) String() string {
 	parts := make([]string, 1, 2)
 	parts[0] = strings.TrimSpace(k.Text)
