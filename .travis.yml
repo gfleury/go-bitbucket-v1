@@ -6,4 +6,5 @@ install:
 script:
   - go test
   - go build -v ./
+  - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint && golangci-lint run -v
 
