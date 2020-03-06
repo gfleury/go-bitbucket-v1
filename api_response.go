@@ -105,9 +105,58 @@ type UserWithMetadata struct {
 	Status   string        `json:"status"`
 }
 
+// PermissionGlobal are global permissions
+type PermissionGlobal string
+
+const (
+	// PermissionGlobalLicensedUser represents the ability to log into the system
+	PermissionGlobalLicensedUser PermissionGlobal = "LICENSED_USER"
+	// PermissionGlobalProjectCreate allows project creation
+	PermissionGlobalProjectCreate PermissionGlobal = "PROJECT_CREATE"
+	// PermissionGlobalAdmin represents an administrator
+	PermissionGlobalAdmin PermissionGlobal = "ADMIN"
+	// PermissionGlobalSysAdmin represents a system administrator
+	PermissionGlobalSysAdmin PermissionGlobal = "SYS_ADMIN"
+)
+
+// PermissionProject are project level permissions
+type PermissionProject string
+
+const (
+	// PermissionProjectAdmin grants admin priviledges
+	PermissionProjectAdmin PermissionProject = "PROJECT_ADMIN"
+	// PermissionProjectRead grants read priviledges
+	PermissionProjectRead PermissionProject = "PROJECT_READ"
+	// PermissionProjectWrite grants write priviledges
+	PermissionProjectWrite PermissionProject = "PROJECT_WRITE"
+)
+
+// PermissionRepository are repository level permissions
+type PermissionRepository string
+
+const (
+	// PermissionRepositoryAdmin grants admin priviledges
+	PermissionRepositoryAdmin PermissionRepository = "REPO_ADMIN"
+	// PermissionRepositoryRead grants read priviledges
+	PermissionRepositoryRead PermissionRepository = "REPO_READ"
+	// PermissionRepositoryWrite grants write priviledges
+	PermissionRepositoryWrite PermissionRepository = "REPO_WRITE"
+)
+
 // UserPermission contains a user with its permission
 type UserPermission struct {
 	User       User   `json:"user"`
+	Permission string `json:"permission"`
+}
+
+// Group represents a user group
+type Group struct {
+	Name string `json:"name"`
+}
+
+// GroupPermission contains a group with its permission
+type GroupPermission struct {
+	Group      Group  `json:"group"`
 	Permission string `json:"permission"`
 }
 
@@ -323,6 +372,21 @@ type Change struct {
 	} `json:"new"`
 }
 
+// String converts global permission to its string representation
+func (p PermissionGlobal) String() string {
+	return string(p)
+}
+
+// String converts project permission to its string representation
+func (p PermissionProject) String() string {
+	return string(p)
+}
+
+// String converts repository permission to its string representation
+func (p PermissionRepository) String() string {
+	return string(p)
+}
+
 func (k *SSHKey) String() string {
 	parts := make([]string, 1, 2)
 	parts[0] = strings.TrimSpace(k.Text)
@@ -395,6 +459,13 @@ func GetContentResponse(r *APIResponse) (Content, error) {
 // GetUsersPermissionResponse casts user permissions into structure
 func GetUsersPermissionResponse(r *APIResponse) ([]UserPermission, error) {
 	var c []UserPermission
+	err := mapstructure.Decode(r.Values["values"], &c)
+	return c, err
+}
+
+// GetGroupsPermissionResponse casts group permissions into structure
+func GetGroupsPermissionResponse(r *APIResponse) ([]GroupPermission, error) {
+	var c []GroupPermission
 	err := mapstructure.Decode(r.Values["values"], &c)
 	return c, err
 }
