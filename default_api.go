@@ -8971,7 +8971,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup(localVarOptionals map[stri
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
@@ -9035,7 +9035,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup_28(projectKey string, loca
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
@@ -9100,7 +9100,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup_29(projectKey, repositoryS
 		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
