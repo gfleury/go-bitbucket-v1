@@ -20,10 +20,25 @@ func generateContextCanceled() context.Context {
 	return ctx
 }
 
+func generateContext() context.Context {
+	basicAuth := BasicAuth{UserName: "admin", Password: "AdminPass"}
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Minute)
+	ctx = context.WithValue(ctx, ContextBasicAuth, basicAuth)
+	//defer cancel()
+	return ctx
+}
+
 func generateConfigFake() *APIClient {
 	return NewAPIClient(
 		generateContextCanceled(),
 		NewConfiguration("https://stash.domain.com/rest"),
+	)
+}
+
+func generateConfigRealLocalServer() *APIClient {
+	return NewAPIClient(
+		generateContext(),
+		NewConfiguration("http://localhost:7990/rest"),
 	)
 }
 func TestDefaultApiService_AddGroupToUser(t *testing.T) {
@@ -31,7 +46,6 @@ func TestDefaultApiService_AddGroupToUser(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		ctx context.Context
 	}
 	tests := []struct {
 		name    string
@@ -40,7 +54,7 @@ func TestDefaultApiService_AddGroupToUser(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-group: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-group: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -4087,6 +4101,15 @@ func TestDefaultApiService_GetSSHKeys(t *testing.T) {
 		wantErr bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/ssh/1.0/keys: context canceled"}, true},
+		{"realLocalServer", fields{client: generateConfigRealLocalServer()}, args{},
+			&APIResponse{Values: map[string]interface{}{
+				"size":       float64(0),
+				"limit":      float64(25),
+				"isLastPage": true,
+				"values":     []interface{}{},
+				"start":      float64(0),
+			}},
+			false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -4098,6 +4121,7 @@ func TestDefaultApiService_GetSSHKeys(t *testing.T) {
 				t.Errorf("DefaultApiService.GetSSHKeys() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Response = nil
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.GetSSHKeys() = %v, want %v", got, tt.want)
 			}
