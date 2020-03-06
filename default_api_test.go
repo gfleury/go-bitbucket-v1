@@ -4544,6 +4544,21 @@ func TestDefaultApiService_GetUser(t *testing.T) {
 		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users/: context canceled"}, true, false},
+		{"GetRealUser", fields{client: generateConfigRealLocalServer()},
+			args{
+				username: "admin",
+			},
+			&APIResponse{Values: map[string]interface{}{
+				"active":       true,
+				"displayName":  "admin",
+				"emailAddress": "admin@example.com",
+				"id":           float64(1),
+				"links": map[string]interface{}{
+					"self": []interface{}{map[string]interface{}{"href": "http://localhost:7990/users/admin"}},
+				},
+				"name": "admin", "slug": "admin", "type": "NORMAL"},
+			},
+			false, true},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -4558,6 +4573,7 @@ func TestDefaultApiService_GetUser(t *testing.T) {
 				t.Errorf("DefaultApiService.GetUser() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Response = nil
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.GetUser() = %v, want %v", got, tt.want)
 			}
