@@ -360,7 +360,7 @@ func TestGetUsersPermissionResponse(t *testing.T) {
 						Slug:        "jcitizen",
 						Type:        "NORMAL",
 					},
-					Permission: "REPO_ADMIN",
+					Permission: PermissionRepositoryAdmin.String(),
 				},
 			},
 			wantErr: false,
@@ -375,6 +375,75 @@ func TestGetUsersPermissionResponse(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetUsersPermissionResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetGroupsPermissionResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []GroupPermission
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": []interface{}{}},
+				},
+			},
+			want:    []GroupPermission{},
+			wantErr: false,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "Single group permission",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"values": []interface{}{map[string]interface{}{
+							"group": map[string]interface{}{
+								"name": "group1",
+							},
+							"permission": "REPO_ADMIN",
+						}},
+					},
+				},
+			},
+			want: []GroupPermission{
+				GroupPermission{
+					Group: Group{
+						Name: "group1",
+					},
+					Permission: PermissionRepositoryAdmin.String(),
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetGroupsPermissionResponse(tt.args.r)
+			if err != nil && !tt.wantErr {
+				t.Errorf("GetGroupsPermissionResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetGroupsPermissionResponse() = %v, want %v", got, tt.want)
 			}
 		})
 	}
