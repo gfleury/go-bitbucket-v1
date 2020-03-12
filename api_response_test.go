@@ -397,7 +397,7 @@ func TestGetGroupsPermissionResponse(t *testing.T) {
 					Values: map[string]interface{}{"values": []interface{}{}},
 				},
 			},
-			want:    []GroupPermission{},
+			want:    nil,
 			wantErr: false,
 		},
 		{
