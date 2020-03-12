@@ -5,12 +5,19 @@
 package bitbucketv1
 
 import (
+	"os"
 	"reflect"
 	"testing"
 	"time"
 
 	"golang.org/x/net/context"
 )
+
+var runIntegrationTests bool
+
+func TestAAAAA(t *testing.T) {
+	runIntegrationTests = os.Getenv("INTEGRATION") == "TRUE"
+}
 
 func generateContextCanceled() context.Context {
 	basicAuth := BasicAuth{UserName: "", Password: ""}
@@ -20,10 +27,25 @@ func generateContextCanceled() context.Context {
 	return ctx
 }
 
+func generateContext() context.Context {
+	basicAuth := BasicAuth{UserName: "admin", Password: "AdminPass"}
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Minute)
+	ctx = context.WithValue(ctx, ContextBasicAuth, basicAuth)
+	//defer cancel()
+	return ctx
+}
+
 func generateConfigFake() *APIClient {
 	return NewAPIClient(
 		generateContextCanceled(),
 		NewConfiguration("https://stash.domain.com/rest"),
+	)
+}
+
+func generateConfigRealLocalServer() *APIClient {
+	return NewAPIClient(
+		generateContext(),
+		NewConfiguration("http://localhost:7990/rest"),
 	)
 }
 func TestDefaultApiService_AddGroupToUser(t *testing.T) {
@@ -31,18 +53,20 @@ func TestDefaultApiService_AddGroupToUser(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		ctx context.Context
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-group: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-group: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -67,15 +91,18 @@ func TestDefaultApiService_AddUserToGroup(t *testing.T) {
 		ctx context.Context
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups/add-user: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups/add-user: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -100,15 +127,18 @@ func TestDefaultApiService_AddUserToGroups(t *testing.T) {
 		ctx context.Context
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -133,15 +163,18 @@ func TestDefaultApiService_AddUsersToGroup(t *testing.T) {
 		ctx context.Context
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups/add-users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups/add-users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -168,15 +201,18 @@ func TestDefaultApiService_Approve(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/approve: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/approve: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -203,15 +239,18 @@ func TestDefaultApiService_AssignParticipantRole(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -238,15 +277,18 @@ func TestDefaultApiService_CanMerge(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/merge: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/merge: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -270,15 +312,18 @@ func TestDefaultApiService_ClearSenderAddress(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/mail-server/sender-address: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/mail-server/sender-address: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -303,15 +348,18 @@ func TestDefaultApiService_ClearUserCaptchaChallenge(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/users/captcha: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/users/captcha: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -338,15 +386,18 @@ func TestDefaultApiService_CountPullRequestTasks(t *testing.T) {
 		pullRequestId  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/tasks/count: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/tasks/count: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -373,15 +424,18 @@ func TestDefaultApiService_Create(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -407,15 +461,18 @@ func TestDefaultApiService_CreateBranch(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//branches: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//branches: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -443,15 +500,18 @@ func TestDefaultApiService_CreateComment(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -480,15 +540,18 @@ func TestDefaultApiService_CreateComment_1(t *testing.T) {
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -513,15 +576,18 @@ func TestDefaultApiService_CreateGroup(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -545,15 +611,18 @@ func TestDefaultApiService_CreateProject(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -578,15 +647,18 @@ func TestDefaultApiService_CreateRepository(t *testing.T) {
 		projectKey string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -613,15 +685,18 @@ func TestDefaultApiService_CreateRepositoryWithOptions(t *testing.T) {
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -648,15 +723,18 @@ func TestDefaultApiService_CreatePullRequestWithOptions(t *testing.T) {
 		localVarPostBody interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -682,15 +760,18 @@ func TestDefaultApiService_CreateTag(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//tags: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//tags: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -714,15 +795,18 @@ func TestDefaultApiService_CreateTask(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/tasks: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/tasks: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -747,15 +831,18 @@ func TestDefaultApiService_CreateUser(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -783,15 +870,18 @@ func TestDefaultApiService_CreateWebhook(t *testing.T) {
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//webhooks: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//webhooks: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -819,15 +909,18 @@ func TestDefaultApiService_Decline(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/decline: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/decline: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -854,15 +947,18 @@ func TestDefaultApiService_Delete(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -887,15 +983,18 @@ func TestDefaultApiService_DeleteAvatar(t *testing.T) {
 		userSlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/users//avatar.png: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/users//avatar.png: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -924,15 +1023,18 @@ func TestDefaultApiService_DeleteComment(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -961,15 +1063,18 @@ func TestDefaultApiService_DeleteComment_2(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -994,15 +1099,18 @@ func TestDefaultApiService_DeleteGroup(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1026,15 +1134,18 @@ func TestDefaultApiService_DeleteMailConfig(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/mail-server: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/mail-server: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1059,15 +1170,18 @@ func TestDefaultApiService_DeleteProject(t *testing.T) {
 		projectKey string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1093,15 +1207,18 @@ func TestDefaultApiService_DeleteRepository(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1128,15 +1245,18 @@ func TestDefaultApiService_DeleteRepositoryHook(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1161,15 +1281,18 @@ func TestDefaultApiService_DeleteTask(t *testing.T) {
 		taskId int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/tasks/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/tasks/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1194,15 +1317,18 @@ func TestDefaultApiService_DeleteUser(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1229,15 +1355,18 @@ func TestDefaultApiService_DeleteWebhook(t *testing.T) {
 		webhookId      int32
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1264,15 +1393,18 @@ func TestDefaultApiService_DisableHook(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//enabled: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//enabled: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1298,15 +1430,18 @@ func TestDefaultApiService_DisableHook_3(t *testing.T) {
 		hookKey    string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//settings/hooks//enabled: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//settings/hooks//enabled: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1333,15 +1468,18 @@ func TestDefaultApiService_EditFile(t *testing.T) {
 		path           string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//browse/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//browse/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1369,15 +1507,18 @@ func TestDefaultApiService_EnableHook(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//enabled: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//enabled: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1405,15 +1546,18 @@ func TestDefaultApiService_EnableHook_4(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//settings/hooks//enabled: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//settings/hooks//enabled: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1438,15 +1582,18 @@ func TestDefaultApiService_FindGroupsForUser(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/users/more-members: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/users/more-members: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1471,15 +1618,18 @@ func TestDefaultApiService_FindOtherGroupsForUser(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/users/more-non-members: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/users/more-non-members: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1504,15 +1654,18 @@ func TestDefaultApiService_FindUsersInGroup(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/groups/more-members: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/groups/more-members: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1537,15 +1690,18 @@ func TestDefaultApiService_FindUsersNotInGroup(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/groups/more-non-members: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/groups/more-non-members: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1572,15 +1728,18 @@ func TestDefaultApiService_FindWebhooks(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1608,15 +1767,18 @@ func TestDefaultApiService_ForkRepository(t *testing.T) {
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1640,15 +1802,18 @@ func TestDefaultApiService_Get(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/license: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/license: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1676,15 +1841,18 @@ func TestDefaultApiService_GetActivities(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/activities: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/activities: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1708,15 +1876,18 @@ func TestDefaultApiService_GetApplicationProperties(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/application-properties: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/application-properties: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1743,15 +1914,18 @@ func TestDefaultApiService_GetArchive(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//archive: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//archive: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1777,15 +1951,18 @@ func TestDefaultApiService_GetAvatar(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/hooks//avatar: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/hooks//avatar: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1812,15 +1989,18 @@ func TestDefaultApiService_GetBranches(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//branches: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//branches: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1848,15 +2028,18 @@ func TestDefaultApiService_GetChanges(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//changes: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//changes: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1884,15 +2067,18 @@ func TestDefaultApiService_GetChanges_5(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//changes: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//changes: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1920,15 +2106,18 @@ func TestDefaultApiService_GetComment(t *testing.T) {
 		commentId      int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1956,15 +2145,18 @@ func TestDefaultApiService_GetComment_6(t *testing.T) {
 		commentId      int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -1993,15 +2185,18 @@ func TestDefaultApiService_GetComments(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2029,15 +2224,18 @@ func TestDefaultApiService_GetComments_7(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2065,15 +2263,18 @@ func TestDefaultApiService_GetCommit(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2100,15 +2301,18 @@ func TestDefaultApiService_GetCommits(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2136,15 +2340,18 @@ func TestDefaultApiService_GetCommits_8(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/commits: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/commits: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2171,15 +2378,18 @@ func TestDefaultApiService_GetContent(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//browse: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//browse: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2207,15 +2417,18 @@ func TestDefaultApiService_GetContent_9(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//browse/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//browse/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2242,15 +2455,18 @@ func TestDefaultApiService_GetContent_10(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//raw: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//raw: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2278,15 +2494,18 @@ func TestDefaultApiService_GetContent_11(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//raw/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//raw/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2312,15 +2531,18 @@ func TestDefaultApiService_GetDefaultBranch(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//branches/default: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//branches/default: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2346,15 +2568,18 @@ func TestDefaultApiService_GetForkedRepositories(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//forks: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//forks: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2379,15 +2604,18 @@ func TestDefaultApiService_GetGroups(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2412,15 +2640,18 @@ func TestDefaultApiService_GetGroupsWithAnyPermission(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2446,15 +2677,18 @@ func TestDefaultApiService_GetGroupsWithAnyPermission_12(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2481,15 +2715,18 @@ func TestDefaultApiService_GetGroupsWithAnyPermission_13(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2514,15 +2751,18 @@ func TestDefaultApiService_GetGroupsWithoutAnyPermission(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/groups/none: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/groups/none: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2548,15 +2788,18 @@ func TestDefaultApiService_GetGroupsWithoutAnyPermission_14(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/groups/none: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/groups/none: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2583,15 +2826,18 @@ func TestDefaultApiService_GetGroupsWithoutAnyPermission_15(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups/none: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups/none: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2616,15 +2862,18 @@ func TestDefaultApiService_GetGroups_16(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2648,15 +2897,18 @@ func TestDefaultApiService_GetInformation(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/cluster: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/cluster: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2684,15 +2936,18 @@ func TestDefaultApiService_GetLatestInvocation(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0/latest: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0/latest: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2717,15 +2972,18 @@ func TestDefaultApiService_GetLevel(t *testing.T) {
 		loggerName string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/logs/logger/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/logs/logger/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2749,15 +3007,18 @@ func TestDefaultApiService_GetMailConfig(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/mail-server: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/mail-server: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2782,15 +3043,18 @@ func TestDefaultApiService_GetMergeConfig(t *testing.T) {
 		scmId string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/pull-requests/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/pull-requests/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2817,15 +3081,18 @@ func TestDefaultApiService_GetPullRequestsPage(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2850,15 +3117,18 @@ func TestDefaultApiService_GetProject(t *testing.T) {
 		key string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{key: "7BprojectKey"}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/7BprojectKey: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{key: "7BprojectKey"}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/7BprojectKey: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2885,15 +3155,18 @@ func TestDefaultApiService_GetProjectAvatar(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//avatar.png: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//avatar.png: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2919,16 +3192,19 @@ func TestDefaultApiService_GetProjects(t *testing.T) {
 	}
 
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
 		// Network errors
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{localVarOptionals: map[string]interface{}{}}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{localVarOptionals: map[string]interface{}{}}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2952,15 +3228,18 @@ func TestDefaultApiService_GetPullRequestCount(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/inbox/pull-requests/count: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/inbox/pull-requests/count: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -2986,15 +3265,18 @@ func TestDefaultApiService_GetPullRequestSettings(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/pull-requests: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/pull-requests: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3021,15 +3303,18 @@ func TestDefaultApiService_GetPullRequestSettings_17(t *testing.T) {
 		scmId          string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/pull-requests/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/pull-requests/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3054,15 +3339,18 @@ func TestDefaultApiService_GetPullRequestSuggestions(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/dashboard/pull-request-suggestions: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/dashboard/pull-request-suggestions: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3089,15 +3377,18 @@ func TestDefaultApiService_GetPullRequestTasks(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/tasks: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/tasks: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3122,15 +3413,18 @@ func TestDefaultApiService_GetPullRequests(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/dashboard/pull-requests: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/dashboard/pull-requests: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3155,15 +3449,18 @@ func TestDefaultApiService_GetPullRequests_18(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/inbox/pull-requests: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/inbox/pull-requests: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3189,15 +3486,18 @@ func TestDefaultApiService_GetRelatedRepositories(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//related: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//related: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3222,15 +3522,18 @@ func TestDefaultApiService_GetRepositories(t *testing.T) {
 		projectKey string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3256,15 +3559,18 @@ func TestDefaultApiService_GetRepositoriesWithOptions(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3289,15 +3595,18 @@ func TestDefaultApiService_GetRepositoriesRecentlyAccessed(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/profile/recent/repos: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/profile/recent/repos: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3322,15 +3631,18 @@ func TestDefaultApiService_GetRepositories_19(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/repos: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/repos: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3356,15 +3668,18 @@ func TestDefaultApiService_GetRepository(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3390,15 +3705,18 @@ func TestDefaultApiService_GetUserRepository(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users//repos/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users//repos/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3425,15 +3743,18 @@ func TestDefaultApiService_GetPullRequest(t *testing.T) {
 		pullRequestID  int
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3460,15 +3781,18 @@ func TestDefaultApiService_GetPullRequestActivity(t *testing.T) {
 		pullRequestID  int
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/activities: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/activities: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3496,15 +3820,18 @@ func TestDefaultApiService_GetPullRequestActivityWithOptions(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/activities: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/activities: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3531,15 +3858,18 @@ func TestDefaultApiService_GetPullRequestCommits(t *testing.T) {
 		pullRequestID  int
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/commits: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/commits: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3567,15 +3897,18 @@ func TestDefaultApiService_GetPullRequestCommitsWithOptions(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/commits: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/commits: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3600,15 +3933,18 @@ func TestDefaultApiService_GetCommitBuildStatuses(t *testing.T) {
 		commitSHA string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/build-status/1.0/commits/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/build-status/1.0/commits/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3635,15 +3971,18 @@ func TestDefaultApiService_GetRepositoryHook(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3670,15 +4009,18 @@ func TestDefaultApiService_GetRepositoryHook_20(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/hooks/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/hooks/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3705,15 +4047,18 @@ func TestDefaultApiService_GetRepositoryHooks(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3739,15 +4084,18 @@ func TestDefaultApiService_GetRepositoryHooks_21(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/hooks: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/hooks: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3771,15 +4119,18 @@ func TestDefaultApiService_GetRootLevel(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/logs/rootLogger: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/logs/rootLogger: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3803,15 +4154,18 @@ func TestDefaultApiService_GetSenderAddress(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/mail-server/sender-address: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/mail-server/sender-address: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3838,15 +4192,18 @@ func TestDefaultApiService_GetSettings(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//settings: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//settings: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3873,15 +4230,18 @@ func TestDefaultApiService_GetSettings_22(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/hooks//settings: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//settings/hooks//settings: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3909,15 +4269,18 @@ func TestDefaultApiService_GetStatistics(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0/statistics: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0/statistics: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3944,15 +4307,18 @@ func TestDefaultApiService_GetStatisticsSummary(t *testing.T) {
 		webhookId      int32
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0/statistics/summary: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0/statistics/summary: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -3979,15 +4345,18 @@ func TestDefaultApiService_GetTag(t *testing.T) {
 		name           string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//tags/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//tags/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4014,15 +4383,18 @@ func TestDefaultApiService_GetTags(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//tags: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//tags: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4047,15 +4419,18 @@ func TestDefaultApiService_GetTask(t *testing.T) {
 		taskId int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/tasks/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/tasks/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4080,15 +4455,27 @@ func TestDefaultApiService_GetSSHKeys(t *testing.T) {
 		user string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/ssh/1.0/keys: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/ssh/1.0/keys: context canceled"}, true, false},
+		{"realLocalServer", fields{client: generateConfigRealLocalServer()}, args{},
+			&APIResponse{Values: map[string]interface{}{
+				"size":       float64(0),
+				"limit":      float64(25),
+				"isLastPage": true,
+				"values":     []interface{}{},
+				"start":      float64(0),
+			}},
+			false, true},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4098,6 +4485,7 @@ func TestDefaultApiService_GetSSHKeys(t *testing.T) {
 				t.Errorf("DefaultApiService.GetSSHKeys() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Response = nil
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.GetSSHKeys() = %v, want %v", got, tt.want)
 			}
@@ -4113,15 +4501,18 @@ func TestDefaultApiService_CreateSSHKey(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/ssh/1.0/keys: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/ssh/1.0/keys: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4146,15 +4537,33 @@ func TestDefaultApiService_GetUser(t *testing.T) {
 		username string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users/: context canceled"}, true, false},
+		{"GetRealUser", fields{client: generateConfigRealLocalServer()},
+			args{
+				username: "admin",
+			},
+			&APIResponse{Values: map[string]interface{}{
+				"active":       true,
+				"displayName":  "admin",
+				"emailAddress": "admin@example.com",
+				"id":           float64(1),
+				"links": map[string]interface{}{
+					"self": []interface{}{map[string]interface{}{"href": "http://localhost:7990/users/admin"}},
+				},
+				"name": "admin", "slug": "admin", "type": "NORMAL"},
+			},
+			false, true},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4164,6 +4573,7 @@ func TestDefaultApiService_GetUser(t *testing.T) {
 				t.Errorf("DefaultApiService.GetUser() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Response = nil
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.GetUser() = %v, want %v", got, tt.want)
 			}
@@ -4179,15 +4589,18 @@ func TestDefaultApiService_GetUserSettings(t *testing.T) {
 		userSlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users//settings: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users//settings: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4212,15 +4625,18 @@ func TestDefaultApiService_GetUsers(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4245,15 +4661,18 @@ func TestDefaultApiService_GetUsersWithAnyPermission(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4279,15 +4698,18 @@ func TestDefaultApiService_GetUsersWithAnyPermission_23(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4314,15 +4736,18 @@ func TestDefaultApiService_GetUsersWithAnyPermission_24(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4347,15 +4772,18 @@ func TestDefaultApiService_GetUsersWithoutAnyPermission(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/users/none: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/admin/permissions/users/none: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4382,15 +4810,18 @@ func TestDefaultApiService_GetUsersWithoutPermission(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/users/none: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/users/none: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4417,15 +4848,18 @@ func TestDefaultApiService_GetUsersWithoutPermission_25(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users/none: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users/none: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4449,15 +4883,18 @@ func TestDefaultApiService_GetUsers_26(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4485,15 +4922,18 @@ func TestDefaultApiService_GetWebhook(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4520,15 +4960,18 @@ func TestDefaultApiService_Get_27(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4554,15 +4997,18 @@ func TestDefaultApiService_HasAllUserPermission(t *testing.T) {
 		permission string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions//all: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions//all: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4590,15 +5036,18 @@ func TestDefaultApiService_ListParticipants(t *testing.T) {
 		pullRequestID int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4628,15 +5077,18 @@ func TestDefaultApiService_Merge(t *testing.T) {
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/merge: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/merge: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4665,15 +5117,18 @@ func TestDefaultApiService_ModifyAllUserPermission(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//permissions//all: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//permissions//all: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4698,15 +5153,18 @@ func TestDefaultApiService_Preview(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/markup/preview: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/markup/preview: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4730,15 +5188,18 @@ func TestDefaultApiService_RemoveGroupFromUser(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/remove-group: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/remove-group: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4762,15 +5223,18 @@ func TestDefaultApiService_RemoveUserFromGroup(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups/remove-user: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/groups/remove-user: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4794,15 +5258,18 @@ func TestDefaultApiService_RenameUser(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/rename: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/rename: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4830,15 +5297,18 @@ func TestDefaultApiService_Reopen(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/reopen: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/reopen: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4864,15 +5334,18 @@ func TestDefaultApiService_RetryCreateRepository(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//recreate: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//recreate: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4897,15 +5370,18 @@ func TestDefaultApiService_RevokePermissionsForGroup(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4931,15 +5407,18 @@ func TestDefaultApiService_RevokePermissionsForGroup_28(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4966,15 +5445,18 @@ func TestDefaultApiService_RevokePermissionsForGroup_29(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -4999,15 +5481,18 @@ func TestDefaultApiService_RevokePermissionsForUser(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/admin/permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5033,15 +5518,18 @@ func TestDefaultApiService_RevokePermissionsForUser_30(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5068,15 +5556,18 @@ func TestDefaultApiService_RevokePermissionsForUser_31(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5103,15 +5594,18 @@ func TestDefaultApiService_Search(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//participants: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//participants: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5137,15 +5631,18 @@ func TestDefaultApiService_SetDefaultBranch(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//branches/default: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//branches/default: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5171,15 +5668,18 @@ func TestDefaultApiService_SetLevel(t *testing.T) {
 		loggerName string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/logs/logger//: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/logs/logger//: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5203,15 +5703,18 @@ func TestDefaultApiService_SetMailConfig(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/mail-server: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/mail-server: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5236,15 +5739,18 @@ func TestDefaultApiService_SetMergeConfig(t *testing.T) {
 		scmId string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/pull-requests/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/pull-requests/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5271,15 +5777,18 @@ func TestDefaultApiService_SetPermissionForGroup(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5304,15 +5813,18 @@ func TestDefaultApiService_SetPermissionForGroups(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5338,15 +5850,18 @@ func TestDefaultApiService_SetPermissionForGroups_32(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5373,15 +5888,18 @@ func TestDefaultApiService_SetPermissionForUser(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5406,15 +5924,18 @@ func TestDefaultApiService_SetPermissionForUsers(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5440,15 +5961,18 @@ func TestDefaultApiService_SetPermissionForUsers_33(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//permissions/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5473,15 +5997,18 @@ func TestDefaultApiService_SetRootLevel(t *testing.T) {
 		levelName string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/logs/rootLogger/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/logs/rootLogger/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5505,15 +6032,18 @@ func TestDefaultApiService_SetSenderAddress(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/mail-server/sender-address: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/mail-server/sender-address: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5540,15 +6070,18 @@ func TestDefaultApiService_SetSettings(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//settings: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//settings/hooks//settings: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5575,15 +6108,18 @@ func TestDefaultApiService_SetSettings_34(t *testing.T) {
 		hookKey        string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//settings/hooks//settings: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//settings/hooks//settings: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5610,15 +6146,18 @@ func TestDefaultApiService_Stream(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//last-modified: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//last-modified: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5645,15 +6184,18 @@ func TestDefaultApiService_StreamChanges(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//compare/changes: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//compare/changes: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5681,15 +6223,18 @@ func TestDefaultApiService_StreamChanges_35(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/changes: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/changes: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5716,15 +6261,18 @@ func TestDefaultApiService_StreamCommits(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//compare/commits: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//compare/commits: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5752,15 +6300,18 @@ func TestDefaultApiService_StreamDiff(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//diff: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//diff: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5789,15 +6340,18 @@ func TestDefaultApiService_StreamDiff_36(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//diff/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//commits//diff/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5825,15 +6379,18 @@ func TestDefaultApiService_StreamDiff_37(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//compare/diff: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//compare/diff: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5860,15 +6417,18 @@ func TestDefaultApiService_StreamDiff_38(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//diff: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//diff: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5896,15 +6456,18 @@ func TestDefaultApiService_StreamDiff_39(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//diff/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//diff/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5932,19 +6495,22 @@ func TestDefaultApiService_GetPullRequestDiff(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{
 			projectKey:     "projectKey",
 			repositorySlug: "repositorySlug",
 			pullRequestID:  1,
-		}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/projectKey/repos/repositorySlug/pull-requests/1/diff: context canceled"}, true},
+		}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/projectKey/repos/repositorySlug/pull-requests/1/diff: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -5973,15 +6539,18 @@ func TestDefaultApiService_StreamDiff_41(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/diff/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/diff/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6008,15 +6577,18 @@ func TestDefaultApiService_StreamFiles(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//files: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//files: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6044,15 +6616,18 @@ func TestDefaultApiService_StreamFiles_42(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//files/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//files/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6080,15 +6655,18 @@ func TestDefaultApiService_Stream_43(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//last-modified/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//last-modified/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6115,15 +6693,18 @@ func TestWebhook(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/test: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/test: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6151,15 +6732,18 @@ func TestDefaultApiService_UnassignParticipantRole(t *testing.T) {
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6187,15 +6771,18 @@ func TestDefaultApiService_UnassignParticipantRole_44(t *testing.T) {
 		userSlug       string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6222,15 +6809,18 @@ func TestDefaultApiService_Unwatch(t *testing.T) {
 		commitId       string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//commits//watch: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//commits//watch: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6257,15 +6847,18 @@ func TestDefaultApiService_Unwatch_45(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/watch: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/watch: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6289,15 +6882,18 @@ func TestDefaultApiService_Update(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/license: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/license: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6325,15 +6921,18 @@ func TestDefaultApiService_UpdateComment(t *testing.T) {
 		commentId      int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6361,15 +6960,18 @@ func TestDefaultApiService_UpdateComment_46(t *testing.T) {
 		commentId      int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6394,15 +6996,18 @@ func TestDefaultApiService_UpdateProject(t *testing.T) {
 		projectKey string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6428,15 +7033,18 @@ func TestDefaultApiService_UpdatePullRequestSettings(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//settings/pull-requests: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//settings/pull-requests: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6463,15 +7071,18 @@ func TestDefaultApiService_UpdatePullRequestSettings_47(t *testing.T) {
 		scmId          string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//settings/pull-requests/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//settings/pull-requests/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6497,15 +7108,18 @@ func TestDefaultApiService_UpdateRepository(t *testing.T) {
 		repositorySlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6533,15 +7147,18 @@ func TestDefaultApiService_UpdateRepositoryWithOptions(t *testing.T) {
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6566,15 +7183,18 @@ func TestDefaultApiService_UpdateSettings(t *testing.T) {
 		userSlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/users//settings: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/users//settings: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6602,15 +7222,18 @@ func TestDefaultApiService_UpdateStatus(t *testing.T) {
 		userSlug       string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants/: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/participants/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6635,15 +7258,18 @@ func TestDefaultApiService_UpdateTask(t *testing.T) {
 		taskId int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/tasks/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/tasks/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6667,15 +7293,18 @@ func TestDefaultApiService_UpdateUserDetails(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6699,15 +7328,18 @@ func TestDefaultApiService_UpdateUserDetails_48(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/users: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/users: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6731,15 +7363,18 @@ func TestDefaultApiService_UpdateUserPassword(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/users/credentials: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/admin/users/credentials: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6763,15 +7398,18 @@ func TestDefaultApiService_UpdateUserPassword_49(t *testing.T) {
 	type args struct {
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/users/credentials: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/users/credentials: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6800,15 +7438,18 @@ func TestDefaultApiService_UpdateWebhook(t *testing.T) {
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//webhooks/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6835,15 +7476,18 @@ func TestDefaultApiService_Update_50(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6868,15 +7512,18 @@ func TestDefaultApiService_UploadAvatar(t *testing.T) {
 		projectKey string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//avatar.png: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//avatar.png: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6901,15 +7548,18 @@ func TestDefaultApiService_UploadAvatar_51(t *testing.T) {
 		userSlug string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/users//avatar.png: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/users//avatar.png: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6936,15 +7586,18 @@ func TestDefaultApiService_Watch(t *testing.T) {
 		commitId       string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//commits//watch: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//commits//watch: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -6971,15 +7624,18 @@ func TestDefaultApiService_Watch_52(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/watch: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/watch: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
@@ -7006,15 +7662,18 @@ func TestDefaultApiService_WithdrawApproval(t *testing.T) {
 		pullRequestID  int64
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    *APIResponse
-		wantErr bool
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/approve: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/approve: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
