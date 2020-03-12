@@ -236,7 +236,7 @@ func TestGetWebhooksResponse(t *testing.T) {
 					Values: map[string]interface{}{"values": []interface{}{}},
 				},
 			},
-			want:    []Webhook{},
+			want:    nil,
 			wantErr: false,
 		},
 		{
@@ -313,7 +313,7 @@ func TestGetUsersPermissionResponse(t *testing.T) {
 					Values: map[string]interface{}{"values": []interface{}{}},
 				},
 			},
-			want:    []UserPermission{},
+			want:    nil,
 			wantErr: false,
 		},
 		{
