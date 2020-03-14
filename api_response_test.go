@@ -203,8 +203,48 @@ func TestGetSSHKeysResponse(t *testing.T) {
 		want    []SSHKey
 		wantErr bool
 	}{
-		// TODO: Add test cases.
-	}
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": []interface{}{}},
+				},
+			},
+			want:    nil,
+			wantErr: false,
+		},
+		{
+			name: "Single sshkey",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"values": []interface{}{map[string]interface{}{
+							"id":    1,
+							"text":  "ssh ....",
+							"label": "My-ssh-key",
+						}},
+					},
+				},
+			},
+			want: []SSHKey{
+				SSHKey{
+					ID:    1,
+					Text:  "ssh ....",
+					Label: "My-ssh-key",
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		}}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := GetSSHKeysResponse(tt.args.r)
@@ -214,6 +254,127 @@ func TestGetSSHKeysResponse(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetSSHKeysResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetPullRequestResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    PullRequest
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": map[string]interface{}{}},
+				},
+			},
+			want:    PullRequest{},
+			wantErr: false,
+		},
+		{
+			name: "Simple PullRequest",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"values": map[string]interface{}{
+							"id": 1,
+						},
+					},
+				},
+			},
+			want: PullRequest{
+				ID: 1,
+			},
+			wantErr: false,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want:    PullRequest{},
+			wantErr: true,
+		}}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetPullRequestResponse(tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetPullRequestResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetPullRequestResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetPullRequestsResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []PullRequest
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": []interface{}{}},
+				},
+			},
+			want:    nil,
+			wantErr: false,
+		},
+		{
+			name: "Simple PullRequest",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"values": []interface{}{map[string]interface{}{
+							"id": 1,
+						}},
+					},
+				},
+			},
+			want: []PullRequest{{
+				ID: 1,
+			},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		}}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetPullRequestsResponse(tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetPullRequestsResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetPullRequestsResponse() = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -424,14 +424,14 @@ func GetRepositoriesResponse(r *APIResponse) ([]Repository, error) {
 // GetRepositoryResponse cast Repositories into structure
 func GetRepositoryResponse(r *APIResponse) (Repository, error) {
 	var m Repository
-	err := mapstructure.Decode(r.Values, &m)
+	err := mapstructure.Decode(r.Values["values"], &m)
 	return m, err
 }
 
 // GetDiffResponse cast Diff into structure
 func GetDiffResponse(r *APIResponse) (Diff, error) {
 	var m Diff
-	err := mapstructure.Decode(r.Values, &m)
+	err := mapstructure.Decode(r.Values["values"], &m)
 	return m, err
 }
 
@@ -445,7 +445,14 @@ func GetSSHKeysResponse(r *APIResponse) ([]SSHKey, error) {
 // GetPullRequestResponse cast PullRequest into structure
 func GetPullRequestResponse(r *APIResponse) (PullRequest, error) {
 	var m PullRequest
-	err := mapstructure.Decode(r.Values, &m)
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
+// GetPullRequestResponse PullRequests into structure
+func GetPullRequestsResponse(r *APIResponse) ([]PullRequest, error) {
+	var m []PullRequest
+	err := mapstructure.Decode(r.Values["values"], &m)
 	return m, err
 }
 

@@ -4881,6 +4881,7 @@ func TestDefaultApiService_GetUsers_26(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
 		name                     string
@@ -4899,7 +4900,7 @@ func TestDefaultApiService_GetUsers_26(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.GetUsers_26()
+			got, err := a.GetUsers_26(tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.GetUsers_26() error = %v, wantErr %v", err, tt.wantErr)
 				return
