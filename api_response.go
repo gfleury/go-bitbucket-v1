@@ -424,14 +424,14 @@ func GetRepositoriesResponse(r *APIResponse) ([]Repository, error) {
 // GetRepositoryResponse cast Repositories into structure
 func GetRepositoryResponse(r *APIResponse) (Repository, error) {
 	var m Repository
-	err := mapstructure.Decode(r.Values, &m)
+	err := mapstructure.Decode(r.Values["values"], &m)
 	return m, err
 }
 
 // GetDiffResponse cast Diff into structure
 func GetDiffResponse(r *APIResponse) (Diff, error) {
 	var m Diff
-	err := mapstructure.Decode(r.Values, &m)
+	err := mapstructure.Decode(r.Values["values"], &m)
 	return m, err
 }
 
@@ -445,7 +445,14 @@ func GetSSHKeysResponse(r *APIResponse) ([]SSHKey, error) {
 // GetPullRequestResponse cast PullRequest into structure
 func GetPullRequestResponse(r *APIResponse) (PullRequest, error) {
 	var m PullRequest
-	err := mapstructure.Decode(r.Values, &m)
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
+// GetPullRequestResponse PullRequests into structure
+func GetPullRequestsResponse(r *APIResponse) ([]PullRequest, error) {
+	var m []PullRequest
+	err := mapstructure.Decode(r.Values["values"], &m)
 	return m, err
 }
 
@@ -501,6 +508,7 @@ func NewBitbucketAPIResponse(r *http.Response) (*APIResponse, error) {
 	return response, err
 }
 
+// NewRawAPIResponse create new API response from http.response with raw data
 func NewRawAPIResponse(r *http.Response) (*APIResponse, error) {
 	response := &APIResponse{Response: r}
 	raw, err := ioutil.ReadAll(r.Body)
@@ -510,4 +518,11 @@ func NewRawAPIResponse(r *http.Response) (*APIResponse, error) {
 
 	response.Payload = raw
 	return response, nil
+}
+
+// HasNextPage returns if response is paged and has next page and where it does start
+func HasNextPage(response *APIResponse) (bool, int) {
+	isLastPage := response.Values["isLastPage"].(bool)
+	nextPageStart := int(response.Values["nextPageStart"].(float64))
+	return !isLastPage, nextPageStart
 }

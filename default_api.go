@@ -2883,7 +2883,19 @@ func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pul
 	if err := typeCheckParameter(localVarOptionals["fromType"], "string", "fromType"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["fromId"].(int64); localVarOk {
 		localVarQueryParams.Add("fromId", parameterToString(localVarTempParam, ""))
 	}
@@ -3253,7 +3265,19 @@ func (a *DefaultApiService) GetChanges(projectKey, repositorySlug string, localV
 	if err := typeCheckParameter(localVarOptionals["until"], "string", "until"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["since"].(string); localVarOk {
 		localVarQueryParams.Add("since", parameterToString(localVarTempParam, ""))
 	}
@@ -3327,7 +3351,19 @@ func (a *DefaultApiService) GetChanges_5(projectKey, repositorySlug, commitId st
 	if err := typeCheckParameter(localVarOptionals["withComments"], "bool", "withComments"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["since"].(string); localVarOk {
 		localVarQueryParams.Add("since", parameterToString(localVarTempParam, ""))
 	}
@@ -3772,7 +3808,19 @@ func (a *DefaultApiService) GetCommits(project, repository string, localVarOptio
 	if err := typeCheckParameter(localVarOptionals["withCounts"], "bool", "withCounts"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["followRenames"].(bool); localVarOk {
 		localVarQueryParams.Add("followRenames", parameterToString(localVarTempParam, ""))
 	}
@@ -3948,7 +3996,19 @@ func (a *DefaultApiService) getContentWithPath(projectKey string, repositorySlug
 	if err := typeCheckParameter(localVarOptionals["noContent"], "string", "noContent"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
@@ -4036,7 +4096,19 @@ func (a *DefaultApiService) GetContent_9(projectKey, repositorySlug, path string
 	if err := typeCheckParameter(localVarOptionals["noContent"], "string", "noContent"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
@@ -4397,7 +4469,19 @@ func (a *DefaultApiService) GetGroups(localVarOptionals map[string]interface{}) 
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -4460,7 +4544,19 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission(localVarOptionals map[str
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -4524,7 +4620,19 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission_12(projectKey string, loc
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -4589,7 +4697,19 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission_13(projectKey, repository
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -4652,7 +4772,19 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission(localVarOptionals map[
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -4716,7 +4848,19 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_14(projectKey string, 
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -4781,7 +4925,19 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_15(projectKey, reposit
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -4844,7 +5000,19 @@ func (a *DefaultApiService) GetGroups_16(localVarOptionals map[string]interface{
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -5223,6 +5391,12 @@ func (a *DefaultApiService) GetPullRequestsPage(projectKey, repositorySlug strin
 	if err := typeCheckParameter(localVarOptionals["withProperties"], "bool", "withProperties"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
 	if localVarTempParam, localVarOk := localVarOptionals["direction"].(string); localVarOk {
 		localVarQueryParams.Add("direction", parameterToString(localVarTempParam, ""))
@@ -5241,6 +5415,12 @@ func (a *DefaultApiService) GetPullRequestsPage(projectKey, repositorySlug strin
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["withProperties"].(bool); localVarOk {
 		localVarQueryParams.Add("withProperties", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -5814,7 +5994,19 @@ func (a *DefaultApiService) GetPullRequests(localVarOptionals map[string]interfa
 	if err := typeCheckParameter(localVarOptionals["closedSince"], "string", "closedSince"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["state"].(string); localVarOk {
 		localVarQueryParams.Add("state", parameterToString(localVarTempParam, ""))
 	}
@@ -6096,7 +6288,19 @@ func (a *DefaultApiService) GetRepositoriesRecentlyAccessed(localVarOptionals ma
 	if err := typeCheckParameter(localVarOptionals["permission"], "string", "permission"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["permission"].(string); localVarOk {
 		localVarQueryParams.Add("permission", parameterToString(localVarTempParam, ""))
 	}
@@ -6807,7 +7011,19 @@ func (a *DefaultApiService) GetRepositoryHooks(projectKey, repositorySlug string
 	if err := typeCheckParameter(localVarOptionals["type_"], "string", "type_"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["type_"].(string); localVarOk {
 		localVarQueryParams.Add("type", parameterToString(localVarTempParam, ""))
 	}
@@ -6871,7 +7087,19 @@ func (a *DefaultApiService) GetRepositoryHooks_21(projectKey string, localVarOpt
 	if err := typeCheckParameter(localVarOptionals["type_"], "string", "type_"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["type_"].(string); localVarOk {
 		localVarQueryParams.Add("type", parameterToString(localVarTempParam, ""))
 	}
@@ -7700,7 +7928,19 @@ func (a *DefaultApiService) GetUsers(localVarOptionals map[string]interface{}) (
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -7763,7 +8003,19 @@ func (a *DefaultApiService) GetUsersWithAnyPermission(localVarOptionals map[stri
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -7827,7 +8079,19 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_23(projectKey string, loca
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -7892,7 +8156,19 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_24(projectKey string, repo
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -7955,7 +8231,19 @@ func (a *DefaultApiService) GetUsersWithoutAnyPermission(localVarOptionals map[s
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -8019,7 +8307,19 @@ func (a *DefaultApiService) GetUsersWithoutPermission(projectKey string, localVa
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -8084,7 +8384,19 @@ func (a *DefaultApiService) GetUsersWithoutPermission_25(projectKey, repositoryS
 	if err := typeCheckParameter(localVarOptionals["filter"], "string", "filter"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["filter"].(string); localVarOk {
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
@@ -8127,7 +8439,7 @@ func (a *DefaultApiService) GetUsersWithoutPermission_25(projectKey, repositoryS
 Retrieve a page of users, optionally run through provided filters.  &lt;p&gt;  Only authenticated users may call this resource.   &lt;h3&gt;Supported Filters&lt;/h3&gt;  &lt;p&gt;  Filters are provided in query parameters in a standard &lt;code&gt;name&#x3D;value&lt;/code&gt; fashion. The following filters are  currently supported:  &lt;ul&gt;      &lt;li&gt;          {@code filter} - return only users, whose username, name or email address &lt;i&gt;contain&lt;/i&gt; the          {@code filter} value      &lt;/li&gt;      &lt;li&gt;          {@code group} - return only users who are members of the given group      &lt;/li&gt;      &lt;li&gt;          {@code permission} - the \&quot;root\&quot; of a permission filter, whose value must be a valid global,          project, or repository permission. Additional filter parameters referring to this filter that specify the          resource (project or repository) to apply the filter to must be prefixed with &lt;code&gt;permission.&lt;/code&gt;. See the          section \&quot;Permission Filters\&quot; below for more details.      &lt;/li&gt;      &lt;li&gt;          {@code permission.N} - the \&quot;root\&quot; of a single permission filter, similar to the {@code permission}          parameter, where \&quot;N\&quot; is a natural number starting from 1. This allows clients to specify multiple permission          filters, by providing consecutive filters as {@code permission.1}, {@code permission.2} etc. Note that          the filters numbering has to start with 1 and be continuous for all filters to be processed. The total allowed          number of permission filters is 50 and all filters exceeding that limit will be dropped. See the section          \&quot;Permission Filters\&quot; below for more details on how the permission filters are processed.      &lt;/li&gt;  &lt;/ul&gt;     &lt;h3&gt;Permission Filters&lt;/h3&gt;  &lt;p&gt;  The following three sub-sections list parameters supported for permission filters (where &lt;code&gt;[root]&lt;/code&gt; is  the root permission filter name, e.g. {@code permission}, {@code permission.1} etc.) depending on the  permission resource. The system determines which filter to apply (Global, Project or Repository permission)  based on the &lt;code&gt;[root]&lt;/code&gt; permission value. E.g. {@code ADMIN} is a global permission,  {@code PROJECT_ADMIN} is a project permission and {@code REPO_ADMIN} is a repository permission. Note  that the parameters for a given resource will be looked up in the order as they are listed below, that is e.g.  for a project resource, if both {@code projectId} and {@code projectKey} are provided, the system will  use {@code projectId} for the lookup.  &lt;h4&gt;Global permissions&lt;/h4&gt;  &lt;p&gt;  The permission value under &lt;code&gt;[root]&lt;/code&gt; is the only required and recognized parameter, as global  permissions do not apply to a specific resource.  &lt;p&gt;  Example valid filter: &lt;code&gt;permission&#x3D;ADMIN&lt;/code&gt;.  &lt;h4&gt;Project permissions&lt;/h4&gt;  &lt;ul&gt;      &lt;li&gt;&lt;code&gt;[root]&lt;/code&gt;- specifies the project permission&lt;/li&gt;      &lt;li&gt;&lt;code&gt;[root].projectId&lt;/code&gt; - specifies the project ID to lookup the project by&lt;/li&gt;      &lt;li&gt;&lt;code&gt;[root].projectKey&lt;/code&gt; - specifies the project key to lookup the project by&lt;/li&gt;  &lt;/ul&gt;  &lt;p&gt;  Example valid filter: &lt;code&gt;permission.1&#x3D;PROJECT_ADMIN&amp;permission.1.projectKey&#x3D;TEST_PROJECT&lt;/code&gt;.  &lt;h4&gt;Repository permissions&lt;/h4&gt;  &lt;ul&gt;      &lt;li&gt;&lt;code&gt;[root]&lt;/code&gt;- specifies the repository permission&lt;/li&gt;      &lt;li&gt;&lt;code&gt;[root].projectId&lt;/code&gt; - specifies the repository ID to lookup the repository by&lt;/li&gt;      &lt;li&gt;&lt;code&gt;[root].projectKey&lt;/code&gt; and &lt;code&gt;[root].repositorySlug&lt;/code&gt;- specifies the project key and      repository slug to lookup the repository by; both values &lt;i&gt;need to&lt;/i&gt; be provided for this look up to be      triggered&lt;/li&gt;  &lt;/ul&gt;  Example valid filter: &lt;code&gt;permission.2&#x3D;REPO_ADMIN&amp;permission.2.projectKey&#x3D;TEST_PROJECT&amp;permission.2.repositorySlug&#x3D;test_repo&lt;/code&gt;.
 
 @return */
-func (a *DefaultApiService) GetUsers_26() (*APIResponse, error) {
+func (a *DefaultApiService) GetUsers_26(localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -8141,6 +8453,20 @@ func (a *DefaultApiService) GetUsers_26() (*APIResponse, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -9329,7 +9655,19 @@ func (a *DefaultApiService) Search(projectKey, repositorySlug string, localVarOp
 	if err := typeCheckParameter(localVarOptionals["role"], "string", "role"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["direction"].(string); localVarOk {
 		localVarQueryParams.Add("direction", parameterToString(localVarTempParam, ""))
 	}
@@ -11299,7 +11637,19 @@ func (a *DefaultApiService) StreamFiles(projectKey, repositorySlug string, local
 	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
@@ -11366,7 +11716,19 @@ func (a *DefaultApiService) StreamFiles_42(projectKey, repositorySlug string, pa
 	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
+		return nil, err
+	}
+	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
+		return nil, err
+	}
 
+	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
+		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
+		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
+	}
 	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
