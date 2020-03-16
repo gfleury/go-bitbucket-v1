@@ -508,6 +508,7 @@ func NewBitbucketAPIResponse(r *http.Response) (*APIResponse, error) {
 	return response, err
 }
 
+// NewRawAPIResponse create new API response from http.response with raw data
 func NewRawAPIResponse(r *http.Response) (*APIResponse, error) {
 	response := &APIResponse{Response: r}
 	raw, err := ioutil.ReadAll(r.Body)
@@ -517,4 +518,11 @@ func NewRawAPIResponse(r *http.Response) (*APIResponse, error) {
 
 	response.Payload = raw
 	return response, nil
+}
+
+// HasNextPage returns if response is paged and has next page and where it does start
+func HasNextPage(response *APIResponse) (bool, int) {
+	isLastPage := response.Values["isLastPage"].(bool)
+	nextPageStart := int(response.Values["nextPageStart"].(float64))
+	return !isLastPage, nextPageStart
 }
