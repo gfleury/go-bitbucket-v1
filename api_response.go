@@ -79,24 +79,29 @@ type UserWithNameEmail struct {
 }
 
 type UserWithLinks struct {
-	Name        string `json:"name,omitempty"`
-	Email       string `json:"emailAddress,omitempty"`
-	ID          int    `json:"id,omitempty"`
-	DisplayName string `json:"displayName,omitempty"`
-	Active      bool   `json:"active,omitempty"`
-	Slug        string `json:"slug,omitempty"`
-	Type        string `json:"type,omitempty"`
-	Links       Links  `json:"links,omitempty"`
+	Name         string `json:"name,omitempty"`
+	EmailAddress string `json:"emailAddress,omitempty"`
+	ID           int    `json:"id,omitempty"`
+	DisplayName  string `json:"displayName,omitempty"`
+	Active       bool   `json:"active,omitempty"`
+	Slug         string `json:"slug,omitempty"`
+	Type         string `json:"type,omitempty"`
+	Links        Links  `json:"links,omitempty"`
 }
 
 type User struct {
-	Name        string `json:"name"`
-	Email       string `json:"emailAddress"`
-	ID          int    `json:"id"`
-	DisplayName string `json:"displayName"`
-	Active      bool   `json:"active"`
-	Slug        string `json:"slug"`
-	Type        string `json:"type"`
+	Name                        string `json:"name"`
+	EmailAddress                string `json:"emailAddress"`
+	ID                          int    `json:"id"`
+	DisplayName                 string `json:"displayName"`
+	Active                      bool   `json:"active"`
+	Slug                        string `json:"slug"`
+	Type                        string `json:"type"`
+	DirectoryName               string `json:"directoryName"`
+	Deletable                   bool   `json:"deletable"`
+	LastAuthenticationTimestamp int64  `json:"lastAuthenticationTimestamp"`
+	MutableDetails              bool   `json:"mutableDetails"`
+	MutableGroups               bool   `json:"mutableGroups"`
 }
 
 type UserWithMetadata struct {
@@ -461,6 +466,13 @@ func GetPullRequestsResponse(r *APIResponse) ([]PullRequest, error) {
 func GetContentResponse(r *APIResponse) (Content, error) {
 	var c Content
 	err := mapstructure.Decode(r.Values, &c)
+	return c, err
+}
+
+// GetUsersResponse casts users into structure
+func GetUsersResponse(r *APIResponse) ([]User, error) {
+	var c []User
+	err := mapstructure.Decode(r.Values["values"], &c)
 	return c, err
 }
 
