@@ -273,7 +273,7 @@ func TestGetPullRequestResponse(t *testing.T) {
 			name: "Empty list",
 			args: args{
 				r: &APIResponse{
-					Values: map[string]interface{}{"values": map[string]interface{}{}},
+					Values: map[string]interface{}{},
 				},
 			},
 			want:    PullRequest{},
@@ -284,9 +284,7 @@ func TestGetPullRequestResponse(t *testing.T) {
 			args: args{
 				r: &APIResponse{
 					Values: map[string]interface{}{
-						"values": map[string]interface{}{
-							"id": 1,
-						},
+						"id": 1,
 					},
 				},
 			},
@@ -296,14 +294,209 @@ func TestGetPullRequestResponse(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "Bad response",
+			name: "Good response",
 			args: args{
 				r: &APIResponse{
-					Values: map[string]interface{}{"values": "not an array"},
+					Values: map[string]interface{}{
+						"id":          101,
+						"version":     1,
+						"title":       "Talking Nerdy",
+						"description": "It’s a kludge, but put the tuple from the database in the cache.",
+						"state":       "OPEN",
+						"open":        true,
+						"closed":      false,
+						"createdDate": 1359075920,
+						"updatedDate": 1359085920,
+						"fromRef": map[string]interface{}{
+							"id": "refs/heads/feature-ABC-123",
+							"repository": map[string]interface{}{
+								"slug": "my-repo",
+								"name": nil,
+								"project": map[string]interface{}{
+									"key": "PRJ",
+								},
+							},
+						},
+						"toRef": map[string]interface{}{
+							"id": "refs/heads/master",
+							"repository": map[string]interface{}{
+								"slug": "my-repo",
+								"name": nil,
+								"project": map[string]interface{}{
+									"key": "PRJ",
+								},
+							},
+						},
+						"locked": false,
+						"author": map[string]interface{}{
+							"user": map[string]interface{}{
+								"name":         "tom",
+								"emailAddress": "tom@example.com",
+								"id":           115026,
+								"displayName":  "Tom",
+								"active":       true,
+								"slug":         "tom",
+								"type":         "NORMAL",
+							},
+							"role":     "AUTHOR",
+							"approved": true,
+							"status":   "APPROVED",
+						},
+						"reviewers": []map[string]interface{}{
+							{
+								"user": map[string]interface{}{
+									"name":         "jcitizen",
+									"emailAddress": "jane@example.com",
+									"id":           101,
+									"displayName":  "Jane Citizen",
+									"active":       true,
+									"slug":         "jcitizen",
+									"type":         "NORMAL",
+								},
+								"lastReviewedCommit": "7549846524f8aed2bd1c0249993ae1bf9d3c9998",
+								"role":               "REVIEWER",
+								"approved":           true,
+								"status":             "APPROVED",
+							},
+						},
+						"participants": []map[string]interface{}{
+							{
+								"user": map[string]interface{}{
+									"name":         "dick",
+									"emailAddress": "dick@example.com",
+									"id":           3083181,
+									"displayName":  "Dick",
+									"active":       true,
+									"slug":         "dick",
+									"type":         "NORMAL",
+								},
+								"role":     "PARTICIPANT",
+								"approved": false,
+								"status":   "UNAPPROVED",
+							},
+							{
+								"user": map[string]interface{}{
+									"name":         "harry",
+									"emailAddress": "harry@example.com",
+									"id":           99049120,
+									"displayName":  "Harry",
+									"active":       true,
+									"slug":         "harry",
+									"type":         "NORMAL",
+								},
+								"role":     "PARTICIPANT",
+								"approved": true,
+								"status":   "APPROVED",
+							},
+						},
+						"links": map[string]interface{}{
+							"self": []map[string]interface{}{
+								{
+									"href": "http://link/to/pullrequest",
+								},
+							},
+						},
+					},
 				},
 			},
-			want:    PullRequest{},
-			wantErr: true,
+			want: PullRequest{
+				ID:          101,
+				Version:     1,
+				Title:       "Talking Nerdy",
+				Description: "It’s a kludge, but put the tuple from the database in the cache.",
+				State:       "OPEN",
+				Open:        true,
+				Closed:      false,
+				CreatedDate: 1359075920,
+				UpdatedDate: 1359085920,
+				FromRef: PullRequestRef{
+					ID: "refs/heads/feature-ABC-123",
+					Repository: Repository{
+						Slug: "my-repo",
+						Project: Project{
+							Key: "PRJ",
+						},
+					},
+				},
+				ToRef: PullRequestRef{
+					ID: "refs/heads/master",
+					Repository: Repository{
+						Slug: "my-repo",
+						Project: Project{
+							Key: "PRJ",
+						},
+					},
+				},
+				Locked: false,
+				Author: &UserWithMetadata{
+					User: UserWithLinks{
+						Name: "tom",
+						//	Email:       "tom@example.com",
+						ID:          115026,
+						DisplayName: "Tom",
+						Active:      true,
+						Slug:        "tom",
+						Type:        "NORMAL",
+					},
+					Role:     "AUTHOR",
+					Approved: true,
+					Status:   "APPROVED",
+				},
+				Reviewers: []UserWithMetadata{
+					{
+						User: UserWithLinks{
+							Name: "jcitizen",
+							//	Email:       "jane@example.com",
+							ID:          101,
+							DisplayName: "Jane Citizen",
+							Active:      true,
+							Slug:        "jcitizen",
+							Type:        "NORMAL",
+						},
+						Role:     "REVIEWER",
+						Approved: true,
+						Status:   "APPROVED",
+					},
+				},
+				Participants: []UserWithMetadata{
+					{
+						User: UserWithLinks{
+							Name: "dick",
+							//	Email:       "dick@example.com",
+							ID:          3083181,
+							DisplayName: "Dick",
+							Active:      true,
+							Slug:        "dick",
+							Type:        "NORMAL",
+						},
+						Role:     "PARTICIPANT",
+						Approved: false,
+						Status:   "UNAPPROVED",
+					},
+					{
+						User: UserWithLinks{
+							Name: "harry",
+							//	Email:       "harry@example.com",
+							ID:          99049120,
+							DisplayName: "Harry",
+							Active:      true,
+							Slug:        "harry",
+							Type:        "NORMAL",
+						},
+						Role:     "PARTICIPANT",
+						Approved: true,
+						Status:   "APPROVED",
+					},
+				},
+				Links: Links{
+					Self: []SelfLink{
+						{
+							Href: "http://link/to/pullrequest",
+						},
+					},
+				},
+			},
+			wantErr: false,
 		}}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
