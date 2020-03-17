@@ -826,6 +826,7 @@ func TestNewAPIResponse(t *testing.T) {
 func TestNewAPIResponseWithError(t *testing.T) {
 	type args struct {
 		r   *http.Response
+		b   []byte
 		err error
 	}
 	tests := []struct {
@@ -838,7 +839,7 @@ func TestNewAPIResponseWithError(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewAPIResponseWithError(tt.args.r, tt.args.err)
+			got, err := NewAPIResponseWithError(tt.args.r, tt.args.b, tt.args.err)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewAPIResponseWithError() error = %v, wantErr %v", err, tt.wantErr)
 				return

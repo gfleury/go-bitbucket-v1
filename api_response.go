@@ -6,6 +6,7 @@ package bitbucketv1
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -492,9 +493,14 @@ func NewAPIResponse(r *http.Response) *APIResponse {
 }
 
 // NewAPIResponseWithError create new erroneous API response from http.response and error
-func NewAPIResponseWithError(r *http.Response, err error) (*APIResponse, error) {
-
+func NewAPIResponseWithError(r *http.Response, bodyBytes []byte, err error) (*APIResponse, error) {
 	response := &APIResponse{Response: r, Message: strings.Replace(err.Error(), "\"", "", -1)}
+	if bodyBytes != nil {
+		parseErr := json.Unmarshal(bodyBytes, &response.Values)
+		if parseErr != nil {
+			err = fmt.Errorf("%s ParseError: %v", err.Error(), parseErr)
+		}
+	}
 	return response, err
 }
 
