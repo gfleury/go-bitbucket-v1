@@ -587,7 +587,11 @@ Create a new pull request between two branches. The branches may be in the same 
 func (a *DefaultApiService) Create(projectKey, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var pullRequest PullRequest
 
-	mapstructure.Decode(localVarOptionals, &pullRequest)
+	err := mapstructure.Decode(localVarOptionals, &pullRequest)
+	if err != nil {
+		return nil, err
+	}
+
 	return a.CreatePullRequest(projectKey, repositorySlug, pullRequest)
 }
 
