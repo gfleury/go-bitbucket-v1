@@ -10,6 +10,8 @@ import (
 	"io/ioutil"
 	"net/url"
 	"strings"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 // DefaultAPIService default service
@@ -583,6 +585,13 @@ Create a new pull request between two branches. The branches may be in the same 
 
 @return */
 func (a *DefaultApiService) Create(projectKey, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	var pullRequest PullRequest
+
+	mapstructure.Decode(localVarOptionals, &pullRequest)
+	return a.CreatePullRequest(projectKey, repositorySlug, pullRequest)
+}
+
+func (a *DefaultApiService) CreatePullRequest(projectKey, repositorySlug string, pullRequest PullRequest) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -599,7 +608,7 @@ func (a *DefaultApiService) Create(projectKey, repositorySlug string, localVarOp
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	localVarPostBody, err := json.Marshal(localVarOptionals)
+	localVarPostBody, err := json.Marshal(pullRequest)
 	if err != nil {
 		return nil, err
 	}
