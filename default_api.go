@@ -1396,7 +1396,7 @@ Deletes a pull request.  &lt;p&gt;  To call this resource, users must be authent
 @param pullRequestId the ID of the pull request within the repository
 @return */
 func (a *DefaultApiService) Delete(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
-	return a.DeleteWithVersion(projectKey, repositorySlug, pullRequestID, 1)
+	return a.DeleteWithVersion(projectKey, repositorySlug, pullRequestID, 0)
 }
 
 /* DefaultApiService
@@ -1458,7 +1458,7 @@ func (a *DefaultApiService) DeleteWithVersion(projectKey, repositorySlug string,
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
