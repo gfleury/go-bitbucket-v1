@@ -436,7 +436,17 @@ func TestDefaultApiService_Create(t *testing.T) {
 				repositorySlug:    "repo1",
 				localVarOptionals: map[string]interface{}{"values": "values"}},
 			&APIResponse{
-				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}"},
+				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}",
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "title must be supplied for this request",
+							"exceptionName": nil,
+						},
+					},
+				},
+			},
 			true, true},
 		{"ValidRequestNoBranch", fields{client: generateConfigRealLocalServer()},
 			args{projectKey: "PROJ",
@@ -469,7 +479,17 @@ func TestDefaultApiService_Create(t *testing.T) {
 				},
 			},
 			&APIResponse{
-				Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`},
+				Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`,
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "Repository \"repo1\" of project with key \"PROJ\" has no branch \"refs/heads/feature\"",
+							"exceptionName": "com.atlassian.bitbucket.commit.NoSuchCommitException",
+						},
+					},
+				},
+			},
 			true, true},
 	}
 	for _, tt := range tests {
@@ -516,7 +536,17 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 				localVarOptionals: PullRequest{},
 			},
 			&APIResponse{
-				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}"},
+				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}",
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "title must be supplied for this request",
+							"exceptionName": nil,
+						},
+					},
+				},
+			},
 			true, true},
 		{"ValidRequestNoBranch", fields{client: generateConfigRealLocalServer()},
 			args{projectKey: "PROJ",
@@ -548,7 +578,17 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 					Locked: false,
 				},
 			},
-			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`},
+			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`,
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "Repository \"repo1\" of project with key \"PROJ\" has no branch \"refs/heads/feature\"",
+							"exceptionName": "com.atlassian.bitbucket.commit.NoSuchCommitException",
+						},
+					},
+				},
+			},
 			true, true},
 	}
 	for _, tt := range tests {
