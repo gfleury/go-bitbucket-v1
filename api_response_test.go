@@ -430,13 +430,13 @@ func TestGetPullRequestResponse(t *testing.T) {
 				Locked: false,
 				Author: &UserWithMetadata{
 					User: UserWithLinks{
-						Name: "tom",
-						//	Email:       "tom@example.com",
-						ID:          115026,
-						DisplayName: "Tom",
-						Active:      true,
-						Slug:        "tom",
-						Type:        "NORMAL",
+						Name:         "tom",
+						EmailAddress: "tom@example.com",
+						ID:           115026,
+						DisplayName:  "Tom",
+						Active:       true,
+						Slug:         "tom",
+						Type:         "NORMAL",
 					},
 					Role:     "AUTHOR",
 					Approved: true,
@@ -445,13 +445,13 @@ func TestGetPullRequestResponse(t *testing.T) {
 				Reviewers: []UserWithMetadata{
 					{
 						User: UserWithLinks{
-							Name: "jcitizen",
-							//	Email:       "jane@example.com",
-							ID:          101,
-							DisplayName: "Jane Citizen",
-							Active:      true,
-							Slug:        "jcitizen",
-							Type:        "NORMAL",
+							Name:         "jcitizen",
+							EmailAddress: "jane@example.com",
+							ID:           101,
+							DisplayName:  "Jane Citizen",
+							Active:       true,
+							Slug:         "jcitizen",
+							Type:         "NORMAL",
 						},
 						Role:     "REVIEWER",
 						Approved: true,
@@ -461,13 +461,13 @@ func TestGetPullRequestResponse(t *testing.T) {
 				Participants: []UserWithMetadata{
 					{
 						User: UserWithLinks{
-							Name: "dick",
-							//	Email:       "dick@example.com",
-							ID:          3083181,
-							DisplayName: "Dick",
-							Active:      true,
-							Slug:        "dick",
-							Type:        "NORMAL",
+							Name:         "dick",
+							EmailAddress: "dick@example.com",
+							ID:           3083181,
+							DisplayName:  "Dick",
+							Active:       true,
+							Slug:         "dick",
+							Type:         "NORMAL",
 						},
 						Role:     "PARTICIPANT",
 						Approved: false,
@@ -475,13 +475,13 @@ func TestGetPullRequestResponse(t *testing.T) {
 					},
 					{
 						User: UserWithLinks{
-							Name: "harry",
-							//	Email:       "harry@example.com",
-							ID:          99049120,
-							DisplayName: "Harry",
-							Active:      true,
-							Slug:        "harry",
-							Type:        "NORMAL",
+							Name:         "harry",
+							EmailAddress: "harry@example.com",
+							ID:           99049120,
+							DisplayName:  "Harry",
+							Active:       true,
+							Slug:         "harry",
+							Type:         "NORMAL",
 						},
 						Role:     "PARTICIPANT",
 						Approved: true,
@@ -687,16 +687,13 @@ func TestGetUsersPermissionResponse(t *testing.T) {
 					Values: map[string]interface{}{
 						"values": []interface{}{map[string]interface{}{
 							"user": map[string]interface{}{
-								"name": "jcitizen",
-								// TODO: This field should be emailAddress according to the REST API
-								// documentation, but is defined as Email in the User struct. Mapstruct #
-								// therefore only decodes this when reffered to as 'email', which is plain wrong.
-								// "email":       "jane@example.com",
-								"id":          101,
-								"displayName": "Jane Citizen",
-								"active":      true,
-								"slug":        "jcitizen",
-								"type":        "NORMAL",
+								"name":         "jcitizen",
+								"emailAddress": "jane@example.com",
+								"id":           101,
+								"displayName":  "Jane Citizen",
+								"active":       true,
+								"slug":         "jcitizen",
+								"type":         "NORMAL",
 							},
 							"permission": "REPO_ADMIN",
 						}},
@@ -706,13 +703,13 @@ func TestGetUsersPermissionResponse(t *testing.T) {
 			want: []UserPermission{
 				UserPermission{
 					User: User{
-						Name: "jcitizen",
-						// Email:       "jane@example.com",
-						ID:          101,
-						DisplayName: "Jane Citizen",
-						Active:      true,
-						Slug:        "jcitizen",
-						Type:        "NORMAL",
+						Name:         "jcitizen",
+						EmailAddress: "jane@example.com",
+						ID:           101,
+						DisplayName:  "Jane Citizen",
+						Active:       true,
+						Slug:         "jcitizen",
+						Type:         "NORMAL",
 					},
 					Permission: PermissionRepositoryAdmin.String(),
 				},
@@ -729,6 +726,93 @@ func TestGetUsersPermissionResponse(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetUsersPermissionResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetUsersResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []User
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": []interface{}{}},
+				},
+			},
+			want:    nil,
+			wantErr: false,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "Single group permission",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"values": []interface{}{
+							map[string]interface{}{
+								"name":                        "jcitizen",
+								"emailAddress":                "jane@example.com",
+								"id":                          101,
+								"displayName":                 "Jane Citizen",
+								"active":                      true,
+								"slug":                        "jcitizen",
+								"type":                        "NORMAL",
+								"directoryName":               "Bitbucket Internal Directory",
+								"deletable":                   true,
+								"lastAuthenticationTimestamp": 1368145580548,
+								"mutableDetails":              true,
+								"mutableGroups":               true,
+							},
+						},
+					},
+				},
+			},
+			want: []User{
+				User{
+					Name:                        "jcitizen",
+					EmailAddress:                "jane@example.com",
+					ID:                          101,
+					DisplayName:                 "Jane Citizen",
+					Active:                      true,
+					Slug:                        "jcitizen",
+					Type:                        "NORMAL",
+					DirectoryName:               "Bitbucket Internal Directory",
+					Deletable:                   true,
+					LastAuthenticationTimestamp: 1368145580548,
+					MutableDetails:              true,
+					MutableGroups:               true,
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetUsersResponse(tt.args.r)
+			if err != nil && !tt.wantErr {
+				t.Errorf("GetGroupsPermissionResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetGroupsPermissionResponse() = %v, want %v", got, tt.want)
 			}
 		})
 	}
