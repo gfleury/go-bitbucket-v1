@@ -42,7 +42,7 @@ type CloneLink struct {
 }
 
 type Links struct {
-	Self []SelfLink `json:"self"`
+	Self []SelfLink `json:"self,omitempty"`
 }
 
 type Project struct {
@@ -78,14 +78,14 @@ type UserWithNameEmail struct {
 }
 
 type UserWithLinks struct {
-	Name        string `json:"name"`
-	Email       string `json:"emailAddress"`
-	ID          int    `json:"id"`
-	DisplayName string `json:"displayName"`
-	Active      bool   `json:"active"`
-	Slug        string `json:"slug"`
-	Type        string `json:"type"`
-	Links       Links  `json:"links"`
+	Name        string `json:"name,omitempty"`
+	Email       string `json:"emailAddress,omitempty"`
+	ID          int    `json:"id,omitempty"`
+	DisplayName string `json:"displayName,omitempty"`
+	Active      bool   `json:"active,omitempty"`
+	Slug        string `json:"slug,omitempty"`
+	Type        string `json:"type,omitempty"`
+	Links       Links  `json:"links,omitempty"`
 }
 
 type User struct {
@@ -99,10 +99,10 @@ type User struct {
 }
 
 type UserWithMetadata struct {
-	User     UserWithLinks `json:"user"`
-	Role     string        `json:"role"`
-	Approved bool          `json:"approved"`
-	Status   string        `json:"status"`
+	User     UserWithLinks `json:"user,omitempty"`
+	Role     string        `json:"role,omitempty"`
+	Approved bool          `json:"approved,omitempty"`
+	Status   string        `json:"status,omitempty"`
 }
 
 // PermissionGlobal are global permissions
@@ -192,9 +192,9 @@ type PullRequest struct {
 	FromRef      PullRequestRef     `json:"fromRef"`
 	ToRef        PullRequestRef     `json:"toRef"`
 	Locked       bool               `json:"locked"`
-	Author       UserWithMetadata   `json:"author"`
+	Author       *UserWithMetadata  `json:"author,omitempty"`
 	Reviewers    []UserWithMetadata `json:"reviewers"`
-	Participants []UserWithMetadata `json:"participants"`
+	Participants []UserWithMetadata `json:"participants,omitempty"`
 	Properties   struct {
 		MergeResult       MergeResult `json:"mergeResult"`
 		ResolvedTaskCount int         `json:"resolvedTaskCount"`

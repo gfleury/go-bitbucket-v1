@@ -431,6 +431,46 @@ func TestDefaultApiService_Create(t *testing.T) {
 		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true, false},
+		{"InvalidRequest", fields{client: generateConfigRealLocalServer()},
+			args{projectKey: "PROJ",
+				repositorySlug:    "repo1",
+				localVarOptionals: map[string]interface{}{"values": "values"}},
+			&APIResponse{
+				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}"},
+			true, true},
+		{"ValidRequestNoBranch", fields{client: generateConfigRealLocalServer()},
+			args{projectKey: "PROJ",
+				repositorySlug: "repo1",
+				localVarOptionals: map[string]interface{}{
+					"title":       "test PR",
+					"description": "test Desc",
+					"state":       "OPEN",
+					"open":        true,
+					"closed":      false,
+					"fromRef": map[string]interface{}{
+						"id": "refs/heads/feature",
+						"repository": map[string]interface{}{
+							"slug": "repo1",
+							"project": map[string]interface{}{
+								"key": "PROJ",
+							},
+						},
+					},
+					"toRef": map[string]interface{}{
+						"id": "refs/heads/master",
+						"repository": map[string]interface{}{
+							"slug": "repo1",
+							"project": map[string]interface{}{
+								"key": "PROJ",
+							},
+						},
+					},
+					"locked": false,
+				},
+			},
+			&APIResponse{
+				Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`},
+			true, true},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -445,6 +485,7 @@ func TestDefaultApiService_Create(t *testing.T) {
 				t.Errorf("DefaultApiService.Create() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Response = nil
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.Create() = %v, want %v", got, tt.want)
 			}
@@ -452,6 +493,84 @@ func TestDefaultApiService_Create(t *testing.T) {
 	}
 }
 
+func TestDefaultApiService_CreatePullRequest(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		projectKey        string
+		repositorySlug    string
+		localVarOptionals PullRequest
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true, false},
+		{"InvalidRequest", fields{client: generateConfigRealLocalServer()},
+			args{projectKey: "PROJ",
+				repositorySlug:    "repo1",
+				localVarOptionals: PullRequest{},
+			},
+			&APIResponse{
+				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}"},
+			true, true},
+		{"ValidRequestNoBranch", fields{client: generateConfigRealLocalServer()},
+			args{projectKey: "PROJ",
+				repositorySlug: "repo1",
+				localVarOptionals: PullRequest{
+					Title:       "test PR",
+					Description: "test Desc",
+					State:       "OPEN",
+					Open:        true,
+					Closed:      false,
+					FromRef: PullRequestRef{
+						ID: "refs/heads/feature",
+						Repository: Repository{
+							Slug: "repo1",
+							Project: Project{
+								Key: "PROJ",
+							},
+						},
+					},
+					ToRef: PullRequestRef{
+						ID: "refs/heads/master",
+						Repository: Repository{
+							Slug: "repo1",
+							Project: Project{
+								Key: "PROJ",
+							},
+						},
+					},
+					Locked: false,
+				},
+			},
+			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`},
+			true, true},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.CreatePullRequest(tt.args.projectKey, tt.args.repositorySlug, tt.args.localVarOptionals)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.Create() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			got.Response = nil
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.Create() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 func TestDefaultApiService_CreateBranch(t *testing.T) {
 	type fields struct {
 		client *APIClient
