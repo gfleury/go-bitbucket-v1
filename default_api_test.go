@@ -1113,6 +1113,26 @@ func TestDefaultApiService_Delete(t *testing.T) {
 		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Delete https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0: context canceled"}, true, false},
+		{"wrongType", fields{
+			client: generateConfigRealLocalServer()},
+			args{
+				projectKey:     "PROJ",
+				repositorySlug: "repo1",
+				pullRequestID:  -1,
+			},
+			&APIResponse{
+				Message: "Status: 404 , Body: {errors:[{context:null,message:No pull request exists with ID -1 for this repository 1,exceptionName:com.atlassian.bitbucket.pull.NoSuchPullRequestException}]}",
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "No pull request exists with ID -1 for this repository 1",
+							"exceptionName": "com.atlassian.bitbucket.pull.NoSuchPullRequestException",
+						},
+					},
+				},
+			},
+			true, true},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -1127,6 +1147,7 @@ func TestDefaultApiService_Delete(t *testing.T) {
 				t.Errorf("DefaultApiService.Delete() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Response = nil
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.Delete() = %v, want %v", got, tt.want)
 			}

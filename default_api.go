@@ -1386,6 +1386,15 @@ Deletes a pull request.  &lt;p&gt;  To call this resource, users must be authent
 
 @param pullRequestId the ID of the pull request within the repository
 @return */
+func (a *DefaultApiService) DeletePullRequest(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+	return a.Delete(projectKey, repositorySlug, pullRequestID)
+}
+
+/* DefaultApiService
+Deletes a pull request.  &lt;p&gt;  To call this resource, users must be authenticated and have permission to view the pull request.  Additionally, they must:  &lt;ul&gt;      &lt;li&gt;          be the pull request author, if the system is configured to allow authors to delete their own          pull requests (this is the default) OR      &lt;/li&gt;      &lt;li&gt;have repository administrator permission for the repository the pull request is targeting&lt;/li&gt;  &lt;/ul&gt;   A body containing the version of the pull request must be provided with this request.   &lt;pre&gt;&lt;code&gt;{ \&quot;version\&quot;: 1 }&lt;/code&gt;&lt;/pre&gt;
+
+@param pullRequestId the ID of the pull request within the repository
+@return */
 func (a *DefaultApiService) Delete(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
@@ -1393,6 +1402,10 @@ func (a *DefaultApiService) Delete(projectKey, repositorySlug string, pullReques
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
+
+	localVarPostBody = map[string]interface{}{
+		"version": 1,
+	}
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}"
@@ -1405,7 +1418,7 @@ func (a *DefaultApiService) Delete(projectKey, repositorySlug string, pullReques
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
