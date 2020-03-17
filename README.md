@@ -1,7 +1,7 @@
 # Go API client for Bitbucket (bitbucket-server V1)
 
-[![Build Status](https://travis-ci.org/gfleury/gobbs.svg?branch=master)](https://travis-ci.org/gfleury/gobbs)
-[![GoDoc](https://godoc.org/github.com/gfleury/gobbs?status.svg)](https://godoc.org/github.com/gfleury/gobbs)
+[![Build Status](https://travis-ci.org/gfleury/go-bitbucket-v1.svg?branch=master)](https://travis-ci.org/gfleury/go-bitbucket-v1)
+[![GoDoc](https://godoc.org/github.com/gfleury/go-bitbucket-v1?status.svg)](https://godoc.org/github.com/gfleury/go-bitbucket-v1)
 
 
 ## Overview
