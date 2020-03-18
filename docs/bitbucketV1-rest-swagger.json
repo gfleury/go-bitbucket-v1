@@ -1,9 +1,15 @@
 {
   "swagger": "2.0",
   "host": "example.com",
+  "info": {
+    "title": "Bitbucket Server API",
+    "description": "Bitbucket Server API (former stash).",
+    "version": "1.0.0"
+  },
   "basePath": "/rest/",
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/api/1.0/admin/cluster": {
@@ -54,7 +60,7 @@
           }
         },
         "description": "Retrieve a page of groups.\n <p>\n The authenticated user must have <strong>LICENSED_USER</strong> permission or higher to call this resource.",
-        "operationId": "getGroups"
+        "operationId": "getGroupsAdmin"
       },
       "post": {
         "parameters": [
@@ -181,7 +187,7 @@
           }
         },
         "description": "Retrieves details about the current license, as well as the current status of the system with regards to the\n installed license. The status includes the current number of users applied toward the license limit, as well\n as any status messages about the license (warnings about expiry or user counts exceeding license limits).\n <p>\n The authenticated user must have <b>ADMIN</b> permission. Unauthenticated users, and non-administrators, are\n not permitted to access license details.",
-        "operationId": "get"
+        "operationId": "getLicense"
       },
       "post": {
         "parameters": [],
@@ -191,7 +197,7 @@
           }
         },
         "description": "Decodes the provided encoded license and sets it as the active license. If no license was provided, a 400 is\n returned. If the license cannot be decoded, or cannot be applied, a 409 is returned. Some possible reasons a\n license may not be applied include:\n <ul>\n     <li>It is for a different product</li>\n     <li>It is already expired</li>\n </ul>\n Otherwise, if the license is updated successfully, details for the new license are returned with a 200 response.\n <p>\n <b>Warning</b>: It is possible to downgrade the license during update, applying a license with a lower number\n of permitted users. If the number of currently-licensed users exceeds the limits of the new license, pushing\n will be disabled until the licensed user count is brought into compliance with the new license.\n <p>\n The authenticated user must have <b>SYS_ADMIN</b> permission. <b>ADMIN</b> users may <i>view</i> the current\n license details, but they may not <i>update</i> the license.",
-        "operationId": "update"
+        "operationId": "updateLicense"
       }
     },
     "/api/1.0/admin/mail-server": {
@@ -274,7 +280,7 @@
           }
         },
         "description": "Revoke all global permissions for a group.\n\n <p>\n The authenticated user must have:\n <ul>\n     <li><strong>ADMIN</strong> permission or higher; and</li>\n     <li>greater or equal permissions than the current permission level of the group (a user may not demote the\n     permission level of a group with higher permissions than them)</li>\n </ul>\n to call this resource. In addition, a user may not revoke a group's permissions if their own permission level\n would be reduced as a result.",
-        "operationId": "revokePermissionsForGroup"
+        "operationId": "revokePermissionsForGroupAll"
       },
       "get": {
         "parameters": [
@@ -361,7 +367,7 @@
           }
         },
         "description": "Revoke all global permissions for a user.\n <p>\n The authenticated user must have:\n <ul>\n     <li><strong>ADMIN</strong> permission or higher; and</li>\n     <li>greater or equal permissions than the current permission level of the user (a user may not demote the\n     permission level of a user with higher permissions than them)</li>\n </ul>\n to call this resource. In addition, a user may not demote their own permission level.",
-        "operationId": "revokePermissionsForUser"
+        "operationId": "revokePermissionsForUserAll"
       },
       "get": {
         "parameters": [
@@ -380,7 +386,7 @@
           }
         },
         "description": "Retrieve a page of users that have been granted at least one global permission.\n <p>\n The authenticated user must have <strong>ADMIN</strong> permission or higher to call this resource.",
-        "operationId": "getUsersWithAnyPermission"
+        "operationId": "getUsersWithAnyPermissionAll"
       },
       "put": {
         "parameters": [
@@ -881,7 +887,7 @@
             "description": "Successful Response"
           }
         },
-        "operationId": "getPullRequests"
+        "operationId": "getPullRequestsInbox"
       }
     },
     "/api/1.0/inbox/pull-requests/count": {
@@ -1067,7 +1073,15 @@
       }
     },
     "/api/1.0/projects/{projectKey}": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "delete": {
         "responses": {
           "200": {
@@ -1087,7 +1101,6 @@
         "operationId": "getProject"
       },
       "put": {
-        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful Response"
@@ -1098,7 +1111,15 @@
       }
     },
     "/api/1.0/projects/{projectKey}/avatar.png": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1126,11 +1147,19 @@
           }
         },
         "description": "Update the avatar for the project matching the supplied <strong>projectKey</strong>.\n <p>\n This resource accepts POST multipart form data, containing a single image in a form-field named 'avatar'.\n <p>\n There are configurable server limits on both the dimensions (1024x1024 pixels by default) and uploaded file size\n (1MB by default). Several different image formats are supported, but <strong>PNG</strong> and\n <strong>JPEG</strong> are preferred due to the file size limit.\n <p>\n This resource has Cross-Site Request Forgery (XSRF) protection. To allow the request to\n pass the XSRF check the caller needs to send an <code>X-Atlassian-Token</code> HTTP header with the\n value <code>no-check</code>.\n <p>\n An example <a href=\"http://curl.haxx.se/\">curl</a> request to upload an image name 'avatar.png' would be:\n <pre>\n curl -X POST -u username:password -H \"X-Atlassian-Token: no-check\" http://example.com/rest/api/1.0/projects/STASH/avatar.png -F avatar=@avatar.png\n </pre>\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project to call this\n resource.",
-        "operationId": "uploadAvatar"
+        "operationId": "uploadAvatarProject"
       }
     },
     "/api/1.0/projects/{projectKey}/permissions/groups": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "delete": {
         "parameters": [
           {
@@ -1147,7 +1176,7 @@
           }
         },
         "description": "Revoke all permissions for the specified project for a group.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource.\n <p>\n In addition, a user may not revoke a group's permissions if it will reduce their own permission level.",
-        "operationId": "revokePermissionsForGroup"
+        "operationId": "revokePermissionsForGroupProject"
       },
       "get": {
         "parameters": [
@@ -1165,7 +1194,7 @@
           }
         },
         "description": "Retrieve a page of groups that have been granted at least one permission for the specified project.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource.",
-        "operationId": "getGroupsWithAnyPermission"
+        "operationId": "getGroupsWithAnyPermissionProject"
       },
       "put": {
         "parameters": [
@@ -1190,11 +1219,19 @@
           }
         },
         "description": "Promote or demote a group's permission level for the specified project.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource. In addition, a user may not demote a group's permission level if their\n own permission level would be reduced as a result.",
-        "operationId": "setPermissionForGroups"
+        "operationId": "setPermissionForGroupsProject"
       }
     },
     "/api/1.0/projects/{projectKey}/permissions/groups/none": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1211,11 +1248,19 @@
           }
         },
         "description": "Retrieve a page of groups that have no granted permissions for the specified project.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource.",
-        "operationId": "getGroupsWithoutAnyPermission"
+        "operationId": "getGroupsWithoutAnyPermissionProject"
       }
     },
     "/api/1.0/projects/{projectKey}/permissions/users": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "delete": {
         "parameters": [
           {
@@ -1232,7 +1277,7 @@
           }
         },
         "description": "Revoke all permissions for the specified project for a user.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource.\n <p>\n In addition, a user may not revoke their own project permissions if they do not have a higher global permission.",
-        "operationId": "revokePermissionsForUser"
+        "operationId": "revokePermissionsForUserProject"
       },
       "get": {
         "parameters": [
@@ -1250,7 +1295,7 @@
           }
         },
         "description": "Retrieve a page of users that have been granted at least one permission for the specified project.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource.",
-        "operationId": "getUsersWithAnyPermission"
+        "operationId": "getUsersWithAnyPermissionProject"
       },
       "put": {
         "parameters": [
@@ -1275,11 +1320,19 @@
           }
         },
         "description": "Promote or demote a user's permission level for the specified project.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource. In addition, a user may not reduce their own permission level unless\n they have a global permission that already implies that permission.",
-        "operationId": "setPermissionForUsers"
+        "operationId": "setPermissionForUsersProject"
       }
     },
     "/api/1.0/projects/{projectKey}/permissions/users/none": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1296,11 +1349,18 @@
           }
         },
         "description": "Retrieve a page of <i>licensed</i> users that have no granted permissions for the specified project.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project or a higher\n global permission to call this resource.",
-        "operationId": "getUsersWithoutPermission"
+        "operationId": "getUsersWithoutPermissionProject"
       }
     },
     "/api/1.0/projects/{projectKey}/permissions/{permission}/all": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the permission to grant\n                       Available project permissions are:\n                       <ul>\n                           <li>PROJECT_READ</li>\n                           <li>PROJECT_WRITE</li>\n                           <li>PROJECT_ADMIN</li>\n                       </ul>",
           "in": "path",
@@ -1377,13 +1437,6 @@
           "type": "string"
         },
         {
-          "description": "the parent project key",
-          "in": "path",
-          "name": "projectKey",
-          "required": true,
-          "type": "string"
-        },
-        {
           "description": "the repository slug",
           "in": "path",
           "name": "repositorySlug",
@@ -1431,7 +1484,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1480,7 +1548,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/branches": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1532,7 +1615,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/branches/default": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "responses": {
           "200": {
@@ -1554,7 +1652,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/browse": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1594,11 +1707,25 @@
           }
         },
         "description": "Retrieve a page of content for a file path at a specified revision.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getContent"
+        "operationId": "getContentBrowse"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/browse/{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "default": "",
           "description": "the file path to retrieve content from",
@@ -1647,7 +1774,7 @@
           }
         },
         "description": "Retrieve a page of content for a file path at a specified revision.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getContent"
+        "operationId": "getContentFile"
       },
       "put": {
         "responses": {
@@ -1660,7 +1787,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/changes": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1688,7 +1830,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -1756,6 +1913,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the commit ID to retrieve",
           "in": "path",
           "name": "commitId",
@@ -1784,6 +1955,20 @@
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/changes": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the commit to retrieve changes for",
           "in": "path",
@@ -1816,11 +2001,25 @@
           }
         },
         "description": "Retrieve a page of changes made in a specified commit.\n <p>\n <strong>Note:</strong> The implementation will apply a hard cap ({@code page.max.changes}) and it is not\n possible to request subsequent content when that cap is exceeded.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getChanges"
+        "operationId": "getChangesFile"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/comments": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the commit to which the comments must be anchored",
           "in": "path",
@@ -1876,6 +2075,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/comments/{commentId}": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the commit to which the comments must be anchored",
           "in": "path",
           "name": "commitId",
@@ -1889,13 +2102,6 @@
           "name": "commentId",
           "required": true,
           "type": "integer"
-        },
-        {
-          "description": "the <i>full {@link Commit#getId() ID}</i> of the commit within the repository",
-          "in": "path",
-          "name": "commitId",
-          "required": true,
-          "type": "string"
         }
       ],
       "delete": {
@@ -1941,6 +2147,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/diff": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "in": "path",
           "name": "commitId",
           "required": true,
@@ -2002,11 +2222,25 @@
           }
         },
         "description": "Retrieve the diff between two provided revisions.\n <p>\n <strong>Note:</strong> This resource is currently <i>not paged</i>. The server will internally apply a hard cap\n to the streamed lines, and it is not possible to request subsequent pages if that cap is exceeded. In the event\n that the cap is reached, the diff will be cut short and one or more {@code truncated} flags will be set to\n {@code true} on the {@code \"segments\"}, {@code \"hunks\"} and {@code \"diffs\"} properties, as well as the top-level\n object, in the returned JSON response.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "streamDiff"
+        "operationId": "streamDiffCommit"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/diff/{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "in": "path",
           "name": "commitId",
@@ -2019,12 +2253,6 @@
           "name": "path",
           "required": true,
           "type": "string"
-        },
-        {
-          "in": "path",
-          "name": "commitId",
-          "required": true,
-          "type": "string"
         }
       ],
       "get": {
@@ -2082,11 +2310,25 @@
           }
         },
         "description": "Retrieve the diff between two provided revisions.\n <p>\n <strong>Note:</strong> This resource is currently <i>not paged</i>. The server will internally apply a hard cap\n to the streamed lines, and it is not possible to request subsequent pages if that cap is exceeded. In the event\n that the cap is reached, the diff will be cut short and one or more {@code truncated} flags will be set to\n {@code true} on the {@code \"segments\"}, {@code \"hunks\"} and {@code \"diffs\"} properties, as well as the top-level\n object, in the returned JSON response.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "streamDiff"
+        "operationId": "streamDiffCommits"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/watch": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the <i>full {@link Commit#getId() ID}</i> of the commit within the repository",
           "in": "path",
@@ -2111,11 +2353,26 @@
           }
         },
         "description": "Adds the authenticated user as a watcher for the specified commit.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository containing the commit\n to call this resource.",
-        "operationId": "watch"
+        "operationId": "watchCommit"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/compare/changes": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2147,11 +2404,26 @@
           }
         },
         "description": "Gets the file changes available in the {@code from} commit but not in the {@code to} commit.\n <p>\n If either the {@code from} or {@code to} commit are not specified, they will be replaced by the\n default branch of their containing repository.",
-        "operationId": "streamChanges"
+        "operationId": "streamChangesCompare"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/compare/commits": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2188,6 +2460,20 @@
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/compare/diff{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the path to the file to diff (optional)",
           "in": "path",
@@ -2249,11 +2535,26 @@
           }
         },
         "description": "Gets a diff of the changes available in the {@code from} commit but not in the {@code to} commit.\n <p>\n If either the {@code from} or {@code to} commit are not specified, they will be replaced by the\n default branch of their containing repository.",
-        "operationId": "streamDiff"
+        "operationId": "streamDiffCompare"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/diff": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2300,11 +2601,25 @@
           }
         },
         "description": "Retrieve the diff for a specified file path between two provided revisions.\n <p>\n <strong>Note:</strong> This resource is currently <i>not paged</i>. The server will internally apply a hard cap\n to the streamed lines, and it is not possible to request subsequent pages if that cap is exceeded. In the event\n that the cap is reached, the diff will be cut short and one or more <code>truncated</code> flags will be set to\n <code>true</code> on the segments, hunks and diffs substructures in the returned JSON response.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "streamDiff"
+        "operationId": "streamDiffRepository"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/diff/{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the path to the file which should be diffed (required)",
           "in": "path",
@@ -2359,11 +2674,26 @@
           }
         },
         "description": "Retrieve the diff for a specified file path between two provided revisions.\n <p>\n <strong>Note:</strong> This resource is currently <i>not paged</i>. The server will internally apply a hard cap\n to the streamed lines, and it is not possible to request subsequent pages if that cap is exceeded. In the event\n that the cap is reached, the diff will be cut short and one or more <code>truncated</code> flags will be set to\n <code>true</code> on the segments, hunks and diffs substructures in the returned JSON response.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "streamDiff"
+        "operationId": "streamDiffRepositoryFile"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/files": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2385,6 +2715,20 @@
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/files/{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "default": "",
           "description": "the directory to list files for.",
@@ -2410,7 +2754,7 @@
           }
         },
         "description": "Retrieve a page of files from particular directory of a repository. The search is done recursively, so all files\n from any sub-directory of the specified directory will be returned.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "streamFiles"
+        "operationId": "streamFilesRepository"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/forks": {
@@ -2419,6 +2763,13 @@
           "description": "the parent project key",
           "in": "path",
           "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
           "required": true,
           "type": "string"
         }
@@ -2434,7 +2785,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/last-modified": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2456,6 +2822,20 @@
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/last-modified/{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the path within the repository whose files should be streamed",
           "in": "path",
@@ -2480,11 +2860,26 @@
           }
         },
         "description": "Streams files in the requested <code>path</code> with the last commit to modify each file. Commit modifications\n are traversed starting from the <code>at</code> commit or, if not specified, from the tip of the default branch.\n <p>\n Unless the repository is public, the authenticated user must have <b>REPO_READ</b> access to call this resource.",
-        "operationId": "stream"
+        "operationId": "streamFilesLastMofied"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/participants": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2520,7 +2915,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/groups": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "delete": {
         "parameters": [
           {
@@ -2555,7 +2965,7 @@
           }
         },
         "description": "Retrieve a page of groups that have been granted at least one permission for the specified repository.\n <p>\n The authenticated user must have <strong>REPO_ADMIN</strong> permission for the specified repository or a higher\n project or global permission to call this resource.",
-        "operationId": "getGroupsWithAnyPermission"
+        "operationId": "getGroupsWithAnyPermissionRepository"
       },
       "put": {
         "parameters": [
@@ -2584,7 +2994,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/groups/none": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2601,11 +3026,26 @@
           }
         },
         "description": "Retrieve a page of groups that have no granted permissions for the specified repository.\n <p>\n The authenticated user must have <strong>REPO_ADMIN</strong> permission for the specified repository or a higher\n project or global permission to call this resource.",
-        "operationId": "getGroupsWithoutAnyPermission"
+        "operationId": "getGroupsWithoutAnyPermissionRepository"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/users": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "delete": {
         "parameters": [
           {
@@ -2669,7 +3109,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/users/none": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2690,7 +3145,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2761,6 +3231,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the ID of the pull request within the repository",
           "format": "int64",
           "in": "path",
@@ -2802,6 +3286,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/activities": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the id of the pull request within the repository",
           "format": "int64",
           "in": "path",
@@ -2840,6 +3338,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/approve": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the id of the pull request within the repository",
           "format": "int64",
           "in": "path",
@@ -2868,7 +3380,30 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/changes": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the id of the pull request within the repository",
+          "format": "int64",
+          "in": "path",
+          "name": "pullRequestId",
+          "required": true,
+          "type": "integer"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2912,7 +3447,30 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the id of the pull request within the repository",
+          "format": "int64",
+          "in": "path",
+          "name": "pullRequestId",
+          "required": true,
+          "type": "integer"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -2958,7 +3516,7 @@
           }
         },
         "description": "Gets comments for the specified PullRequest.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "getComments"
+        "operationId": "getCommentsCommit"
       },
       "post": {
         "parameters": [],
@@ -2968,11 +3526,33 @@
           }
         },
         "description": "Add a new comment.\n <p>\n Comments can be added in a few places by setting different attributes:\n <p>\n General pull request comment:\n\n <pre>\n     {\n         \"text\": \"An insightful general comment on a pull request.\"\n     }\n     </pre>\n\n Reply to a comment:\n\n <pre>\n     {\n         \"text\": \"A measured reply.\",\n         \"parent\": {\n             \"id\": 1\n         }\n     }\n     </pre>\n\n General file comment:\n\n <pre>\n     {\n         \"text\": \"An insightful general comment on a file.\",\n         \"anchor\": {\n             \"diffType\": \"RANGE\",\n             \"fromHash\": \"6df3858eeb9a53a911cd17e66a9174d44ffb02cd\",\n             \"path\": \"path/to/file\",\n             \"srcPath\": \"path/to/file\",\n             \"toHash\": \"04c7c5c931b9418ca7b66f51fe934d0bd9b2ba4b\"\n         }\n     }\n     </pre>\n\n File line comment:\n\n <pre>\n     {\n         \"text\": \"A pithy comment on a particular line within a file.\",\n         \"anchor\": {\n             \"diffType\": \"COMMIT\",\n             \"line\": 1,\n             \"lineType\": \"CONTEXT\",\n             \"fileType\": \"FROM\",\n             \"fromHash\": \"6df3858eeb9a53a911cd17e66a9174d44ffb02cd\",\n             \"path\": \"path/to/file\",\n             \"srcPath\": \"path/to/file\",\n             \"toHash\": \"04c7c5c931b9418ca7b66f51fe934d0bd9b2ba4b\"\n         }\n     }\n     </pre>\n <p>\n For file and line comments, 'path' refers to the path of the file to which the comment should be applied and\n 'srcPath' refers to the path the that file used to have (only required for copies and moves). Also,\n fromHash and toHash refer to the sinceId / untilId (respectively) used to produce the diff on which the comment\n was added. Finally diffType refers to the type of diff the comment was added on. For backwards compatibility\n purposes if no diffType is provided and no fromHash/toHash pair is provided the diffType will be resolved to\n 'EFFECTIVE'. In any other cases the diffType is REQUIRED.\n <p>\n For line comments, 'line' refers to the line in the diff that the comment should apply to. 'lineType' refers to\n the type of diff hunk, which can be:\n <ul>\n     <li>'ADDED' - for an added line;</li>\n     <li>'REMOVED' - for a removed line; or</li>\n     <li>'CONTEXT' - for a line that was unmodified but is in the vicinity of the diff.</li>\n </ul>\n 'fileType' refers to the file of the diff to which the anchor should be attached - which is of relevance when\n displaying the diff in a side-by-side way. Currently the supported values are:\n <ul>\n     <li>'FROM' - the source file of the diff</li>\n     <li>'TO' - the destination file of the diff</li>\n </ul>\n If the current user is not a participant the user is added as a watcher of the pull request.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "createComment"
+        "operationId": "createCommentCommit"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments/{commentId}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the id of the pullRequest to retrieve",
+          "format": "int64",
+          "in": "path",
+          "name": "pullRequestId",
+          "required": true,
+          "type": "integer"
+        },
         {
           "description": "the id of the comment to retrieve",
           "format": "int64",
@@ -3000,7 +3580,7 @@
           }
         },
         "description": "Delete a pull request comment. Anyone can delete their own comment. Only users with <strong>REPO_ADMIN</strong>\n and above may delete comments created by other users.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "deleteComment"
+        "operationId": "deleteCommentCommit"
       },
       "get": {
         "responses": {
@@ -3009,7 +3589,7 @@
           }
         },
         "description": "Retrieves a pull request comment.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "getComment"
+        "operationId": "getCommentCommit"
       },
       "put": {
         "parameters": [],
@@ -3019,11 +3599,25 @@
           }
         },
         "description": "Update the text of a comment. Only the user who created a comment may update it.\n <p>\n <strong>Note:</strong> the supplied supplied JSON object must contain a <code>version</code> that must match the\n server's version of the comment or the update will fail. To determine the current version of\n the comment, the comment should be fetched from the server prior to the update. Look for the\n 'version' attribute in the returned JSON structure.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "updateComment"
+        "operationId": "updateCommentCommit"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/commits": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "format": "int64",
           "in": "path",
@@ -3048,11 +3642,25 @@
           }
         },
         "description": "Retrieve commits for the specified pull request.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "getCommits"
+        "operationId": "getCommitsPR"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/decline": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "format": "int64",
           "in": "path",
@@ -3083,7 +3691,29 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/diff": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "format": "int64",
+          "in": "path",
+          "name": "pullRequestId",
+          "required": true,
+          "type": "integer"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -3146,11 +3776,32 @@
           }
         },
         "description": "Streams a diff within a pull request.\n <p>\n If the specified file has been copied, moved or renamed, the <code>srcPath</code> must also be specified to\n produce the correct diff.\n <p>\n Note: This RESTful endpoint is currently <i>not paged</i>. The server will internally apply a hard cap to the\n streamed lines, and it is not possible to request subsequent pages if that cap is exceeded.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "streamDiff"
+        "operationId": "streamDiffPR"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/diff/{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "format": "int64",
+          "in": "path",
+          "name": "pullRequestId",
+          "required": true,
+          "type": "integer"
+        },
         {
           "description": "the path to the file which should be diffed (optional)",
           "in": "path",
@@ -3227,6 +3878,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/merge": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the ID of the pull request within the repository",
           "format": "int64",
           "in": "path",
@@ -3268,6 +3933,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/participants": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the id of the pull request within the repository",
           "format": "int64",
           "in": "path",
@@ -3292,7 +3971,7 @@
           }
         },
         "description": "Unassigns a participant from the REVIEWER role they may have been given in a pull request.\n <p>\n If the participant has no explicit role this method has no effect.\n <p>\n Afterwards, the user will still remain a participant in the pull request but their role will be reduced to\n PARTICIPANT. This is because once made a participant of a pull request,\n a user will forever remain a participant. Only their role may be altered.\n <p>\n The authenticated user must have <strong>REPO_WRITE</strong> permission for the repository that this pull request\n targets to call this resource.\n <p>\n <strong>Deprecated since 4.2</strong>. Use\n /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/participants/{userSlug}\n instead.",
-        "operationId": "unassignParticipantRole"
+        "operationId": "unassignParticipantRolePR"
       },
       "get": {
         "responses": {
@@ -3317,6 +3996,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/participants/{userSlug}": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the id of the pull request within the repository",
           "format": "int64",
           "in": "path",
@@ -3330,14 +4023,6 @@
           "name": "userSlug",
           "required": true,
           "type": "string"
-        },
-        {
-          "description": "the id of the pull request within the repository",
-          "format": "int64",
-          "in": "path",
-          "name": "pullRequestId",
-          "required": true,
-          "type": "integer"
         }
       ],
       "delete": {
@@ -3350,7 +4035,6 @@
         "operationId": "unassignParticipantRole"
       },
       "put": {
-        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful Response"
@@ -3362,6 +4046,20 @@
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/reopen": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the id of the pull request within the repository",
           "format": "int64",
@@ -3393,7 +4091,30 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/tasks": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the id of the pull request within the repository",
+          "format": "int64",
+          "in": "path",
+          "name": "pullRequestId",
+          "required": true,
+          "type": "integer"
+        }
+      ],
       "get": {
         "responses": {
           "200": {
@@ -3405,7 +4126,30 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/tasks/count": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the id of the pull request within the repository",
+          "format": "int64",
+          "in": "path",
+          "name": "pullRequestId",
+          "required": true,
+          "type": "integer"
+        }
+      ],
       "get": {
         "responses": {
           "200": {
@@ -3418,6 +4162,20 @@
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/watch": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the id of the pull request within the repository",
           "format": "int64",
@@ -3434,7 +4192,7 @@
           }
         },
         "description": "Make the authenticated user stop watching the specified pull request.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "unwatch"
+        "operationId": "unwatchPR"
       },
       "post": {
         "responses": {
@@ -3443,11 +4201,26 @@
           }
         },
         "description": "Make the authenticated user watch the specified pull request.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the repository that this pull request\n targets to call this resource.",
-        "operationId": "watch"
+        "operationId": "watchPR"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/raw": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -3485,11 +4258,25 @@
           }
         },
         "description": "Retrieve the raw content for a file path at a specified revision.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getContent"
+        "operationId": "getContentRepository"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/raw/{path}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the file path to retrieve content from",
           "in": "path",
@@ -3535,7 +4322,7 @@
           }
         },
         "description": "Retrieve the raw content for a file path at a specified revision.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getContent"
+        "operationId": "getContentRepositoryPath"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/recreate": {
@@ -3544,6 +4331,13 @@
           "description": "the parent project key",
           "in": "path",
           "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
           "required": true,
           "type": "string"
         }
@@ -3566,6 +4360,13 @@
           "name": "projectKey",
           "required": true,
           "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
         }
       ],
       "get": {
@@ -3579,7 +4380,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -3597,11 +4413,25 @@
           }
         },
         "description": "Retrieve a page of repository hooks for this repository.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getRepositoryHooks"
+        "operationId": "getRepositoryHooksSettings"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "in": "path",
           "name": "hookKey",
@@ -3625,11 +4455,25 @@
           }
         },
         "description": "Retrieve a repository hook for this repository.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getRepositoryHook"
+        "operationId": "getRepositoryHookSettings"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}/enabled": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "in": "path",
           "name": "hookKey",
@@ -3644,7 +4488,7 @@
           }
         },
         "description": "Disable a repository hook for this repository.\n <p>\n The authenticated user must have <strong>REPO_ADMIN</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "disableHook"
+        "operationId": "disableHookRepo"
       },
       "put": {
         "parameters": [
@@ -3663,11 +4507,25 @@
           }
         },
         "description": "Enable a repository hook for this repository and optionally apply new configuration.\n <p>\n The authenticated user must have <strong>REPO_ADMIN</strong> permission for the specified repository to call this\n resource.\n <p>\n A JSON document may be provided to use as the settings for the hook. These structure and validity of\n the document is decided by the plugin providing the hook.",
-        "operationId": "enableHook"
+        "operationId": "enableHookRepo"
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}/settings": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "in": "path",
           "name": "hookKey",
@@ -3682,7 +4540,7 @@
           }
         },
         "description": "Retrieve the settings for a repository hook for this repository.\n <p>\n The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this\n resource.",
-        "operationId": "getSettings"
+        "operationId": "getSettingsHook"
       },
       "put": {
         "parameters": [],
@@ -3696,7 +4554,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/pull-requests": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "responses": {
           "200": {
@@ -3718,7 +4591,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/tags": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -3758,6 +4646,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/tags/{name}": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "the name of the tag to be retrieved",
           "in": "path",
           "name": "name",
@@ -3776,7 +4678,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -3815,7 +4732,22 @@
       }
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks/test": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "post": {
         "parameters": [
           {
@@ -3837,6 +4769,20 @@
     },
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks/{webhookId}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the existing webhook id",
           "format": "int32",
@@ -3887,6 +4833,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks/{webhookId}/latest": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "id of the webhook",
           "format": "int32",
           "in": "path",
@@ -3924,6 +4884,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks/{webhookId}/statistics": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "id of the webhook",
           "format": "int32",
           "in": "path",
@@ -3954,6 +4928,20 @@
     "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/webhooks/{webhookId}/statistics/summary": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "the repository slug",
+          "in": "path",
+          "name": "repositorySlug",
+          "required": true,
+          "type": "string"
+        },
+        {
           "description": "id of the webhook",
           "format": "int32",
           "in": "path",
@@ -3973,7 +4961,15 @@
       }
     },
     "/api/1.0/projects/{projectKey}/settings/hooks": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "parameters": [
           {
@@ -3997,6 +4993,13 @@
     "/api/1.0/projects/{projectKey}/settings/hooks/{hookKey}": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
           "in": "path",
           "name": "hookKey",
           "required": true,
@@ -4015,6 +5018,13 @@
     },
     "/api/1.0/projects/{projectKey}/settings/hooks/{hookKey}/enabled": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
         {
           "in": "path",
           "name": "hookKey",
@@ -4054,6 +5064,13 @@
     "/api/1.0/projects/{projectKey}/settings/hooks/{hookKey}/settings": {
       "parameters": [
         {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
+        {
           "in": "path",
           "name": "hookKey",
           "required": true,
@@ -4077,11 +5094,18 @@
           }
         },
         "description": "Modify the settings for a repository hook for this project.\n <p>\n The service will reject any settings which are too large, the current limit is 32KB once serialized.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the specified project to call this\n resource.\n <p>\n A JSON document can be provided to use as the settings for the hook. These structure and validity of the document\n is decided by the plugin providing the hook.",
-        "operationId": "setSettings"
+        "operationId": "setSettingsProject"
       }
     },
     "/api/1.0/projects/{projectKey}/settings/pull-requests/{scmId}": {
       "parameters": [
+        {
+          "description": "the parent project key",
+          "in": "path",
+          "name": "projectKey",
+          "required": true,
+          "type": "string"
+        },
         {
           "description": "the SCM to get strategies for",
           "in": "path",
@@ -4097,7 +5121,7 @@
           }
         },
         "description": "Retrieve the merge strategy configuration for this project and SCM.\n <p>\n The authenticated user must have <strong>PROJECT_READ</strong> permission for the context repository to call this\n resource.",
-        "operationId": "getPullRequestSettings"
+        "operationId": "getPullRequestSettingsSCM"
       },
       "post": {
         "parameters": [],
@@ -4107,7 +5131,7 @@
           }
         },
         "description": "Update the pull request merge strategy configuration for this project and SCM.\n <p>\n The authenticated user must have <strong>PROJECT_ADMIN</strong> permission for the context repository to call this\n resource.\n <p>\n Only the strategies provided will be enabled, the default must be set and included in the set of strategies.\n <p>\n An explicitly set pull request merge strategy configuration can be deleted by POSTing a document with\n an empty \"mergeConfig\" attribute. i.e:\n <pre>\n {\n     \"mergeConfig\": {\n     }\n }\n </pre>\n Upon completion of this request, the effective configuration will be the configuration explicitly set for\n the SCM, or if no such explicit configuration is set then the default configuration will be used.",
-        "operationId": "updatePullRequestSettings"
+        "operationId": "updatePullRequestSettingsSCM"
       }
     },
     "/api/1.0/repos": {
@@ -4149,7 +5173,7 @@
           }
         },
         "description": "Retrieve a page of repositories based on query parameters that control the search. See the documentation of the\n parameters for more details.\n <p>\n This resource is anonymously accessible.\n <p>\n <b>Note on permissions.</b> In absence of the {@code permission} query parameter the implicit 'read' permission\n is assumed. Please note that this permission is lower than the REPO_READ permission rather than being equal to\n it. The implicit 'read' permission for a given repository is assigned to any user that has any of the higher\n permissions, such as <tt>REPO_READ</tt>, as well as to anonymous users if the repository is marked as public.\n The important implication of the above is that an anonymous request to this resource with a permission level\n <tt>REPO_READ</tt> is guaranteed to receive an empty list of repositories as a result. For anonymous requests\n it is therefore recommended to not specify the <tt>permission</tt> parameter at all.",
-        "operationId": "getRepositories"
+        "operationId": "getRepositoriesAll"
       }
     },
     "/api/1.0/tasks": {
@@ -4214,7 +5238,7 @@
           }
         },
         "description": "Retrieve a page of users, optionally run through provided filters.\n <p>\n Only authenticated users may call this resource.\n\n <h3>Supported Filters</h3>\n <p>\n Filters are provided in query parameters in a standard <code>name=value</code> fashion. The following filters are\n currently supported:\n <ul>\n     <li>\n         {@code filter} - return only users, whose username, name or email address <i>contain</i> the\n         {@code filter} value\n     </li>\n     <li>\n         {@code group} - return only users who are members of the given group\n     </li>\n     <li>\n         {@code permission} - the \"root\" of a permission filter, whose value must be a valid global,\n         project, or repository permission. Additional filter parameters referring to this filter that specify the\n         resource (project or repository) to apply the filter to must be prefixed with <code>permission.</code>. See the\n         section \"Permission Filters\" below for more details.\n     </li>\n     <li>\n         {@code permission.N} - the \"root\" of a single permission filter, similar to the {@code permission}\n         parameter, where \"N\" is a natural number starting from 1. This allows clients to specify multiple permission\n         filters, by providing consecutive filters as {@code permission.1}, {@code permission.2} etc. Note that\n         the filters numbering has to start with 1 and be continuous for all filters to be processed. The total allowed\n         number of permission filters is 50 and all filters exceeding that limit will be dropped. See the section\n         \"Permission Filters\" below for more details on how the permission filters are processed.\n     </li>\n </ul>\n \n\n <h3>Permission Filters</h3>\n <p>\n The following three sub-sections list parameters supported for permission filters (where <code>[root]</code> is\n the root permission filter name, e.g. {@code permission}, {@code permission.1} etc.) depending on the\n permission resource. The system determines which filter to apply (Global, Project or Repository permission)\n based on the <code>[root]</code> permission value. E.g. {@code ADMIN} is a global permission,\n {@code PROJECT_ADMIN} is a project permission and {@code REPO_ADMIN} is a repository permission. Note\n that the parameters for a given resource will be looked up in the order as they are listed below, that is e.g.\n for a project resource, if both {@code projectId} and {@code projectKey} are provided, the system will\n use {@code projectId} for the lookup.\n <h4>Global permissions</h4>\n <p>\n The permission value under <code>[root]</code> is the only required and recognized parameter, as global\n permissions do not apply to a specific resource.\n <p>\n Example valid filter: <code>permission=ADMIN</code>.\n <h4>Project permissions</h4>\n <ul>\n     <li><code>[root]</code>- specifies the project permission</li>\n     <li><code>[root].projectId</code> - specifies the project ID to lookup the project by</li>\n     <li><code>[root].projectKey</code> - specifies the project key to lookup the project by</li>\n </ul>\n <p>\n Example valid filter: <code>permission.1=PROJECT_ADMIN&permission.1.projectKey=TEST_PROJECT</code>.\n <h4>Repository permissions</h4>\n <ul>\n     <li><code>[root]</code>- specifies the repository permission</li>\n     <li><code>[root].projectId</code> - specifies the repository ID to lookup the repository by</li>\n     <li><code>[root].projectKey</code> and <code>[root].repositorySlug</code>- specifies the project key and\n     repository slug to lookup the repository by; both values <i>need to</i> be provided for this look up to be\n     triggered</li>\n </ul>\n Example valid filter: <code>permission.2=REPO_ADMIN&permission.2.projectKey=TEST_PROJECT&permission.2.repositorySlug=test_repo</code>.",
-        "operationId": "getUsers"
+        "operationId": "getUsersAll"
       },
       "put": {
         "parameters": [],
@@ -4224,7 +5248,7 @@
           }
         },
         "description": "Update the currently authenticated user's details. The update will always be applied to the currently\n authenticated user.",
-        "operationId": "updateUserDetails"
+        "operationId": "updateUserDetailsAll"
       }
     },
     "/api/1.0/users/credentials": {
@@ -4237,11 +5261,19 @@
           }
         },
         "description": "Update the currently authenticated user's password.",
-        "operationId": "updateUserPassword"
+        "operationId": "updateUserPasswordAll"
       }
     },
     "/api/1.0/users/{userSlug}": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the user slug",
+          "in": "path",
+          "name": "userSlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "responses": {
           "200": {
@@ -4253,7 +5285,15 @@
       }
     },
     "/api/1.0/users/{userSlug}/avatar.png": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the user slug",
+          "in": "path",
+          "name": "userSlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "delete": {
         "responses": {
           "200": {
@@ -4274,7 +5314,15 @@
       }
     },
     "/api/1.0/users/{userSlug}/settings": {
-      "parameters": [],
+      "parameters": [
+        {
+          "description": "the user slug",
+          "in": "path",
+          "name": "userSlug",
+          "required": true,
+          "type": "string"
+        }
+      ],
       "get": {
         "responses": {
           "200": {
