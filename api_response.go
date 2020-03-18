@@ -470,6 +470,13 @@ func GetContentResponse(r *APIResponse) (Content, error) {
 	return c, err
 }
 
+// GetUserWithMetadataResponse casts users into structure
+func GetUserWithMetadataResponse(r *APIResponse) (UserWithMetadata, error) {
+	var c UserWithMetadata
+	err := mapstructure.Decode(r.Values, &c)
+	return c, err
+}
+
 // GetUsersResponse casts users into structure
 func GetUsersResponse(r *APIResponse) ([]User, error) {
 	var c []User
