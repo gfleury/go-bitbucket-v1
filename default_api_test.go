@@ -505,7 +505,9 @@ func TestDefaultApiService_Create(t *testing.T) {
 				t.Errorf("DefaultApiService.Create() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			got.Response = nil
+			if got != nil {
+				got.Response = nil
+			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.Create() = %v, want %v", got, tt.want)
 			}
@@ -604,7 +606,9 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 				t.Errorf("DefaultApiService.Create() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			got.Response = nil
+			if got != nil {
+				got.Response = nil
+			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.Create() = %v, want %v", got, tt.want)
 			}
@@ -1147,7 +1151,9 @@ func TestDefaultApiService_Delete(t *testing.T) {
 				t.Errorf("DefaultApiService.Delete() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			got.Response = nil
+			if got != nil {
+				got.Response = nil
+			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.Delete() = %v, want %v", got, tt.want)
 			}
@@ -4665,7 +4671,9 @@ func TestDefaultApiService_GetSSHKeys(t *testing.T) {
 				t.Errorf("DefaultApiService.GetSSHKeys() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			got.Response = nil
+			if got != nil {
+				got.Response = nil
+			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.GetSSHKeys() = %v, want %v", got, tt.want)
 			}
@@ -4753,7 +4761,9 @@ func TestDefaultApiService_GetUser(t *testing.T) {
 				t.Errorf("DefaultApiService.GetUser() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			got.Response = nil
+			if got != nil {
+				got.Response = nil
+			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.GetUser() = %v, want %v", got, tt.want)
 			}
