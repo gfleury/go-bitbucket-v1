@@ -453,9 +453,10 @@ func TestGetPullRequestResponse(t *testing.T) {
 							Slug:         "jcitizen",
 							Type:         "NORMAL",
 						},
-						Role:     "REVIEWER",
-						Approved: true,
-						Status:   "APPROVED",
+						Role:               "REVIEWER",
+						Approved:           true,
+						Status:             "APPROVED",
+						LastReviewedCommit: "7549846524f8aed2bd1c0249993ae1bf9d3c9998",
 					},
 				},
 				Participants: []UserWithMetadata{

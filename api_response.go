@@ -105,10 +105,11 @@ type User struct {
 }
 
 type UserWithMetadata struct {
-	User     UserWithLinks `json:"user,omitempty"`
-	Role     string        `json:"role,omitempty"`
-	Approved bool          `json:"approved,omitempty"`
-	Status   string        `json:"status,omitempty"`
+	User               UserWithLinks `json:"user,omitempty"`
+	Role               string        `json:"role,omitempty"`
+	Approved           bool          `json:"approved,omitempty"`
+	Status             string        `json:"status,omitempty"`
+	LastReviewedCommit string        `json:"lastReviewedCommit,omitempty"`
 }
 
 // PermissionGlobal are global permissions
