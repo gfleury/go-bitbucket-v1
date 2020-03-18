@@ -36,7 +36,7 @@ func (a *DefaultApiService) AddGroupToUser() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -90,7 +90,7 @@ func (a *DefaultApiService) AddUserToGroup() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -144,7 +144,7 @@ func (a *DefaultApiService) AddUserToGroups() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -198,7 +198,7 @@ func (a *DefaultApiService) AddUsersToGroup() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -256,7 +256,7 @@ func (a *DefaultApiService) Approve(projectKey, repositorySlug string, pullReque
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -314,7 +314,7 @@ func (a *DefaultApiService) AssignParticipantRole(projectKey, repositorySlug str
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -372,7 +372,7 @@ func (a *DefaultApiService) CanMerge(projectKey, repositorySlug string, pullRequ
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -426,7 +426,7 @@ func (a *DefaultApiService) ClearSenderAddress() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -489,7 +489,7 @@ func (a *DefaultApiService) ClearUserCaptchaChallenge(localVarOptionals map[stri
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -546,7 +546,7 @@ func (a *DefaultApiService) CountPullRequestTasks(projectKey, repositorySlug str
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -678,7 +678,7 @@ func (a *DefaultApiService) CreateBranch(projectKey, repositorySlug string) (*AP
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -745,7 +745,7 @@ func (a *DefaultApiService) CreateComment(projectKey, repositorySlug string, com
 		localVarQueryParams.Add("since", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -861,7 +861,7 @@ func (a *DefaultApiService) CreateGroup(localVarOptionals map[string]interface{}
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -915,7 +915,7 @@ func (a *DefaultApiService) CreateProject() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1076,7 +1076,7 @@ func (a *DefaultApiService) CreateTag(projectKey, repositorySlug string) (*APIRe
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1130,7 +1130,7 @@ func (a *DefaultApiService) CreateTask() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1228,7 +1228,7 @@ func (a *DefaultApiService) CreateUser(localVarOptionals map[string]interface{})
 		localVarQueryParams.Add("notify", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1347,7 +1347,7 @@ func (a *DefaultApiService) Decline(projectKey, repositorySlug string, pullReque
 		localVarQueryParams.Add("version", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1482,7 +1482,7 @@ func (a *DefaultApiService) DeleteAvatar(userSlug string) (*APIResponse, error) 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1552,7 +1552,7 @@ func (a *DefaultApiService) DeleteComment(projectKey, repositorySlug string, com
 		localVarQueryParams.Add("version", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1620,7 +1620,7 @@ func (a *DefaultApiService) DeleteComment_2(projectKey, repositorySlug string, p
 		localVarQueryParams.Add("version", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1683,7 +1683,7 @@ func (a *DefaultApiService) DeleteGroup(localVarOptionals map[string]interface{}
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1737,7 +1737,7 @@ func (a *DefaultApiService) DeleteMailConfig() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1792,7 +1792,7 @@ func (a *DefaultApiService) DeleteProject(projectKey string) (*APIResponse, erro
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1851,7 +1851,7 @@ func (a *DefaultApiService) DeleteRepository(projectKey, repositorySlug string) 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1909,7 +1909,7 @@ func (a *DefaultApiService) DeleteRepositoryHook(projectKey, repositorySlug stri
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -1965,7 +1965,7 @@ func (a *DefaultApiService) DeleteTask(taskId int64) (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2028,7 +2028,7 @@ func (a *DefaultApiService) DeleteUser(localVarOptionals map[string]interface{})
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2086,7 +2086,7 @@ func (a *DefaultApiService) DeleteWebhook(projectKey, repositorySlug string, web
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2144,7 +2144,7 @@ func (a *DefaultApiService) DisableHook(projectKey, repositorySlug string, hookK
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2201,7 +2201,7 @@ func (a *DefaultApiService) DisableHook_3(projectKey, hookKey string) (*APIRespo
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2259,7 +2259,7 @@ func (a *DefaultApiService) EditFile(projectKey, repositorySlug, path string) (*
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2323,7 +2323,7 @@ func (a *DefaultApiService) EnableHook(projectKey, repositorySlug, hookKey strin
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2390,7 +2390,7 @@ func (a *DefaultApiService) EnableHook_4(projectKey, repositorySlug, hookKey str
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2463,7 +2463,7 @@ func (a *DefaultApiService) FindGroupsForUser(localVarOptionals map[string]inter
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2533,7 +2533,7 @@ func (a *DefaultApiService) FindOtherGroupsForUser(localVarOptionals map[string]
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2603,7 +2603,7 @@ func (a *DefaultApiService) FindUsersInGroup(localVarOptionals map[string]interf
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2673,7 +2673,7 @@ func (a *DefaultApiService) FindUsersNotInGroup(localVarOptionals map[string]int
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2745,7 +2745,7 @@ func (a *DefaultApiService) FindWebhooks(projectKey, repositorySlug string, loca
 		localVarQueryParams.Add("statistics", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2840,7 +2840,7 @@ func (a *DefaultApiService) ForkRepository(projectKey, repositorySlug string,
 Retrieves details about the current license, as well as the current status of the system with regards to the  installed license. The status includes the current number of users applied toward the license limit, as well  as any status messages about the license (warnings about expiry or user counts exceeding license limits).  &lt;p&gt;  The authenticated user must have &lt;b&gt;ADMIN&lt;/b&gt; permission. Unauthenticated users, and non-administrators, are  not permitted to access license details.
 
 @return */
-func (a *DefaultApiService) Get() (*APIResponse, error) {
+func (a *DefaultApiService) GetLicense() (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -2856,7 +2856,7 @@ func (a *DefaultApiService) Get() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2942,7 +2942,7 @@ func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pul
 		localVarQueryParams.Add("fromType", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2996,7 +2996,7 @@ func (a *DefaultApiService) GetApplicationProperties() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3089,7 +3089,7 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 		localVarQueryParams.Add("prefix", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3154,7 +3154,7 @@ func (a *DefaultApiService) GetAvatar(hookKey string, localVarOptionals map[stri
 		localVarQueryParams.Add("version", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3240,7 +3240,7 @@ func (a *DefaultApiService) GetBranches(project, repository string, localVarOpti
 		localVarQueryParams.Add("orderBy", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3324,7 +3324,7 @@ func (a *DefaultApiService) GetChanges(projectKey, repositorySlug string, localV
 		localVarQueryParams.Add("until", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3410,7 +3410,7 @@ func (a *DefaultApiService) GetChanges_5(projectKey, repositorySlug, commitId st
 		localVarQueryParams.Add("withComments", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3471,7 +3471,7 @@ func (a *DefaultApiService) GetComment(projectKey, repositorySlug, commitId stri
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3530,7 +3530,7 @@ func (a *DefaultApiService) GetComment_6(projectKey, repositorySlug string, pull
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3604,7 +3604,7 @@ func (a *DefaultApiService) GetComments(projectKey, repositorySlug, commitId str
 		localVarQueryParams.Add("since", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3698,7 +3698,7 @@ func (a *DefaultApiService) GetComments_7(projectKey, repositorySlug string, pul
 		localVarQueryParams.Add("toHash", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3765,7 +3765,7 @@ func (a *DefaultApiService) GetCommit(projectKey, repositorySlug, commitId strin
 		localVarQueryParams.Add("path", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3885,7 +3885,7 @@ func (a *DefaultApiService) GetCommits(project, repository string, localVarOptio
 		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -3952,7 +3952,7 @@ func (a *DefaultApiService) GetCommits_8(projectKey, repositorySlug string, pull
 		localVarQueryParams.Add("withCounts", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4061,7 +4061,7 @@ func (a *DefaultApiService) getContentWithPath(projectKey string, repositorySlug
 		localVarQueryParams.Add("noContent", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4161,7 +4161,7 @@ func (a *DefaultApiService) GetContent_9(projectKey, repositorySlug, path string
 		localVarQueryParams.Add("noContent", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4247,7 +4247,7 @@ func (a *DefaultApiService) GetContent_10(projectKey, repositorySlug string, loc
 		localVarQueryParams.Add("htmlEscape", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4337,7 +4337,7 @@ func (a *DefaultApiService) GetContent_11(projectKey, repositorySlug, path strin
 		localVarQueryParams.Add("htmlEscape", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4393,7 +4393,7 @@ func (a *DefaultApiService) GetDefaultBranch(projectKey, repositorySlug string) 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4450,7 +4450,7 @@ func (a *DefaultApiService) GetForkedRepositories(projectKey, repositorySlug str
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4525,7 +4525,7 @@ func (a *DefaultApiService) GetGroups(localVarOptionals map[string]interface{}) 
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4600,7 +4600,7 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission(localVarOptionals map[str
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4676,7 +4676,7 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission_12(projectKey string, loc
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4753,7 +4753,7 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission_13(projectKey, repository
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4828,7 +4828,7 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission(localVarOptionals map[
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4904,7 +4904,7 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_14(projectKey string, 
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -4981,7 +4981,7 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_15(projectKey, reposit
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5056,7 +5056,7 @@ func (a *DefaultApiService) GetGroups_16(localVarOptionals map[string]interface{
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5110,7 +5110,7 @@ func (a *DefaultApiService) GetInformation() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5184,7 +5184,7 @@ func (a *DefaultApiService) GetLatestInvocation(projectKey, repositorySlug strin
 		localVarQueryParams.Add("outcome", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5240,7 +5240,7 @@ func (a *DefaultApiService) GetLevel(loggerName string) (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5294,7 +5294,7 @@ func (a *DefaultApiService) GetMailConfig() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5350,7 +5350,7 @@ func (a *DefaultApiService) GetMergeConfig(scmId string) (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5462,7 +5462,7 @@ func (a *DefaultApiService) GetPullRequestsPage(projectKey, repositorySlug strin
 		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5517,7 +5517,7 @@ func (a *DefaultApiService) GetProject(projectKey string) (*APIResponse, error) 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5581,7 +5581,7 @@ func (a *DefaultApiService) GetProjectAvatar(projectKey, repositorySlug string, 
 		localVarQueryParams.Add("s", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5665,7 +5665,7 @@ func (a *DefaultApiService) GetProjects(localVarOptionals map[string]interface{}
 		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5718,7 +5718,7 @@ func (a *DefaultApiService) GetPullRequestCount() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5774,7 +5774,7 @@ func (a *DefaultApiService) GetPullRequestSettings(projectKey, repositorySlug st
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5832,7 +5832,7 @@ func (a *DefaultApiService) GetPullRequestSettings_17(projectKey, repositorySlug
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5902,7 +5902,7 @@ func (a *DefaultApiService) GetPullRequestSuggestions(localVarOptionals map[stri
 		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -5959,7 +5959,7 @@ func (a *DefaultApiService) GetPullRequestTasks(projectKey, repositorySlug strin
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6062,7 +6062,7 @@ func (a *DefaultApiService) GetPullRequests(localVarOptionals map[string]interfa
 		localVarQueryParams.Add("closedSince", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6138,7 +6138,7 @@ func (a *DefaultApiService) GetPullRequests_18(localVarOptionals map[string]inte
 		localVarQueryParams.Add("role", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6195,7 +6195,7 @@ func (a *DefaultApiService) GetRelatedRepositories(projectKey, repositorySlug st
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6269,7 +6269,7 @@ func (a *DefaultApiService) GetRepositoriesWithOptions(projectKey string, localV
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6344,7 +6344,7 @@ func (a *DefaultApiService) GetRepositoriesRecentlyAccessed(localVarOptionals ma
 		localVarQueryParams.Add("permission", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6440,7 +6440,7 @@ func (a *DefaultApiService) GetRepositories_19(localVarOptionals map[string]inte
 		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6499,7 +6499,7 @@ func (a *DefaultApiService) GetRepository(projectKey, repositorySlug string) (*A
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6558,7 +6558,7 @@ func (a *DefaultApiService) GetUserRepository(username, repositorySlug string) (
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6616,7 +6616,7 @@ func (a *DefaultApiService) GetPullRequest(projectKey, repositorySlug string, pu
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6674,7 +6674,7 @@ func (a *DefaultApiService) GetPullRequestActivity(projectKey, repositorySlug st
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6746,7 +6746,7 @@ func (a *DefaultApiService) GetPullRequestActivityWithOptions(projectKey, reposi
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6823,7 +6823,7 @@ func (a *DefaultApiService) GetPullRequestCommitsWithOptions(projectKey, reposit
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6874,7 +6874,7 @@ func (a *DefaultApiService) GetCommitBuildStatuses(commitSHA string) (*APIRespon
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6932,7 +6932,7 @@ func (a *DefaultApiService) GetRepositoryHook(projectKey, repositorySlug string,
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -6990,7 +6990,7 @@ func (a *DefaultApiService) GetRepositoryHook_20(projectKey, repositorySlug stri
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7067,7 +7067,7 @@ func (a *DefaultApiService) GetRepositoryHooks(projectKey, repositorySlug string
 		localVarQueryParams.Add("type", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7143,7 +7143,7 @@ func (a *DefaultApiService) GetRepositoryHooks_21(projectKey string, localVarOpt
 		localVarQueryParams.Add("type", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7197,7 +7197,7 @@ func (a *DefaultApiService) GetRootLevel() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7251,7 +7251,7 @@ func (a *DefaultApiService) GetSenderAddress() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7309,7 +7309,7 @@ func (a *DefaultApiService) GetSettings(projectKey, repositorySlug string, hookK
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7367,7 +7367,7 @@ func (a *DefaultApiService) GetSettings_22(projectKey, repositorySlug string, ho
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7434,7 +7434,7 @@ func (a *DefaultApiService) GetStatistics(projectKey, repositorySlug string, web
 		localVarQueryParams.Add("event", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7492,7 +7492,7 @@ func (a *DefaultApiService) GetStatisticsSummary(projectKey, repositorySlug stri
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7550,7 +7550,7 @@ func (a *DefaultApiService) GetTag(projectKey, repositorySlug string, name strin
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7622,7 +7622,7 @@ func (a *DefaultApiService) GetTags(project, repository string, localVarOptional
 		localVarQueryParams.Add("orderBy", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7678,7 +7678,7 @@ func (a *DefaultApiService) GetTask(taskId int64) (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7733,7 +7733,7 @@ func (a *DefaultApiService) GetSSHKeys(user string) (*APIResponse, error) {
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7854,7 +7854,7 @@ func (a *DefaultApiService) GetUser(username string) (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7909,7 +7909,7 @@ func (a *DefaultApiService) GetUserSettings(userSlug string) (*APIResponse, erro
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -7984,7 +7984,7 @@ func (a *DefaultApiService) GetUsers(localVarOptionals map[string]interface{}) (
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8059,7 +8059,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission(localVarOptionals map[stri
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8135,7 +8135,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_23(projectKey string, loca
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8212,7 +8212,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_24(projectKey string, repo
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8287,7 +8287,7 @@ func (a *DefaultApiService) GetUsersWithoutAnyPermission(localVarOptionals map[s
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8363,7 +8363,7 @@ func (a *DefaultApiService) GetUsersWithoutPermission(projectKey string, localVa
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8440,7 +8440,7 @@ func (a *DefaultApiService) GetUsersWithoutPermission_25(projectKey, repositoryS
 		localVarQueryParams.Add("filter", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8508,7 +8508,7 @@ func (a *DefaultApiService) GetUsers_26(localVarOptionals map[string]interface{}
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8575,7 +8575,7 @@ func (a *DefaultApiService) GetWebhook(projectKey, repositorySlug string, webhoo
 		localVarQueryParams.Add("statistics", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8633,7 +8633,7 @@ func (a *DefaultApiService) Get_27(projectKey, repositorySlug string, pullReques
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8690,7 +8690,7 @@ func (a *DefaultApiService) HasAllUserPermission(projectKey, permission string) 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8748,7 +8748,7 @@ func (a *DefaultApiService) ListParticipants(projectKey, repositorySlug string, 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8879,7 +8879,7 @@ func (a *DefaultApiService) ModifyAllUserPermission(projectKey, repositorySlug s
 		localVarQueryParams.Add("allow", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -8956,7 +8956,7 @@ func (a *DefaultApiService) Preview(localVarOptionals map[string]interface{}) (*
 		localVarQueryParams.Add("htmlEscape", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9010,7 +9010,7 @@ func (a *DefaultApiService) RemoveGroupFromUser() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9064,7 +9064,7 @@ func (a *DefaultApiService) RemoveUserFromGroup() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9118,7 +9118,7 @@ func (a *DefaultApiService) RenameUser() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9185,7 +9185,7 @@ func (a *DefaultApiService) Reopen(projectKey, repositorySlug string, pullReques
 		localVarQueryParams.Add("version", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9242,7 +9242,7 @@ func (a *DefaultApiService) RetryCreateRepository(projectKey, repositorySlug str
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9305,7 +9305,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup(localVarOptionals map[stri
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9369,7 +9369,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup_28(projectKey string, loca
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9434,7 +9434,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup_29(projectKey, repositoryS
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9497,7 +9497,7 @@ func (a *DefaultApiService) RevokePermissionsForUser(localVarOptionals map[strin
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9561,7 +9561,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_30(projectKey string, local
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9626,7 +9626,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_31(projectKey string, repos
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9717,7 +9717,7 @@ func (a *DefaultApiService) Search(projectKey, repositorySlug string, localVarOp
 		localVarQueryParams.Add("role", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9773,7 +9773,7 @@ func (a *DefaultApiService) SetDefaultBranch(projectKey, repositorySlug string) 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9831,7 +9831,7 @@ func (a *DefaultApiService) SetLevel(levelName string, loggerName string) (*APIR
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9885,7 +9885,7 @@ func (a *DefaultApiService) SetMailConfig() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -9941,7 +9941,7 @@ func (a *DefaultApiService) SetMergeConfig(scmId string) (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10013,7 +10013,7 @@ func (a *DefaultApiService) SetPermissionForGroup(projectKey string, repositoryS
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10084,7 +10084,7 @@ func (a *DefaultApiService) SetPermissionForGroups(localVarOptionals map[string]
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10155,7 +10155,7 @@ func (a *DefaultApiService) SetPermissionForGroups_32(projectKey string, localVa
 		localVarQueryParams.Add("name", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10229,7 +10229,7 @@ func (a *DefaultApiService) SetPermissionForUser(projectKey string, repositorySl
 		localVarQueryParams.Add("permission", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10299,7 +10299,7 @@ func (a *DefaultApiService) SetPermissionForUsers(localVarOptionals map[string]i
 		localVarQueryParams.Add("permission", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10370,7 +10370,7 @@ func (a *DefaultApiService) SetPermissionForUsers_33(projectKey string, localVar
 		localVarQueryParams.Add("permission", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10426,7 +10426,7 @@ func (a *DefaultApiService) SetRootLevel(levelName string) (*APIResponse, error)
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10480,7 +10480,7 @@ func (a *DefaultApiService) SetSenderAddress() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10538,7 +10538,7 @@ func (a *DefaultApiService) SetSettings(projectKey, repositorySlug string, hookK
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10596,7 +10596,7 @@ func (a *DefaultApiService) SetSettings_34(projectKey, repositorySlug string, ho
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10661,7 +10661,7 @@ func (a *DefaultApiService) Stream(projectKey, repositorySlug string, localVarOp
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10740,7 +10740,7 @@ func (a *DefaultApiService) StreamChanges(projectKey, repositorySlug string, loc
 		localVarQueryParams.Add("fromRepo", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10827,7 +10827,7 @@ func (a *DefaultApiService) StreamChanges_35(projectKey, repositorySlug string, 
 		localVarQueryParams.Add("withComments", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -10904,7 +10904,7 @@ func (a *DefaultApiService) StreamCommits(project, repository string, localVarOp
 		localVarQueryParams.Add("fromRepo", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11006,7 +11006,7 @@ func (a *DefaultApiService) StreamDiff(projectKey, repositorySlug string, commit
 		localVarQueryParams.Add("withComments", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11111,7 +11111,7 @@ func (a *DefaultApiService) StreamDiff_36(projectKey, repositorySlug string, com
 		localVarQueryParams.Add("withComments", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11210,7 +11210,7 @@ func (a *DefaultApiService) StreamDiff_37(project, repository, path string, loca
 		localVarQueryParams.Add("whitespace", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11303,7 +11303,7 @@ func (a *DefaultApiService) StreamDiff_38(projectKey, repositorySlug string, loc
 		localVarQueryParams.Add("whitespace", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11398,7 +11398,7 @@ func (a *DefaultApiService) StreamDiff_39(projectKey, repositorySlug string, pat
 		localVarQueryParams.Add("whitespace", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11506,7 +11506,7 @@ func (a *DefaultApiService) GetPullRequestDiff(projectKey, repositorySlug string
 		localVarQueryParams.Add("withComments", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11616,7 +11616,7 @@ func (a *DefaultApiService) StreamDiff_41(projectKey, repositorySlug string, pul
 		localVarQueryParams.Add("withComments", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11693,7 +11693,7 @@ func (a *DefaultApiService) StreamFiles(projectKey, repositorySlug string, local
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11772,7 +11772,7 @@ func (a *DefaultApiService) StreamFiles_42(projectKey, repositorySlug string, pa
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11839,7 +11839,7 @@ func (a *DefaultApiService) Stream_43(projectKey, repositorySlug string, path st
 		localVarQueryParams.Add("at", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11904,7 +11904,7 @@ func (a *DefaultApiService) TestWebhook(projectKey, repositorySlug string, local
 		localVarQueryParams.Add("url", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -11971,7 +11971,7 @@ func (a *DefaultApiService) UnassignParticipantRole(projectKey, repositorySlug s
 		localVarQueryParams.Add("username", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12032,7 +12032,7 @@ func (a *DefaultApiService) UnassignParticipantRole_44(projectKey, repositorySlu
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12090,7 +12090,7 @@ func (a *DefaultApiService) Unwatch(projectKey, repositorySlug string, commitId 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12148,7 +12148,7 @@ func (a *DefaultApiService) Unwatch_45(projectKey, repositorySlug string, pullRe
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12202,7 +12202,7 @@ func (a *DefaultApiService) Update() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12263,7 +12263,7 @@ func (a *DefaultApiService) UpdateComment(projectKey, repositorySlug string, com
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12322,7 +12322,7 @@ func (a *DefaultApiService) UpdateComment_46(projectKey, repositorySlug string, 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12377,7 +12377,7 @@ func (a *DefaultApiService) UpdateProject(projectKey string) (*APIResponse, erro
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12412,7 +12412,7 @@ func (a *DefaultApiService) UpdateProject(projectKey string) (*APIResponse, erro
 }
 
 /* DefaultApiService
-Update the pull request settings for the context repository.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_ADMIN&lt;/strong&gt; permission for the context repository to call this  resource.  &lt;p&gt;  This resource will call all RestFragments that are registered with the key  &lt;strong&gt;bitbucket.repository.settings.pullRequests&lt;/strong&gt;. If any fragment fails validations by returning a  non-empty Map of errors, then no fragments will execute.  &lt;p&gt;  Only the settings that should be updated need to be included in the request.  &lt;p&gt;  The property keys for the settings that are bundled with the application are  &lt;ul&gt;      &lt;li&gt;mergeConfig - the merge strategy configuration for pull requests&lt;/li&gt;      &lt;li&gt;requiredApprovers - (Deprecated, please use com.atlassian.bitbucket.server.bundled-hooks.requiredApproversMergeHook instead) the number of approvals required on a pull request for it to be mergeable, or 0 to disable the merge check&lt;/li&gt;      &lt;li&gt;com.atlassian.bitbucket.server.bundled-hooks.requiredApproversMergeHook - a json map containing the keys &#39;enabled&#39; (a boolean to enable or disable this merge check) and &#39;count&#39; (an integer to set the number of required approvals)&lt;/li&gt;      &lt;li&gt;requiredAllApprovers - whether or not all approvers must approve a pull request for it to be mergeable&lt;/li&gt;      &lt;li&gt;requiredAllTasksComplete - whether or not all tasks on a pull request need to be completed for it to be mergeable&lt;/li&gt;      &lt;li&gt;requiredSuccessfulBuilds - (Deprecated, please use com.atlassian.bitbucket.server.bitbucket-build.requiredBuildsMergeCheck instead) the number of successful builds on a pull request for it to be mergeable, or 0 to disable the merge check&lt;/li&gt;      &lt;li&gt;com.atlassian.bitbucket.server.bitbucket-build.requiredBuildsMergeCheck - a json map containing the keys &#39;enabled&#39; (a boolean to enable or disable this merge check) and &#39;count&#39; (an integer to set the number of required builds)&lt;/li&gt;  &lt;/ul&gt;  &lt;strong&gt;Merge strategy configuration deletion:&lt;/strong&gt;  &lt;p&gt;  An explicitly set pull request merge strategy configuration can be deleted by POSTing a document with an empty  \&quot;mergeConfig\&quot; attribute. i.e:  &lt;pre&gt;  {      \&quot;mergeConfig\&quot;: {      }  }  &lt;/pre&gt;  Upon completion of this request, the effective configuration will be:  &lt;ul&gt;      &lt;li&gt;The configuration set for this repository&#39;s SCM type as set at the project level, if present, otherwise&lt;/li&gt;      &lt;li&gt;the configuration set for this repository&#39;s SCM type as set at the instance level, if present, otherwise&lt;/li&gt;      &lt;li&gt;the default configuration for this repository&#39;s SCM type&lt;/li&gt;  &lt;ul&gt;
+Update the pull request settings for the context repository.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_ADMIN&lt;/strong&gt; permission for the context repository to call this  resource.  &lt;p&gt;  This resource will call all RestFragments that are registered with the key  &lt;strong&gt;bitbucket.repository.settings.pullRequests&lt;/strong&gt;. If any fragment fails validations by returning a  non-empty Map of errors, then no fragments will execute.  &lt;p&gt;  Only the settings that should be updated need to be included in the request.  &lt;p&gt;  The property keys for the settings that are bundled with the application are  &lt;ul&gt;      &lt;li&gt;mergeConfig - the merge strategy configuration for pull requests&lt;/li&gt;      &lt;li&gt;requiredApprovers - (Deprecated, please use com.atlassian.bitbucket.server.bundled-hooks.requiredApproversMergeHook instead) the number of approvals required on a pull request for it to be mergeable, or 0 to disable the merge check&lt;/li&gt;      &lt;li&gt;com.atlassian.bitbucket.server.bundled-hooks.requiredApproversMergeHook - a json map containing the keys &#39;enabled&#39; (a boolean to enable or disable this merge check) and &#39;count&#39; (an integer to set the number of required approvals)&lt;/li&gt;      &lt;li&gt;requiredAllApprovers - whether or not all approvers must approve a pull request for it to be mergeable&lt;/li&gt;      &lt;li&gt;requiredAllTasksComplete - whether or not all tasks on a pull request need to be completed for it to be mergeable&lt;/li&gt;      &lt;li&gt;requiredSuccessfulBuilds - (Deprecated, please use com.atlassian.bitbucket.server.bitbucket-build.requiredBuildsMergeCheck instead) the number of successful s on a pull request for it to be mergeable, or 0 to disable the merge check&lt;/li&gt;      &lt;li&gt;com.atlassian.bitbucket.server.bitbucket-build.requiredBuildsMergeCheck - a json map containing the keys &#39;enabled&#39; (a boolean to enable or disable this merge check) and &#39;count&#39; (an integer to set the number of required builds)&lt;/li&gt;  &lt;/ul&gt;  &lt;strong&gt;Merge strategy configuration deletion:&lt;/strong&gt;  &lt;p&gt;  An explicitly set pull request merge strategy configuration can be deleted by POSTing a document with an empty  \&quot;mergeConfig\&quot; attribute. i.e:  &lt;pre&gt;  {      \&quot;mergeConfig\&quot;: {      }  }  &lt;/pre&gt;  Upon completion of this request, the effective configuration will be:  &lt;ul&gt;      &lt;li&gt;The configuration set for this repository&#39;s SCM type as set at the project level, if present, otherwise&lt;/li&gt;      &lt;li&gt;the configuration set for this repository&#39;s SCM type as set at the instance level, if present, otherwise&lt;/li&gt;      &lt;li&gt;the default configuration for this repository&#39;s SCM type&lt;/li&gt;  &lt;ul&gt;
 
 @return */
 func (a *DefaultApiService) UpdatePullRequestSettings(projectKey, repositorySlug string) (*APIResponse, error) {
@@ -12433,7 +12433,7 @@ func (a *DefaultApiService) UpdatePullRequestSettings(projectKey, repositorySlug
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12491,7 +12491,7 @@ func (a *DefaultApiService) UpdatePullRequestSettings_47(projectKey, repositoryS
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12605,7 +12605,7 @@ func (a *DefaultApiService) UpdateSettings(userSlug string) (*APIResponse, error
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12646,13 +12646,18 @@ Change the current user&#39;s status for a pull request. Implicitly adds the use
 @param userSlug the slug for the user changing their status
 @param pullRequestId2 the id of the pull request within the repository
 @return */
-func (a *DefaultApiService) UpdateStatus(projectKey, repositorySlug string, pullRequestID int64, userSlug string) (*APIResponse, error) {
+func (a *DefaultApiService) UpdateStatus(projectKey, repositorySlug string, pullRequestID int64, userSlug string, participant UserWithMetadata) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
+
+	localVarPostBody, err := json.Marshal(participant)
+	if err != nil {
+		return nil, err
+	}
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/participants/{userSlug}"
@@ -12666,7 +12671,7 @@ func (a *DefaultApiService) UpdateStatus(projectKey, repositorySlug string, pull
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12722,7 +12727,7 @@ func (a *DefaultApiService) UpdateTask(taskId int64) (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12776,7 +12781,7 @@ func (a *DefaultApiService) UpdateUserDetails() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12830,7 +12835,7 @@ func (a *DefaultApiService) UpdateUserDetails_48() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12884,7 +12889,7 @@ func (a *DefaultApiService) UpdateUserPassword() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -12938,7 +12943,7 @@ func (a *DefaultApiService) UpdateUserPassword_49() (*APIResponse, error) {
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -13050,7 +13055,7 @@ func (a *DefaultApiService) Update_50(projectKey, repositorySlug string, pullReq
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -13105,7 +13110,7 @@ func (a *DefaultApiService) UploadAvatar(projectKey string) (*APIResponse, error
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -13160,7 +13165,7 @@ func (a *DefaultApiService) UploadAvatar_51(userSlug string) (*APIResponse, erro
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -13218,7 +13223,7 @@ func (a *DefaultApiService) Watch(projectKey, repositorySlug string, commitId st
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -13276,7 +13281,7 @@ func (a *DefaultApiService) Watch_52(projectKey, repositorySlug string, pullRequ
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -13334,7 +13339,7 @@ func (a *DefaultApiService) WithdrawApproval(projectKey, repositorySlug string, 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -13351,6 +13356,246 @@ func (a *DefaultApiService) WithdrawApproval(projectKey, repositorySlug string, 
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/*
+DefaultApiService
+Gets statistics regarding the builds associated with a commit.
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param commitId the commit Id
+
+
+*/
+func (a *DefaultApiService) GetCommitStats(commitId string) (*APIResponse, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/build-status/1.0/commits/stats/{commitId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"commitId"+"}", fmt.Sprintf("%v", commitId), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/*
+DefaultApiService
+Gets the build statuses associated with a commit.
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param commitId the commit Id
+
+
+*/
+func (a *DefaultApiService) GetCommitStatus(commitId string) (*APIResponse, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/rest/build-status/1.0/commits/{commitId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"commitId"+"}", fmt.Sprintf("%v", commitId), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/*
+DefaultApiService
+Produces a list of the build statistics for multiple commits. Commits without any builds associated with them will not be returned.  For example if the commit e00cf62997a027bbf785614a93e2e55bb331d268 does not have any build statuses associated with it, it will not be present in the response.
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param commits Array of commits.
+
+
+*/
+func (a *DefaultApiService) GetCommitsStats(commits []string) (*APIResponse, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/build-status/1.0/commits/stats"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	// body params
+	localVarPostBody = &commits
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/*
+DefaultApiService
+Associates a build status with a commit. The state, the key and the url are mandatory. The name and description fields are optional. All fields (mandatory or optional) are limited to 255 characters, except for the url, which is limited to 450 characters. Supported values for the state are SUCCESSFUL, FAILED and INPROGRESS. The authenticated user must have LICENSED permission or higher to call this resource.
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param commitId the commit Id
+ * @param buildStatus Array of commits.
+
+
+*/
+func (a *DefaultApiService) SetCommitStatus(commitId string, buildStatus BuildStatus) (*APIResponse, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/rest/build-status/1.0/commits/{commitId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"commitId"+"}", fmt.Sprintf("%v", commitId), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	// body params
+	localVarPostBody = &buildStatus
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}

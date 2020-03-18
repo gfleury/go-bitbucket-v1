@@ -1,0 +1,88 @@
+swagger: "2.0"
+host: example.com
+info:
+  title: Bitbucket Server build-status API
+  description: Bitbucket Server build-status API (former stash).
+  version: 1.0.0
+basePath: /rest/
+schemes:
+  - http
+  - https
+paths:
+  "/build-status/1.0/commits/stats":
+    parameters: []
+    post:
+      parameters:
+        - description: Array of commits.
+          in: body
+          name: commits
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Successful Response
+      description: |-
+        Produces a list of the build statistics for multiple commits.
+        Commits without any builds associated with them will not be returned. 
+        For example if the commit e00cf62997a027bbf785614a93e2e55bb331d268 does not have any build statuses associated with it, it will not be present in the response.
+      operationId: GetCommitsStats
+  "/build-status/1.0/commits/stats/{commitId}":
+    parameters:
+      - description: the commit Id
+        in: path
+        name: commitId
+        required: true
+        type: string
+    get:
+      responses:
+        "200":
+          description: Successful Response
+      description: |-
+        Gets statistics regarding the builds associated with a commit.
+      operationId: GetCommitStats
+  "/rest/build-status/1.0/commits/{commitId}":
+    parameters:
+      - description: the commit Id
+        in: path
+        name: commitId
+        required: true
+        type: string
+    get:
+      responses:
+        "200":
+          description: Successful Response
+      description: |-
+        Gets the build statuses associated with a commit.
+      operationId: GetCommitStatus
+    post:
+      parameters:
+        - description: Array of commits.
+          in: body
+          name: buildStatus
+          required: true
+          schema:
+            type: object
+            properties:
+              state:
+                type: string
+              key:
+                type: string
+              name:
+                type: string
+              url:
+                type: string
+              description:
+                type: string
+      responses:
+        "200":
+          description: Successful Response
+      description: |-
+        Associates a build status with a commit.
+        The state, the key and the url are mandatory. The name and description fields are optional.
+        All fields (mandatory or optional) are limited to 255 characters, except for the url, which is limited to 450 characters.
+        Supported values for the state are SUCCESSFUL, FAILED and INPROGRESS.
+        The authenticated user must have LICENSED permission or higher to call this resource.
+      operationId: SetCommitStatus

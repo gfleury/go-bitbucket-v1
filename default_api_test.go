@@ -1998,7 +1998,7 @@ func TestDefaultApiService_Get(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.Get()
+			got, err := a.GetLicense()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.Get() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -7401,6 +7401,7 @@ func TestDefaultApiService_UpdateStatus(t *testing.T) {
 		repositorySlug string
 		pullRequestID  int64
 		userSlug       string
+		participant    UserWithMetadata
 	}
 	tests := []struct {
 		name                     string
@@ -7419,7 +7420,7 @@ func TestDefaultApiService_UpdateStatus(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.UpdateStatus(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID, tt.args.userSlug)
+			got, err := a.UpdateStatus(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID, tt.args.userSlug, tt.args.participant)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.UpdateStatus() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -7860,6 +7861,151 @@ func TestDefaultApiService_WithdrawApproval(t *testing.T) {
 				client: tt.fields.client,
 			}
 			got, err := a.WithdrawApproval(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_GetCommitStats(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		commitID string
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/build-status/1.0/commits/stats/: context canceled"}, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.GetCommitStats(tt.args.commitID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_GetCommitStatus(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		commitID string
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/rest/build-status/1.0/commits/: context canceled"}, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.GetCommitStatus(tt.args.commitID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_GetCommitsStats(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		commitsID []string
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/build-status/1.0/commits/stats: context canceled"}, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.GetCommitsStats(tt.args.commitsID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_SetCommitStatus(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		commitID    string
+		buildStatus BuildStatus
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/rest/build-status/1.0/commits/: context canceled"}, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.SetCommitStatus(tt.args.commitID, tt.args.buildStatus)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
 				return
