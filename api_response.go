@@ -449,6 +449,13 @@ func GetSSHKeysResponse(r *APIResponse) ([]SSHKey, error) {
 	return m, err
 }
 
+// GetBuildStatusResponse cast BuildStatus into structure
+func GetBuildStatusesResponse(r *APIResponse) ([]BuildStatus, error) {
+	var m []BuildStatus
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
 // GetPullRequestResponse cast PullRequest into structure
 func GetPullRequestResponse(r *APIResponse) (PullRequest, error) {
 	var m PullRequest
