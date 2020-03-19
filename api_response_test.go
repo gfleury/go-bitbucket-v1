@@ -961,3 +961,78 @@ func TestNewBitbucketAPIResponse(t *testing.T) {
 		})
 	}
 }
+
+func TestHasNextPage(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name  string
+		args  args
+		want  bool
+		want2 int
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{},
+				},
+			},
+			want:  false,
+			want2: 0,
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want:  false,
+			want2: 0,
+		},
+		{
+			name: "Last Page",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"size":       1,
+						"limit":      25,
+						"isLastPage": true,
+						"values":     []interface{}{},
+					},
+				},
+			},
+			want:  false,
+			want2: 0,
+		},
+		{
+			name: "Hast Last Page",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"size":          1,
+						"limit":         25,
+						"isLastPage":    false,
+						"nextPageStart": float64(1203),
+						"values":        []interface{}{},
+					},
+				},
+			},
+			want:  true,
+			want2: 1203,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := HasNextPage(tt.args.r)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewBitbucketAPIResponse() isLastPage = %v, want %v", got, tt.want)
+			}
+			if !reflect.DeepEqual(err, tt.want2) {
+				t.Errorf("NewBitbucketAPIResponse() nextPageStart = %v, want %v", err, tt.want2)
+			}
+		})
+	}
+}

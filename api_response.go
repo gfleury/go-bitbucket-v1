@@ -555,13 +555,14 @@ func NewRawAPIResponse(r *http.Response) (*APIResponse, error) {
 
 // HasNextPage returns if response is paged and has next page and where it does start
 func HasNextPage(response *APIResponse) (isLastPage bool, nextPageStart int) {
-	isLastPage = true
 	isLastPage, ok := response.Values["isLastPage"].(bool)
 	if ok && !isLastPage {
 		floatStart, ok := response.Values["nextPageStart"].(float64)
 		if ok {
 			nextPageStart = int(floatStart)
 		}
+	} else if !ok {
+		isLastPage = true
 	}
 	return !isLastPage, nextPageStart
 }
