@@ -10,5741 +10,787 @@
 package swagger
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"os"
-
-	"github.com/gorilla/mux"
 )
 
 func AddGroupToUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func AddUserToGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func AddUserToGroups(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func AddUsersToGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Approve(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func AssignParticipantRole(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CanMerge(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func ClearSenderAddress(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func ClearUserCaptchaChallenge(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CountPullRequestTasks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateBranch(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateComment(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateCommentCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateTag(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func CreateWebhook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Decline(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteAvatar(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteComment(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteCommentCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteMailConfig(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteRepositoryHook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DeleteWebhook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DisableHook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func DisableHookRepo(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func EditFile(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func EnableHook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func EnableHookRepo(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func FindGroupsForUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func FindOtherGroupsForUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func FindUsersInGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func FindUsersNotInGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func FindWebhooks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func ForkRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Get(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetActivities(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetApplicationProperties(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetArchive(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetAvatar(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetBranches(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetChanges(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetChangesFile(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetComment(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetCommentCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetComments(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetCommentsCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetCommits(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetCommitsPR(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetContentBrowse(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetContentFile(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetContentRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetContentRepositoryPath(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetDefaultBranch(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetForkedRepositories(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroups(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroupsAdmin(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroupsWithAnyPermission(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroupsWithAnyPermissionProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroupsWithAnyPermissionRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroupsWithoutAnyPermission(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroupsWithoutAnyPermissionProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetGroupsWithoutAnyPermissionRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetInformation(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetLatestInvocation(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetLevel(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetLicense(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetMailConfig(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetMergeConfig(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPage(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetProjectAvatar(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetProjects(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPullRequestCount(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPullRequestSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPullRequestSettingsSCM(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPullRequestSuggestions(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPullRequestTasks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPullRequests(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetPullRequestsInbox(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRelatedRepositories(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepositories(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepositoriesAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepositoriesRecentlyAccessed(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepositoryHook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepositoryHookSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepositoryHooks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRepositoryHooksSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetRootLevel(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetSenderAddress(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetSettingsHook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetStatistics(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetStatisticsSummary(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetTag(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetTags(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUserSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsersAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsersWithAnyPermission(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsersWithAnyPermissionAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsersWithAnyPermissionProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsersWithoutAnyPermission(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsersWithoutPermission(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetUsersWithoutPermissionProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func GetWebhook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func HasAllUserPermission(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func ListParticipants(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Merge(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func ModifyAllUserPermission(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Preview(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RemoveGroupFromUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RemoveUserFromGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RenameUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Reopen(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RetryCreateRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RevokePermissionsForGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RevokePermissionsForGroupAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RevokePermissionsForGroupProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RevokePermissionsForUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RevokePermissionsForUserAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func RevokePermissionsForUserProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Search(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetDefaultBranch(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetLevel(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetMailConfig(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetMergeConfig(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetPermissionForGroup(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetPermissionForGroups(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetPermissionForGroupsProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetPermissionForUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetPermissionForUsers(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetPermissionForUsersProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetRootLevel(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetSenderAddress(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func SetSettingsProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Stream(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamChanges(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamChangesCompare(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamCommits(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamDiff(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamDiffCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamDiffCommits(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamDiffCompare(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamDiffPR(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamDiffRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamDiffRepositoryFile(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamFiles(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamFilesLastMofied(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func StreamFilesRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func TestWebhook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UnassignParticipantRole(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UnassignParticipantRolePR(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Unwatch(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UnwatchPR(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func Update(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateComment(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateCommentCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateLicense(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdatePullRequestSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdatePullRequestSettingsSCM(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateRepository(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateSettings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateStatus(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateUserDetails(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateUserDetailsAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateUserPasswordAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UpdateWebhook(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UploadAvatar(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func UploadAvatarProject(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func WatchCommit(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func WatchPR(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
-
+	HandleRequest(w, r)
 }
 
 func WithdrawApproval(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	handlerName := "UNKNOWN"
-	if route := mux.CurrentRoute(r); route != nil {
-		routeName := route.GetName()
-		if routeName != "" {
-			handlerName = routeName
-		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
-	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
-	if err == nil {
-		w.Write(response)
-	} else {
-		file, err := os.Create(fileName)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Write([]byte("{}"))
-		file.Close()
-	}
+	HandleRequest(w, r)
+}
 
+// Build-Status API
+
+func GetCommitStats(w http.ResponseWriter, r *http.Request) {
+	HandleRequest(w, r)
+}
+
+func GetCommitStatus(w http.ResponseWriter, r *http.Request) {
+	HandleRequest(w, r)
+}
+
+func GetCommitsStats(w http.ResponseWriter, r *http.Request) {
+	HandleRequest(w, r)
+}
+
+func SetCommitStatus(w http.ResponseWriter, r *http.Request) {
+	HandleRequest(w, r)
 }

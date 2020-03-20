@@ -1391,4 +1391,32 @@ var routes = Routes{
 		"/rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/approve",
 		WithdrawApproval,
 	},
+
+	Route{
+		"GetCommitStats",
+		strings.ToUpper("Get"),
+		"/rest/build-status/1.0/commits/stats/{commitId}",
+		GetCommitStats,
+	},
+
+	Route{
+		"GetCommitStatus",
+		strings.ToUpper("Get"),
+		"/rest/rest/build-status/1.0/commits/{commitId}",
+		GetCommitStatus,
+	},
+
+	Route{
+		"GetCommitsStats",
+		strings.ToUpper("Post"),
+		"/rest/build-status/1.0/commits/stats",
+		GetCommitsStats,
+	},
+
+	Route{
+		"SetCommitStatus",
+		strings.ToUpper("Post"),
+		"/rest/rest/build-status/1.0/commits/{commitId}",
+		SetCommitStatus,
+	},
 }
