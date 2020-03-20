@@ -431,7 +431,7 @@ func GetRepositoriesResponse(r *APIResponse) ([]Repository, error) {
 // GetRepositoryResponse cast Repositories into structure
 func GetRepositoryResponse(r *APIResponse) (Repository, error) {
 	var m Repository
-	err := mapstructure.Decode(r.Values["values"], &m)
+	err := mapstructure.Decode(r.Values, &m)
 	return m, err
 }
 
