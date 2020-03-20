@@ -954,8 +954,14 @@ Create a new repository. Requires an existing project in which this repository w
 
 @param projectKey the parent project key
 @return */
-func (a *DefaultApiService) CreateRepository(projectKey string) (*APIResponse, error) {
-	return a.CreateRepositoryWithOptions(projectKey, nil, []string{})
+func (a *DefaultApiService) CreateRepository(projectKey string, repository Repository) (*APIResponse, error) {
+
+	localVarPostBody, err := json.Marshal(repository)
+	if err != nil {
+		return nil, err
+	}
+
+	return a.CreateRepositoryWithOptions(projectKey, localVarPostBody, []string{"application/json"})
 }
 
 func (a *DefaultApiService) CreateRepositoryWithOptions(projectKey string, localVarPostBody interface{}, localVarHTTPContentTypes []string) (*APIResponse, error) {

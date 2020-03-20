@@ -808,6 +808,7 @@ func TestDefaultApiService_CreateRepository(t *testing.T) {
 	}
 	type args struct {
 		projectKey string
+		repo       Repository
 	}
 	tests := []struct {
 		name                     string
@@ -826,7 +827,7 @@ func TestDefaultApiService_CreateRepository(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.CreateRepository(tt.args.projectKey)
+			got, err := a.CreateRepository(tt.args.projectKey, tt.args.repo)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.CreateRepository() error = %v, wantErr %v", err, tt.wantErr)
 				return
