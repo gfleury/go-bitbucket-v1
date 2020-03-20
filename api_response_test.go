@@ -413,7 +413,7 @@ func TestGetPullRequestResponse(t *testing.T) {
 					ID: "refs/heads/feature-ABC-123",
 					Repository: Repository{
 						Slug: "my-repo",
-						Project: Project{
+						Project: &Project{
 							Key: "PRJ",
 						},
 					},
@@ -422,7 +422,7 @@ func TestGetPullRequestResponse(t *testing.T) {
 					ID: "refs/heads/master",
 					Repository: Repository{
 						Slug: "my-repo",
-						Project: Project{
+						Project: &Project{
 							Key: "PRJ",
 						},
 					},

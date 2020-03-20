@@ -58,19 +58,19 @@ type Project struct {
 
 // Repository contains data from a BitBucket Repository
 type Repository struct {
-	Slug          string  `json:"slug"`
-	ID            int     `json:"id"`
-	Name          string  `json:"name"`
-	ScmID         string  `json:"scmId"`
-	State         string  `json:"state"`
-	StatusMessage string  `json:"statusMessage"`
-	Forkable      bool    `json:"forkable"`
-	Project       Project `json:"project"`
-	Public        bool    `json:"public"`
-	Links         struct {
-		Clone []CloneLink `json:"clone"`
-		Self  []SelfLink  `json:"self"`
-	} `json:"links"`
+	Slug          string   `json:"slug,omitempty"`
+	ID            int      `json:"id,omitempty"`
+	Name          string   `json:"name,omitempty"`
+	ScmID         string   `json:"scmId,omitempty"`
+	State         string   `json:"state,omitempty"`
+	StatusMessage string   `json:"statusMessage,omitempty"`
+	Forkable      bool     `json:"forkable,omitempty"`
+	Project       *Project `json:"project,omitempty"`
+	Public        bool     `json:"public,omitempty"`
+	Links         *struct {
+		Clone []CloneLink `json:"clone,omitempty"`
+		Self  []SelfLink  `json:"self,omitempty"`
+	} `json:"links,omitempty"`
 }
 
 type UserWithNameEmail struct {

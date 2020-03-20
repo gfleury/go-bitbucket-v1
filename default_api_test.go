@@ -563,7 +563,7 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 						ID: "refs/heads/feature",
 						Repository: Repository{
 							Slug: "repo1",
-							Project: Project{
+							Project: &Project{
 								Key: "PROJ",
 							},
 						},
@@ -572,7 +572,7 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 						ID: "refs/heads/master",
 						Repository: Repository{
 							Slug: "repo1",
-							Project: Project{
+							Project: &Project{
 								Key: "PROJ",
 							},
 						},
