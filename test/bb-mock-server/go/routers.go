@@ -1402,7 +1402,7 @@ var routes = Routes{
 	Route{
 		"GetCommitStatus",
 		strings.ToUpper("Get"),
-		"/rest/rest/build-status/1.0/commits/{commitId}",
+		"/rest/build-status/1.0/commits/{commitId}",
 		GetCommitStatus,
 	},
 
@@ -1416,7 +1416,7 @@ var routes = Routes{
 	Route{
 		"SetCommitStatus",
 		strings.ToUpper("Post"),
-		"/rest/rest/build-status/1.0/commits/{commitId}",
+		"/rest/build-status/1.0/commits/{commitId}",
 		SetCommitStatus,
 	},
 }
