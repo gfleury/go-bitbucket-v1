@@ -349,36 +349,6 @@ type Webhook struct {
 	Configuration WebhookConfiguration `json:"configuration"`
 }
 
-// WebHookCallback contains payload to use while reading handling webhooks from bitbucket
-type WebHookCallback struct {
-	Actor      Actor      `json:"actor"`
-	Repository Repository `json:"repository"`
-	Push       struct {
-		Changes []Change `json:"changes"`
-	} `json:"push"`
-}
-
-// Actor contains the actor of reported changes from a webhook
-type Actor struct {
-	Username    string `json:"username"`
-	DisplayName string `json:"displayName"`
-}
-
-// Change contains changes reported by webhooks
-type Change struct {
-	Created bool        `json:"created"`
-	Closed  bool        `json:"closed"`
-	Old     interface{} `json:"old"`
-	New     struct {
-		Type   string `json:"type"`
-		Name   string `json:"name"`
-		Target struct {
-			Type string `json:"type"`
-			Hash string `json:"hash"`
-		} `json:"target"`
-	} `json:"new"`
-}
-
 // String converts global permission to its string representation
 func (p PermissionGlobal) String() string {
 	return string(p)
@@ -438,7 +408,7 @@ func GetRepositoryResponse(r *APIResponse) (Repository, error) {
 // GetDiffResponse cast Diff into structure
 func GetDiffResponse(r *APIResponse) (Diff, error) {
 	var m Diff
-	err := mapstructure.Decode(r.Values["values"], &m)
+	err := mapstructure.Decode(r.Values, &m)
 	return m, err
 }
 
