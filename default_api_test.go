@@ -7909,11 +7909,11 @@ func TestDefaultApiService_GetCommitStats(t *testing.T) {
 			}
 			got, err := a.GetCommitStats(tt.args.commitID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.GetCommitStats() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.GetCommitStats() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -7945,11 +7945,11 @@ func TestDefaultApiService_GetCommitStatus(t *testing.T) {
 			}
 			got, err := a.GetCommitStatus(tt.args.commitID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.GetCommitStatus() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.GetCommitStatus() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -7981,11 +7981,11 @@ func TestDefaultApiService_GetCommitsStats(t *testing.T) {
 			}
 			got, err := a.GetCommitsStats(tt.args.commitsID)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.GetCommitsStats() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.GetCommitsStats() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -8018,11 +8018,78 @@ func TestDefaultApiService_SetCommitStatus(t *testing.T) {
 			}
 			got, err := a.SetCommitStatus(tt.args.commitID, tt.args.buildStatus)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.WithdrawApproval() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.SetCommitStatus() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.WithdrawApproval() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.SetCommitStatus() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_SearchCode(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		query SearchQuery
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{query: SearchQuery{}}, &APIResponse{Message: "Post https://stash.domain.com/rest/search/latest/search: context canceled"}, true, false},
+		{"GoodEmptySearch",
+			fields{client: generateConfigRealLocalServer()},
+			args{query: SearchQuery{
+				Query: "git clone",
+				Limits: Limits{
+					Primary:   10,
+					Secondary: 100,
+				},
+			}},
+			&APIResponse{
+				Values: map[string]interface{}{
+					"query": map[string]interface{}{
+						"substituted": false,
+					},
+					"code": map[string]interface{}{
+						"category":   "primary",
+						"count":      float64(0),
+						"isLastPage": true,
+						"nextStart":  float64(10),
+						"start":      float64(0),
+						"values":     []interface{}{},
+					},
+					"scope": map[string]interface{}{
+						"type": "GLOBAL",
+					},
+				},
+			},
+			false,
+			false,
+		},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.SearchCode(tt.args.query)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.SearchCode() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			got.Response = nil
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.SearchCode() = %v, want %v", got, tt.want)
 			}
 		})
 	}

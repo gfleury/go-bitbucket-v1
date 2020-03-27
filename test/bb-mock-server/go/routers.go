@@ -1419,4 +1419,11 @@ var routes = Routes{
 		"/rest/build-status/1.0/commits/{commitId}",
 		SetCommitStatus,
 	},
+
+	Route{
+		"SearchCode",
+		strings.ToUpper("Post"),
+		"/rest/search/latest/search",
+		SearchCode,
+	},
 }

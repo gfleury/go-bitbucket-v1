@@ -794,3 +794,7 @@ func GetCommitsStats(w http.ResponseWriter, r *http.Request) {
 func SetCommitStatus(w http.ResponseWriter, r *http.Request) {
 	HandleRequest(w, r)
 }
+
+func SearchCode(w http.ResponseWriter, r *http.Request) {
+	HandleRequest(w, r)
+}

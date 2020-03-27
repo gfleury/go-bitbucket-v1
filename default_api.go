@@ -13697,3 +13697,62 @@ func (a *DefaultApiService) SetCommitStatus(commitId string, buildStatus BuildSt
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
+
+/*
+SearchCode
+
+ * @param searchString Search string
+
+*/
+func (a *DefaultApiService) SearchCode(query SearchQuery) (*APIResponse, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/search/latest/search"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+
+	// body params
+	localVarPostBody = &query
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}

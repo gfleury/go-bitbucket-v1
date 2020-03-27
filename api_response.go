@@ -71,6 +71,17 @@ type Repository struct {
 		Clone []CloneLink `json:"clone,omitempty"`
 		Self  []SelfLink  `json:"self,omitempty"`
 	} `json:"links,omitempty"`
+	Owner *struct {
+		Name         string `json:"name"`
+		EmailAddress string `json:"emailAddress"`
+		ID           int    `json:"id"`
+		DisplayName  string `json:"displayName"`
+		Active       bool   `json:"active"`
+		Slug         string `json:"slug"`
+		Type         string `json:"type"`
+		AvatarURL    string `json:"avatarUrl"`
+	} `json:"owner,omitempty"`
+	Origin *Repository `json:"origin,omitempty"`
 }
 
 type UserWithNameEmail struct {
@@ -349,6 +360,52 @@ type Webhook struct {
 	Configuration WebhookConfiguration `json:"configuration"`
 }
 
+type Code struct {
+	Category   string `json:"category,omitempty"`
+	IsLastPage bool   `json:"isLastPage,omitempty"`
+	Count      int    `json:"count,omitempty"`
+	Start      int    `json:"start,omitempty"`
+	Limit      int    `json:"limit,omitempty"`
+	NextStart  int    `json:"nextStart,omitempty"`
+	Values     []struct {
+		Repository  *Repository `json:"repository,omitempty"`
+		File        string      `json:"file"`
+		HitContexts [][]struct {
+			Line int    `json:"line"`
+			Text string `json:"text"`
+		} `json:"hitContexts"`
+		HitCount int `json:"hitCount"`
+	} `json:"values,omitempty"`
+}
+
+type Scope struct {
+	Type string `json:"type"`
+}
+
+type Query struct {
+	Substituted bool `json:"substituted"`
+}
+
+type SearchResult struct {
+	Scope        Scope `json:"scope"`
+	Code         *Code `json:"code,omitempty"`
+	Repositories *Code `json:"repositories,omitempty"`
+	Query        Query `json:"query"`
+}
+
+type Limits struct {
+	Primary   int `json:"primary"`
+	Secondary int `json:"secondary"`
+}
+
+type SearchQuery struct {
+	Query    string `json:"query"`
+	Entities struct {
+		Code Code `json:"code"`
+	} `json:"entities"`
+	Limits Limits `json:"limits"`
+}
+
 // String converts global permission to its string representation
 func (p PermissionGlobal) String() string {
 	return string(p)
@@ -479,6 +536,13 @@ func GetGroupsPermissionResponse(r *APIResponse) ([]GroupPermission, error) {
 func GetWebhooksResponse(r *APIResponse) ([]Webhook, error) {
 	var h []Webhook
 	err := mapstructure.Decode(r.Values["values"], &h)
+	return h, err
+}
+
+// GetSearchResultResponse cast Search results into structure
+func GetSearchResultResponse(r *APIResponse) (SearchResult, error) {
+	var h SearchResult
+	err := mapstructure.Decode(r.Values, &h)
 	return h, err
 }
 

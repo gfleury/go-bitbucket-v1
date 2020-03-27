@@ -1036,3 +1036,75 @@ func TestHasNextPage(t *testing.T) {
 		})
 	}
 }
+
+func TestGetSearchResultResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    SearchResult
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{},
+				},
+			},
+			want: SearchResult{},
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{"values": "not an array"},
+				},
+			},
+			want: SearchResult{},
+		},
+		{
+			name: "Good response",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"scope": map[string]interface{}{"type": "GLOBAL"},
+						"code": map[string]interface{}{
+							"category":   "primary",
+							"isLastPage": false,
+							"count":      187,
+							"start":      0,
+							"nextStart":  25,
+							"values":     []map[string]interface{}{},
+						},
+					},
+				},
+			},
+			want: SearchResult{
+				Scope: Scope{
+					Type: "GLOBAL",
+				},
+				Code: &Code{
+					Category:   "primary",
+					IsLastPage: false,
+					Count:      187,
+					NextStart:  25,
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetSearchResultResponse(tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetDiffResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetDiffResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
