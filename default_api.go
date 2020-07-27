@@ -899,10 +899,9 @@ func (a *DefaultApiService) CreateGroup(localVarOptionals map[string]interface{}
 Create a new project.  &lt;p&gt;  To include a custom avatar for the project, the project definition should contain an additional attribute with  the key &lt;code&gt;avatar&lt;/code&gt; and the value a data URI containing Base64-encoded image data. The URI should be in  the following format:  &lt;pre&gt;      data:(content type, e.g. image/png);base64,(data)  &lt;/pre&gt;  If the data is not Base64-encoded, or if a character set is defined in the URI, or the URI is otherwise invalid,  &lt;em&gt;project creation will fail&lt;/em&gt;.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;PROJECT_CREATE&lt;/strong&gt; permission to call this resource.
 
 @return */
-func (a *DefaultApiService) CreateProject() (*APIResponse, error) {
+func (a *DefaultApiService) CreateProject(localVarPostBody interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
-		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
