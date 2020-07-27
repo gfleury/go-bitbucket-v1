@@ -772,6 +772,7 @@ func TestDefaultApiService_CreateProject(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		body interface{}
 	}
 	tests := []struct {
 		name                     string
@@ -780,7 +781,7 @@ func TestDefaultApiService_CreateProject(t *testing.T) {
 		want                     *APIResponse
 		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects: context canceled"}, true, false},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{struct{}{}}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -790,7 +791,7 @@ func TestDefaultApiService_CreateProject(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.CreateProject()
+			got, err := a.CreateProject(tt.args.body)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.CreateProject() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -8071,7 +8072,7 @@ func TestDefaultApiService_SearchCode(t *testing.T) {
 				},
 			},
 			false,
-			false,
+			true,
 		},
 	}
 	for _, tt := range tests {
