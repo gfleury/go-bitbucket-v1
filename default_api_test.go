@@ -124,7 +124,8 @@ func TestDefaultApiService_AddUserToGroups(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		ctx context.Context
+		name string
+		groups []string
 	}
 	tests := []struct {
 		name                     string
@@ -133,7 +134,7 @@ func TestDefaultApiService_AddUserToGroups(t *testing.T) {
 		want                     *APIResponse
 		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{ctx: context.Background()}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-groups: context canceled"}, true, false},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{name: "user", groups: []string{"group"}}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users/add-groups: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -143,7 +144,7 @@ func TestDefaultApiService_AddUserToGroups(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.AddUserToGroups()
+			got, err := a.AddUserToGroups(tt.args.name, tt.args.groups)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.AddUserToGroups() error = %v, wantErr %v", err, tt.wantErr)
 				return

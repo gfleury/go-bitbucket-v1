@@ -128,13 +128,18 @@ func (a *DefaultApiService) AddUserToGroup() (*APIResponse, error) {
 Add a user to one or more groups.  &lt;p&gt;  The authenticated user must have the &lt;strong&gt;ADMIN&lt;/strong&gt; permission to call this resource.
 
 @return */
-func (a *DefaultApiService) AddUserToGroups() (*APIResponse, error) {
+func (a *DefaultApiService) AddUserToGroups(name string, groups []string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
+
+	localVarPostBody = map[string]interface{}{
+		"user": name,
+		"groups": groups,
+	}
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/admin/users/add-groups"
@@ -175,7 +180,7 @@ func (a *DefaultApiService) AddUserToGroups() (*APIResponse, error) {
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
