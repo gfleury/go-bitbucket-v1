@@ -1003,6 +1003,7 @@ func TestDefaultApiService_CreateUser(t *testing.T) {
 		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users: context canceled"}, true, false},
+		{"GoodUser", fields{client: generateConfigFake()}, args{localVarOptionals: map[string]interface{}{"name": "username"}}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/admin/users?name=username: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
