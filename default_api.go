@@ -1264,7 +1264,8 @@ func (a *DefaultApiService) CreateUser(localVarOptionals map[string]interface{})
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	// No body parsing (a successful 204 response has no content)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /* DefaultApiService
