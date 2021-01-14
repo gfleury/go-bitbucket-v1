@@ -406,6 +406,27 @@ type SearchQuery struct {
 	Limits Limits `json:"limits"`
 }
 
+type Parent struct {
+	ID int `json:"id"`
+}
+
+type Anchor struct {
+	DiffType string `json:"diffType,omitempty"`
+	Line     int    `json:"line,omitempty"`
+	LineType string `json:"lineType,omitempty"`
+	FileType string `json:"fileType,omitempty"`
+	FromHash string `json:"fromHash,omitempty"`
+	Path     string `json:"path,omitempty"`
+	SrcPath  string `json:"srcPath,omitempty"`
+	ToHash   string `json:"toHash,omitempty"`
+}
+
+type Comment struct {
+	Text   string `json:"text"`
+	Parent *Parent `json:"parent,omitempty"`
+	Anchor *Anchor `json:"anchor,omitempty"`
+}
+
 // String converts global permission to its string representation
 func (p PermissionGlobal) String() string {
 	return string(p)

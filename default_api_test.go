@@ -661,6 +661,7 @@ func TestDefaultApiService_CreateComment(t *testing.T) {
 		projectKey        string
 		repositorySlug    string
 		commitId          string
+		comment           Comment
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -671,6 +672,25 @@ func TestDefaultApiService_CreateComment(t *testing.T) {
 		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments: context canceled"}, true, false},
+		{"simpleComment", fields{client: generateConfigRealLocalServer()},
+			args{projectKey: "PROJ",
+				repositorySlug: "repo1",
+				commitId:       "657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30",
+				comment:        Comment{Text: "Simple comment"},
+			},
+			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Commit '657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30' does not exist in repository 'repo1'.,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`,
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "Commit '657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30' does not exist in repository 'repo1'.",
+							"exceptionName": "com.atlassian.bitbucket.commit.NoSuchCommitException",
+						},
+					},
+				},
+			},
+			true, true,
+		},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -680,10 +700,13 @@ func TestDefaultApiService_CreateComment(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.CreateComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.commitId, tt.args.localVarOptionals)
+			got, err := a.CreateComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.commitId, tt.args.comment, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.CreateComment() error = %v, wantErr %v", err, tt.wantErr)
 				return
+			}
+			if got != nil {
+				got.Response = nil
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.CreateComment() = %v, want %v", got, tt.want)

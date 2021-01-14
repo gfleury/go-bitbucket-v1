@@ -724,13 +724,19 @@ func (a *DefaultApiService) CreateBranch(projectKey, repositorySlug string) (*AP
  @param optional (nil or map[string]interface{}) with one or more of:
 	 @param "since" (string) For a merge commit, a parent can be provided to specify which diff the comments should be on. For                  a commit range, a {@code sinceId} can be provided to specify where the comments should be                  anchored from.
  @return */
-func (a *DefaultApiService) CreateComment(projectKey, repositorySlug string, commitId string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) CreateComment(projectKey, repositorySlug string, commitId string, comment Comment, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
+
+	var err error
+	localVarPostBody, err = json.Marshal(comment)
+	if err != nil {
+		return nil, err
+	}
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/comments"
