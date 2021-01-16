@@ -1108,3 +1108,392 @@ func TestGetSearchResultResponse(t *testing.T) {
 		})
 	}
 }
+
+func TestGetActivitiesResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    Activities
+		wantErr bool
+	}{
+		{
+			name: "Empty list",
+			args: args{
+				r: &APIResponse{
+					Payload: []byte(`{
+    "size": 0,
+    "limit": 0,
+    "isLastPage": false,
+    "values": [],
+    "start": 0
+}`),
+				},
+			},
+			want: Activities{Values: []Activity{}},
+		},
+		{
+			name: "Bad response",
+			args: args{
+				r: &APIResponse{
+					Payload: []byte(`[]`),
+				},
+			},
+			wantErr: true,
+		},
+		{
+			name: "Good response",
+			args: args{
+				r: &APIResponse{
+					Payload: []byte(`{
+    "size": 3,
+    "limit": 25,
+    "isLastPage": true,
+    "values": [
+        {
+            "id": 101,
+            "createdDate": 1359065920,
+            "user": {
+                "name": "jcitizen",
+                "emailAddress": "jane@example.com",
+                "id": 101,
+                "displayName": "Jane Citizen",
+                "active": true,
+                "slug": "jcitizen",
+                "type": "NORMAL"
+            },
+            "action": "COMMENTED",
+            "commentAction": "ADDED",
+            "comment": {
+                "properties": {
+                    "key": "value"
+                },
+                "id": 1,
+                "version": 1,
+                "text": "A measured reply.",
+                "author": {
+                    "name": "jcitizen",
+                    "emailAddress": "jane@example.com",
+                    "id": 101,
+                    "displayName": "Jane Citizen",
+                    "active": true,
+                    "slug": "jcitizen",
+                    "type": "NORMAL"
+                },
+                "createdDate": 1548720847370,
+                "updatedDate": 1548720847370,
+                "comments": [
+                    {
+                        "properties": {
+                            "key": "value"
+                        },
+                        "id": 1,
+                        "version": 1,
+                        "text": "An insightful comment.",
+                        "author": {
+                            "name": "jcitizen",
+                            "emailAddress": "jane@example.com",
+                            "id": 101,
+                            "displayName": "Jane Citizen",
+                            "active": true,
+                            "slug": "jcitizen",
+                            "type": "NORMAL"
+                        },
+                        "createdDate": 1548720847365,
+                        "updatedDate": 1548720847365,
+                        "comments": [],
+                        "tasks": [],
+                        "permittedOperations": {
+                            "editable": true,
+                            "deletable": true
+                        }
+                    }
+                ],
+                "tasks": [],
+                "permittedOperations": {
+                    "editable": true,
+                    "deletable": true
+                }
+            },
+            "commentAnchor": {
+                "line": 1,
+                "lineType": "CONTEXT",
+                "fileType": "FROM",
+                "path": "path/to/file",
+                "srcPath": "path/to/file"
+            }
+        },
+        {
+            "id": 101,
+            "createdDate": 1359065920,
+            "user": {
+                "name": "jcitizen",
+                "emailAddress": "jane@example.com",
+                "id": 101,
+                "displayName": "Jane Citizen",
+                "active": true,
+                "slug": "jcitizen",
+                "type": "NORMAL"
+            },
+            "action": "RESCOPED",
+            "fromHash": "abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde",
+            "previousFromHash": "bcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdea",
+            "previousToHash": "cdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeab",
+            "toHash": "ddeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabc",
+            "added": {
+                "commits": [
+                    {
+                        "id": "abcdef0123abcdef4567abcdef8987abcdef6543",
+                        "displayId": "abcdef0123a",
+                        "author": {
+                            "name": "charlie",
+                            "emailAddress": "charlie@example.com"
+                        },
+                        "authorTimestamp": 1548720847608,
+                        "committer": {
+                            "name": "charlie",
+                            "emailAddress": "charlie@example.com"
+                        },
+                        "committerTimestamp": 1548720847608,
+                        "message": "WIP on feature 1",
+                        "parents": [
+                            {
+                                "id": "abcdef0123abcdef4567abcdef8987abcdef6543",
+                                "displayId": "abcdef0"
+                            }
+                        ]
+                    }
+                ],
+                "total": 1
+            },
+            "removed": {
+                "commits": [
+                    {
+                        "id": "def0123abcdef4567abcdef8987abcdef6543abc",
+                        "displayId": "def0123abcd",
+                        "author": {
+                            "name": "charlie",
+                            "emailAddress": "charlie@example.com"
+                        },
+                        "authorTimestamp": 1548720847609,
+                        "committer": {
+                            "name": "charlie",
+                            "emailAddress": "charlie@example.com"
+                        },
+                        "committerTimestamp": 1548720847609,
+                        "message": "More work on feature 1",
+                        "parents": [
+                            {
+                                "id": "abcdef0123abcdef4567abcdef8987abcdef6543",
+                                "displayId": "abcdef0"
+                            }
+                        ]
+                    }
+                ],
+                "total": 1
+            }
+        },
+        {
+            "id": 101,
+            "createdDate": 1359085920,
+            "user": {
+                "name": "jcitizen",
+                "emailAddress": "jane@example.com",
+                "id": 101,
+                "displayName": "Jane Citizen",
+                "active": true,
+                "slug": "jcitizen",
+                "type": "NORMAL"
+            },
+            "action": "MERGED"
+        }
+    ],
+    "start": 0
+}`),
+				},
+			},
+			want: Activities{
+				IsLastPage: true,
+				Limit:      25,
+				Size:       3,
+				Values: []Activity{
+					{
+						ID:          101,
+						CreatedDate: 1359065920,
+						User: User{
+							Name:         "jcitizen",
+							EmailAddress: "jane@example.com",
+							ID:           101,
+							DisplayName:  "Jane Citizen",
+							Active:       true,
+							Slug:         "jcitizen",
+							Type:         "NORMAL",
+						},
+						Action:        "COMMENTED",
+						CommentAction: "ADDED",
+						Comment: ActivityComment{
+							Properties: Properties{
+								Key: "value",
+							},
+							ID:      1,
+							Version: 1,
+							Text:    "A measured reply.",
+							Author: User{
+								Name:         "jcitizen",
+								EmailAddress: "jane@example.com",
+								ID:           101,
+								DisplayName:  "Jane Citizen",
+								Active:       true,
+								Slug:         "jcitizen",
+								Type:         "NORMAL",
+							},
+							CreatedDate: 1548720847370,
+							UpdatedDate: 1548720847370,
+							Comments: []ActivityComment{
+								{
+									Properties: Properties{
+										Key: "value",
+									},
+									ID:      1,
+									Version: 1,
+									Text:    "An insightful comment.",
+									Author: User{
+										Name:         "jcitizen",
+										EmailAddress: "jane@example.com",
+										ID:           101,
+										DisplayName:  "Jane Citizen",
+										Active:       true,
+										Slug:         "jcitizen",
+										Type:         "NORMAL",
+									},
+									CreatedDate: 1548720847365,
+									UpdatedDate: 1548720847365,
+									Comments:    []ActivityComment{},
+									PermittedOperations: PermittedOperations{
+										Editable:  true,
+										Deletable: true,
+									},
+								},
+							},
+							PermittedOperations: PermittedOperations{
+								Editable:  true,
+								Deletable: true,
+							},
+						},
+						CommentAnchor: Anchor{
+							Line:     1,
+							LineType: "CONTEXT",
+							FileType: "FROM",
+							Path:     "path/to/file",
+							SrcPath:  "path/to/file",
+						},
+					},
+					{
+						ID:          101,
+						CreatedDate: 1359065920,
+						User: User{
+							Name:         "jcitizen",
+							EmailAddress: "jane@example.com",
+							ID:           101,
+							DisplayName:  "Jane Citizen",
+							Active:       true,
+							Slug:         "jcitizen",
+							Type:         "NORMAL",
+						},
+						Action:           "RESCOPED",
+						FromHash:         "abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde",
+						PreviousFromHash: "bcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdea",
+						PreviousToHash:   "cdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeab",
+						ToHash:           "ddeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabc",
+						Added: CommitsStats{
+							Commits: []Commit{
+								{
+									ID:        "abcdef0123abcdef4567abcdef8987abcdef6543",
+									DisplayID: "abcdef0123a",
+									Author: User{
+										Name:         "charlie",
+										EmailAddress: "charlie@example.com",
+									},
+									AuthorTimestamp: 1548720847608,
+									Committer: User{
+										Name:         "charlie",
+										EmailAddress: "charlie@example.com",
+									},
+									CommitterTimestamp: 1548720847608,
+									Message:            "WIP on feature 1",
+									Parents: []struct {
+										ID        string `json:"id"`
+										DisplayID string `json:"displayId"`
+									}{
+										{
+											ID:        "abcdef0123abcdef4567abcdef8987abcdef6543",
+											DisplayID: "abcdef0",
+										},
+									},
+								},
+							},
+							Total: 1,
+						},
+						Removed: CommitsStats{
+							Commits: []Commit{
+								{
+									ID:        "def0123abcdef4567abcdef8987abcdef6543abc",
+									DisplayID: "def0123abcd",
+									Author: User{
+										Name:         "charlie",
+										EmailAddress: "charlie@example.com",
+									},
+									AuthorTimestamp: 1548720847609,
+									Committer: User{
+										Name:         "charlie",
+										EmailAddress: "charlie@example.com",
+									},
+									CommitterTimestamp: 1548720847609,
+									Message:            "More work on feature 1",
+									Parents: []struct {
+										ID        string `json:"id"`
+										DisplayID string `json:"displayId"`
+									}{
+										{
+											ID:        "abcdef0123abcdef4567abcdef8987abcdef6543",
+											DisplayID: "abcdef0",
+										},
+									},
+								},
+							},
+							Total: 1,
+						},
+					},
+					{
+						ID:          101,
+						CreatedDate: 1359085920,
+						User: User{
+							Name:         "jcitizen",
+							EmailAddress: "jane@example.com",
+							ID:           101,
+							DisplayName:  "Jane Citizen",
+							Active:       true,
+							Slug:         "jcitizen",
+							Type:         "NORMAL",
+						},
+						Action: "MERGED",
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetActivitiesResponse(tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetActivitiesResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetActivitiesResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

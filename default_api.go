@@ -794,12 +794,17 @@ func (a *DefaultApiService) CreateComment(projectKey, repositorySlug string, com
 Add a new comment.  &lt;p&gt;  Comments can be added in a few places by setting different attributes:  &lt;p&gt;  General pull request comment:   &lt;pre&gt;      {          \&quot;text\&quot;: \&quot;An insightful general comment on a pull request.\&quot;      }      &lt;/pre&gt;   Reply to a comment:   &lt;pre&gt;      {          \&quot;text\&quot;: \&quot;A measured reply.\&quot;,          \&quot;parent\&quot;: {              \&quot;id\&quot;: 1          }      }      &lt;/pre&gt;   General file comment:   &lt;pre&gt;      {          \&quot;text\&quot;: \&quot;An insightful general comment on a file.\&quot;,          \&quot;anchor\&quot;: {              \&quot;diffType\&quot;: \&quot;RANGE\&quot;,              \&quot;fromHash\&quot;: \&quot;6df3858eeb9a53a911cd17e66a9174d44ffb02cd\&quot;,              \&quot;path\&quot;: \&quot;path/to/file\&quot;,              \&quot;srcPath\&quot;: \&quot;path/to/file\&quot;,              \&quot;toHash\&quot;: \&quot;04c7c5c931b9418ca7b66f51fe934d0bd9b2ba4b\&quot;          }      }      &lt;/pre&gt;   File line comment:   &lt;pre&gt;      {          \&quot;text\&quot;: \&quot;A pithy comment on a particular line within a file.\&quot;,          \&quot;anchor\&quot;: {              \&quot;diffType\&quot;: \&quot;COMMIT\&quot;,              \&quot;line\&quot;: 1,              \&quot;lineType\&quot;: \&quot;CONTEXT\&quot;,              \&quot;fileType\&quot;: \&quot;FROM\&quot;,              \&quot;fromHash\&quot;: \&quot;6df3858eeb9a53a911cd17e66a9174d44ffb02cd\&quot;,              \&quot;path\&quot;: \&quot;path/to/file\&quot;,              \&quot;srcPath\&quot;: \&quot;path/to/file\&quot;,              \&quot;toHash\&quot;: \&quot;04c7c5c931b9418ca7b66f51fe934d0bd9b2ba4b\&quot;          }      }      &lt;/pre&gt;  &lt;p&gt;  For file and line comments, &#39;path&#39; refers to the path of the file to which the comment should be applied and  &#39;srcPath&#39; refers to the path the that file used to have (only required for copies and moves). Also,  fromHash and toHash refer to the sinceId / untilId (respectively) used to produce the diff on which the comment  was added. Finally diffType refers to the type of diff the comment was added on. For backwards compatibility  purposes if no diffType is provided and no fromHash/toHash pair is provided the diffType will be resolved to  &#39;EFFECTIVE&#39;. In any other cases the diffType is REQUIRED.  &lt;p&gt;  For line comments, &#39;line&#39; refers to the line in the diff that the comment should apply to. &#39;lineType&#39; refers to  the type of diff hunk, which can be:  &lt;ul&gt;      &lt;li&gt;&#39;ADDED&#39; - for an added line;&lt;/li&gt;      &lt;li&gt;&#39;REMOVED&#39; - for a removed line; or&lt;/li&gt;      &lt;li&gt;&#39;CONTEXT&#39; - for a line that was unmodified but is in the vicinity of the diff.&lt;/li&gt;  &lt;/ul&gt;  &#39;fileType&#39; refers to the file of the diff to which the anchor should be attached - which is of relevance when  displaying the diff in a side-by-side way. Currently the supported values are:  &lt;ul&gt;      &lt;li&gt;&#39;FROM&#39; - the source file of the diff&lt;/li&gt;      &lt;li&gt;&#39;TO&#39; - the destination file of the diff&lt;/li&gt;  &lt;/ul&gt;  If the current user is not a participant the user is added as a watcher of the pull request.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_READ&lt;/strong&gt; permission for the repository that this pull request  targets to call this resource.
 
 @return */
-func (a *DefaultApiService) CreateComment_1(projectKey, repositorySlug string, pullRequestID int, localVarPostBody interface{}, localVarHTTPContentTypes []string) (*APIResponse, error) {
+func (a *DefaultApiService) CreatePullRequestComment(projectKey, repositorySlug string, pullRequestID int, comment Comment, localVarHTTPContentTypes []string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
+
+	localVarPostBody, err := json.Marshal(comment)
+	if err != nil {
+		return nil, err
+	}
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments"
@@ -2990,7 +2995,7 @@ func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pul
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewRawAPIResponse(localVarHTTPResponse)
 }
 
 /* DefaultApiService
