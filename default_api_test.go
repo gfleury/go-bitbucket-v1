@@ -692,7 +692,69 @@ func TestDefaultApiService_CreateComment(t *testing.T) {
 	}
 }
 
-func TestDefaultApiService_CreateComment_1(t *testing.T) {
+func TestDefaultApiService_CreateCommentWithComment(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		projectKey        string
+		repositorySlug    string
+		commitId          string
+		comment           Comment
+		localVarOptionals map[string]interface{}
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments: context canceled"}, true, false},
+		{"simpleComment", fields{client: generateConfigRealLocalServer()},
+			args{projectKey: "PROJ",
+				repositorySlug: "repo1",
+				commitId:       "657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30",
+				comment:        Comment{Text: "Simple comment"},
+			},
+			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Commit '657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30' does not exist in repository 'repo1'.,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`,
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "Commit '657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30' does not exist in repository 'repo1'.",
+							"exceptionName": "com.atlassian.bitbucket.commit.NoSuchCommitException",
+						},
+					},
+				},
+			},
+			true, true,
+		},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.CreateCommentWithComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.commitId, tt.args.comment, tt.args.localVarOptionals)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.CreateCommentWithComment() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != nil {
+				got.Response = nil
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.CreateCommentWithComment() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_CreatePullRequestComment(t *testing.T) {
 	type fields struct {
 		client *APIClient
 	}
@@ -700,7 +762,7 @@ func TestDefaultApiService_CreateComment_1(t *testing.T) {
 		projectKey               string
 		repositorySlug           string
 		pullRequestID            int
-		localVarPostBody         interface{}
+		comment                  Comment
 		localVarHTTPContentTypes []string
 	}
 	tests := []struct {
@@ -711,6 +773,26 @@ func TestDefaultApiService_CreateComment_1(t *testing.T) {
 		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments: context canceled"}, true, false},
+		{"simpleComment", fields{client: generateConfigRealLocalServer()},
+			args{projectKey: "PROJ",
+				repositorySlug:           "repo1",
+				pullRequestID:            1,
+				comment:                  Comment{Text: "Simple comment"},
+				localVarHTTPContentTypes: []string{"application/json"},
+			},
+			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Pull request 1 does not exist in PROJ/repo1.,exceptionName:com.atlassian.bitbucket.pull.NoSuchPullRequestException}]}`,
+				Values: map[string]interface{}{
+					"errors": []interface{}{
+						map[string]interface{}{
+							"context":       nil,
+							"message":       "Pull request 1 does not exist in PROJ/repo1.",
+							"exceptionName": "com.atlassian.bitbucket.pull.NoSuchPullRequestException",
+						},
+					},
+				},
+			},
+			true, true,
+		},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -720,13 +802,16 @@ func TestDefaultApiService_CreateComment_1(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.CreateComment_1(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID, tt.args.localVarPostBody, tt.args.localVarHTTPContentTypes)
+			got, err := a.CreatePullRequestComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID, tt.args.comment, tt.args.localVarHTTPContentTypes)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.CreateComment_1() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.CreatePullRequestComment() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			if got != nil {
+				got.Response = nil
+			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.CreateComment_1() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.CreatePullRequestComment() = %v, want %v", got, tt.want)
 			}
 		})
 	}

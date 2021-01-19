@@ -406,6 +406,112 @@ type SearchQuery struct {
 	Limits Limits `json:"limits"`
 }
 
+type Parent struct {
+	ID int `json:"id"`
+}
+
+type DiffType string
+
+const (
+	DiffTypeEffective DiffType = "EFFECTIVE"
+	DiffTypeCommit    DiffType = "COMMIT"
+	DiffTypeRange     DiffType = "RANGE"
+)
+
+type LineType string
+
+const (
+	LineTypeAdded   LineType = "ADDED"
+	LineTypeRemoved LineType = "REMOVED"
+	LineTypeContext LineType = "CONTEXT"
+)
+
+type FileType string
+
+const (
+	FileTypeFrom FileType = "FROM"
+	FileTypeTo   FileType = "TO"
+)
+
+type Anchor struct {
+	DiffType DiffType `json:"diffType,omitempty"`
+	Line     int      `json:"line,omitempty"`
+	LineType LineType `json:"lineType,omitempty"`
+	FileType FileType `json:"fileType,omitempty"`
+	FromHash string   `json:"fromHash,omitempty"`
+	Path     string   `json:"path,omitempty"`
+	SrcPath  string   `json:"srcPath,omitempty"`
+	ToHash   string   `json:"toHash,omitempty"`
+}
+
+type Comment struct {
+	Text   string  `json:"text"`
+	Parent *Parent `json:"parent,omitempty"`
+	Anchor *Anchor `json:"anchor,omitempty"`
+}
+
+type Properties struct {
+	Key string `json:"key"`
+}
+
+type PermittedOperations struct {
+	Editable  bool `json:"editable"`
+	Deletable bool `json:"deletable"`
+}
+
+type ActivityComment struct {
+	Properties          Properties          `json:"properties"`
+	ID                  int                 `json:"id"`
+	Version             int                 `json:"version"`
+	Text                string              `json:"text"`
+	Author              User                `json:"author"`
+	CreatedDate         int64               `json:"createdDate"`
+	UpdatedDate         int64               `json:"updatedDate"`
+	Comments            []ActivityComment   `json:"comments"`
+	PermittedOperations PermittedOperations `json:"permittedOperations"`
+}
+
+type CommitsStats struct {
+	Commits []Commit `json:"commits"`
+	Total   int      `json:"total"`
+}
+
+type Action string
+
+const (
+	ActionCommented Action = "COMMENTED"
+	ActionRescoped  Action = "RESCOPED"
+	ActionMerged    Action = "MERGED"
+	ActionApproved  Action = "APPROVED"
+	ActionDeclined  Action = "DECLINED"
+	ActionOpened    Action = "OPENED"
+)
+
+type Activity struct {
+	ID               int             `json:"id"`
+	CreatedDate      int             `json:"createdDate"`
+	User             User            `json:"user"`
+	Action           Action          `json:"action"`
+	CommentAction    string          `json:"commentAction"`
+	Comment          ActivityComment `json:"comment"`
+	CommentAnchor    Anchor          `json:"commentAnchor"`
+	FromHash         string          `json:"fromHash,omitempty"`
+	PreviousFromHash string          `json:"previousFromHash,omitempty"`
+	PreviousToHash   string          `json:"previousToHash,omitempty"`
+	ToHash           string          `json:"toHash,omitempty"`
+	Added            CommitsStats    `json:"added"`
+	Removed          CommitsStats    `json:"removed"`
+}
+
+type Activities struct {
+	NextPageStart int        `json:"nextPageStart"`
+	IsLastPage    bool       `json:"isLastPage"`
+	Limit         int        `json:"limit"`
+	Size          int        `json:"size"`
+	Start         int        `json:"start"`
+	Values        []Activity `json:"values"`
+}
+
 // String converts global permission to its string representation
 func (p PermissionGlobal) String() string {
 	return string(p)
@@ -543,6 +649,13 @@ func GetWebhooksResponse(r *APIResponse) ([]Webhook, error) {
 func GetSearchResultResponse(r *APIResponse) (SearchResult, error) {
 	var h SearchResult
 	err := mapstructure.Decode(r.Values, &h)
+	return h, err
+}
+
+// GetActivitiesResponse cast Activities results into structure
+func GetActivitiesResponse(r *APIResponse) (Activities, error) {
+	var h Activities
+	err := json.Unmarshal(r.Payload, &h)
 	return h, err
 }
 
