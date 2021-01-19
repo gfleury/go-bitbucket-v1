@@ -661,6 +661,45 @@ func TestDefaultApiService_CreateComment(t *testing.T) {
 		projectKey        string
 		repositorySlug    string
 		commitId          string
+		localVarOptionals map[string]interface{}
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//commits//comments: context canceled"}, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.CreateComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.commitId, tt.args.localVarOptionals)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.CreateComment() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.CreateComment() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_CreateCommentWithComment(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		projectKey        string
+		repositorySlug    string
+		commitId          string
 		comment           Comment
 		localVarOptionals map[string]interface{}
 	}
@@ -700,16 +739,16 @@ func TestDefaultApiService_CreateComment(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.CreateComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.commitId, tt.args.comment, tt.args.localVarOptionals)
+			got, err := a.CreateCommentWithComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.commitId, tt.args.comment, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.CreateComment() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.CreateCommentWithComment() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != nil {
 				got.Response = nil
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.CreateComment() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.CreateCommentWithComment() = %v, want %v", got, tt.want)
 			}
 		})
 	}
