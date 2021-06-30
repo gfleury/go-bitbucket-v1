@@ -124,7 +124,7 @@ func TestDefaultApiService_AddUserToGroups(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		name string
+		name   string
 		groups []string
 	}
 	tests := []struct {
@@ -1844,6 +1844,45 @@ func TestDefaultApiService_EnableHook_4(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.EnableHook_4() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDefaultApiService_EnableHook_4_WithOptions(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		projectKey        string
+		hookKey           string
+		localVarOptionals map[string]interface{}
+		localVarPostBody  map[string]interface{}
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//settings/hooks//enabled: context canceled"}, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.EnableHook_4_WithOptions(tt.args.projectKey, tt.args.hookKey, tt.args.localVarOptionals, tt.args.localVarPostBody)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.EnableHook_4_WithOptions() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.EnableHook_4_WithOptions() = %v, want %v", got, tt.want)
 			}
 		})
 	}
