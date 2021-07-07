@@ -137,7 +137,7 @@ func (a *DefaultApiService) AddUserToGroups(name string, groups []string) (*APIR
 	)
 
 	localVarPostBody = map[string]interface{}{
-		"user": name,
+		"user":   name,
 		"groups": groups,
 	}
 
@@ -2394,9 +2394,17 @@ func (a *DefaultApiService) EnableHook(projectKey, repositorySlug, hookKey strin
 	 @param "contentLength" (int32)
  @return */
 func (a *DefaultApiService) EnableHook_4(projectKey, repositorySlug, hookKey string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	return a.EnableHook_4_WithOptions(projectKey, hookKey, localVarOptionals, nil)
+}
+
+/* DefaultApiService
+For certain hooks (like "com.atlassian.bitbucket.server.bitbucket-bundled-hooks:requiredApproversMergeHook"), a request body with "requiredCount" and an integer value is necessary.
+
+@param localVarPostBody (nil or map[string]interface{})
+@return */
+func (a *DefaultApiService) EnableHook_4_WithOptions(projectKey, hookKey string, localVarOptionals map[string]interface{}, localVarPostBody interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
-		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
@@ -2404,7 +2412,6 @@ func (a *DefaultApiService) EnableHook_4(projectKey, repositorySlug, hookKey str
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/settings/hooks/{hookKey}/enabled"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"hookKey"+"}", fmt.Sprintf("%v", hookKey), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -2435,6 +2442,7 @@ func (a *DefaultApiService) EnableHook_4(projectKey, repositorySlug, hookKey str
 	if localVarTempParam, localVarOk := localVarOptionals["contentLength"].(int32); localVarOk {
 		localVarHeaderParams["Content-Length"] = parameterToString(localVarTempParam, "")
 	}
+
 	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
