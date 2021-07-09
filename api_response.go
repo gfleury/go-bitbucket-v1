@@ -533,6 +533,12 @@ func (k *SSHKey) String() string {
 	return strings.Join(parts, " ")
 }
 
+func GetProjectsResponse(r *APIResponse) ([]Project, error) {
+	var m []Project
+	err := mapstructure.Decode(r.Values["values"], &m)
+	return m, err
+}
+
 // GetCommitsResponse cast Commits into structure
 func GetCommitsResponse(r *APIResponse) ([]Commit, error) {
 	var m []Commit
