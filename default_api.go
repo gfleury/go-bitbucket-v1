@@ -3154,7 +3154,7 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewRawAPIResponse(localVarHTTPResponse)
 }
 
 /* DefaultApiService
