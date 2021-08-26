@@ -8060,7 +8060,7 @@ func TestDefaultApiService_GetCommitStatus(t *testing.T) {
 		want                     *APIResponse
 		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/rest/build-status/1.0/commits/: context canceled"}, true, false},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/build-status/1.0/commits/: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
