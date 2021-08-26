@@ -13562,7 +13562,7 @@ func (a *DefaultApiService) GetCommitStatus(commitId string) (*APIResponse, erro
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/rest/build-status/1.0/commits/{commitId}"
+	localVarPath := a.client.cfg.BasePath + "/build-status/1.0/commits/{commitId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"commitId"+"}", fmt.Sprintf("%v", commitId), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -13682,7 +13682,7 @@ func (a *DefaultApiService) SetCommitStatus(commitId string, buildStatus BuildSt
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/rest/build-status/1.0/commits/{commitId}"
+	localVarPath := a.client.cfg.BasePath + "/build-status/1.0/commits/{commitId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"commitId"+"}", fmt.Sprintf("%v", commitId), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -13723,7 +13723,7 @@ func (a *DefaultApiService) SetCommitStatus(commitId string, buildStatus BuildSt
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewBitbucketAPIResponse(localVarHTTPResponse)
+	return NewAPIResponse(localVarHTTPResponse), nil
 }
 
 /*
