@@ -554,6 +554,13 @@ func GetBranchesResponse(r *APIResponse) ([]Branch, error) {
 	return m, err
 }
 
+// GetBrancheResponse cast Branch into structure
+func GetBranchResponse(r *APIResponse) (Branch, error) {
+	var m Branch
+	err := mapstructure.Decode(r.Values, &m)
+	return m, err
+}
+
 // GetRepositoriesResponse cast Repositories into structure
 func GetRepositoriesResponse(r *APIResponse) ([]Repository, error) {
 	var m []Repository
