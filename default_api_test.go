@@ -5,6 +5,9 @@
 package bitbucketv1
 
 import (
+	"io"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"reflect"
 	"testing"
@@ -2328,6 +2331,47 @@ func TestDefaultApiService_GetBranches(t *testing.T) {
 				t.Errorf("DefaultApiService.GetBranches() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestDefaultApiService_GetBranchesPagination(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		switch r.RequestURI {
+		case "/api/1.0/projects/PROJECT/repos/REPO/branches?limit=100&start=0":
+			io.WriteString(w, `{
+				"size": 1,
+				"limit": 100,
+				"isLastPage": true,
+				"values": [
+					{
+						"id": "refs/heads/main",
+						"displayId": "main",
+						"type": "BRANCH",
+						"latestCommit": "8d51122def5632836d1cb1026e879069e10a1e13",
+						"latestChangeset": "8d51122def5632836d1cb1026e879069e10a1e13",
+						"isDefault": true
+					}
+				],
+				"start": 0
+			}`)
+		default:
+			t.Errorf("DefaultApiService.GetBranches() error = unhandled request %s", r.RequestURI)
+		}
+	}))
+	defer ts.Close()
+
+	client := NewAPIClient(
+		context.TODO(),
+		NewConfiguration(ts.URL),
+	)
+	_, err := client.DefaultApi.GetBranches("PROJECT", "REPO", map[string]interface{}{
+		"limit": 100,
+		"start": 0,
+	})
+	if err != nil {
+		t.Errorf("DefaultApiService.GetBranches() error = %v", err)
+		return
 	}
 }
 
