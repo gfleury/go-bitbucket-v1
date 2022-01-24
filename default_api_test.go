@@ -2365,13 +2365,52 @@ func TestDefaultApiService_GetBranchesPagination(t *testing.T) {
 		context.TODO(),
 		NewConfiguration(ts.URL),
 	)
-	_, err := client.DefaultApi.GetBranches("PROJECT", "REPO", map[string]interface{}{
-		"limit": 100,
-		"start": 0,
-	})
-	if err != nil {
-		t.Errorf("DefaultApiService.GetBranches() error = %v", err)
-		return
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		project           string
+		repository        string
+		localVarOptionals map[string]interface{}
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"limitAndStartSet", fields{client: client}, args{
+			project: "PROJECT", repository: "REPO",
+			localVarOptionals: map[string]interface{}{
+				"limit": 100,
+				"start": 0,
+			}}, nil, false, false},
+		{"incorrectLimit", fields{client: client}, args{
+			project: "PROJECT", repository: "REPO",
+			localVarOptionals: map[string]interface{}{
+				"limit": "wrong",
+			}}, nil, true, false},
+		{"incorrectStart", fields{client: client}, args{
+			project: "PROJECT", repository: "REPO",
+			localVarOptionals: map[string]interface{}{
+				"start": "wrong",
+			}}, nil, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			_, err := a.GetBranches(tt.args.project, tt.args.repository, tt.args.localVarOptionals)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.GetBranches() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
 	}
 }
 
