@@ -2339,7 +2339,7 @@ func TestDefaultApiService_GetBranchesPagination(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		switch r.RequestURI {
 		case "/api/1.0/projects/PROJECT/repos/REPO/branches?limit=100&start=0":
-			io.WriteString(w, `{
+			_, err := io.WriteString(w, `{
 				"size": 1,
 				"limit": 100,
 				"isLastPage": true,
@@ -2355,6 +2355,9 @@ func TestDefaultApiService_GetBranchesPagination(t *testing.T) {
 				],
 				"start": 0
 			}`)
+			if err != nil {
+				t.Errorf("DefaultApiService.GetBranches() error = i/o error %v", err)
+			}
 		default:
 			t.Errorf("DefaultApiService.GetBranches() error = unhandled request %s", r.RequestURI)
 		}
