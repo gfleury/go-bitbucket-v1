@@ -115,6 +115,55 @@ func TestGetBranchesResponse(t *testing.T) {
 	}
 }
 
+func TestGetBranchResponse(t *testing.T) {
+	type args struct {
+		r *APIResponse
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    Branch
+		wantErr bool
+	}{
+		{
+			name: "Single branch",
+			args: args{
+				r: &APIResponse{
+					Values: map[string]interface{}{
+						"id":              "refs/heads/main",
+						"displayId":       "main",
+						"type":            "BRANCH",
+						"latestCommit":    "8d51122def5632836d1cb1026e879069e10a1e13",
+						"latestChangeset": "8d51122def5632836d1cb1026e879069e10a1e13",
+						"isDefault":       true,
+					},
+				},
+			},
+			want: Branch{
+				ID:              "refs/heads/main",
+				DisplayID:       "main",
+				Type:            "BRANCH",
+				LatestCommit:    "8d51122def5632836d1cb1026e879069e10a1e13",
+				LatestChangeset: "8d51122def5632836d1cb1026e879069e10a1e13",
+				IsDefault:       true,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetBranchResponse(tt.args.r)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetBranchResponse() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetBranchResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestGetRepositoriesResponse(t *testing.T) {
 	type args struct {
 		r *APIResponse
