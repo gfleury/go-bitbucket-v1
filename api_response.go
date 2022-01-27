@@ -697,7 +697,7 @@ func NewBitbucketAPIResponse(r *http.Response) (*APIResponse, error) {
 
 	if decoder.More() {
 		// there's more data in the stream, so discard whatever is left
-		io.Copy(ioutil.Discard, r.Body)
+		_, _ = io.Copy(ioutil.Discard, r.Body)
 	}
 
 	return response, err
