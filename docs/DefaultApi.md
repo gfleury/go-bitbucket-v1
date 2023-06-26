@@ -5754,6 +5754,35 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **UpdatePullRequest**
+> UpdatePullRequest(ctx, &EditPullRequestOptions{} )
+
+
+Update the title, description, reviewers or destination branch of an existing pull request..  <p>  The authenticated user must have <strong>REPO_ADMIN</strong> permission for the context repository to call this  resource.  <p>  This resource will call all RestFragments that are registered with the key  <strong>bitbucket.repository.settings.pullRequests</strong>.<ul>
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for logging, tracing, authentication, etc.
+  **projectKey** | **string**| The project key |
+  **pullRequestId** | **string**| The ID of the pull request within the repository |
+  **repositorySlug** | **string**| The repository slug. |
+
+
+### Return type
+
+RestPullRequest
+
+### Authorization
+
+Authorization is required.
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
 # **UpdatePullRequestSettings**
 > UpdatePullRequestSettings(ctx, )
 
