@@ -9,7 +9,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/url"
 	"strings"
 
@@ -3369,7 +3368,7 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return 0, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes)
 	}
 	return io.Copy(writer, localVarHTTPResponse.Body)
@@ -4662,7 +4661,7 @@ func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path strin
 	}
 
 	result := NewAPIResponse(localVarHTTPResponse)
-	result.Payload, err = ioutil.ReadAll(localVarHTTPResponse.Body)
+	result.Payload, err = io.ReadAll(localVarHTTPResponse.Body)
 	return result, err
 }
 
@@ -8340,7 +8339,7 @@ func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFil
 		return nil, err
 	}
 	defer localVarHTTPResponse.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+	bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		return nil, errors.New(fmt.Sprintf("Error reading %s: %s", localVarPath, localVarHTTPResponse.Status))
