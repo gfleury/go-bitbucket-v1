@@ -20,6 +20,9 @@ jobs:
       - name: Display Go version
         run: go version
 
+      - name: Format
+        run: go fmt . && git diff --exit-code
+
       - name: Build
         run: go build -v ./...
 

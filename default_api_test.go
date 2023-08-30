@@ -6103,6 +6103,7 @@ func TestDefaultApiService_SetDefaultBranch(t *testing.T) {
 		wantErr, integrationTest bool
 	}{
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//branches/default: context canceled"}, true, false},
+		{"goodRequest", fields{client: generateConfigRealLocalServer()}, args{"PRJ", "repo1", "ref/branch/master"}, &APIResponse{Values: map[string]interface{}{}}, false, true},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
@@ -6117,6 +6118,7 @@ func TestDefaultApiService_SetDefaultBranch(t *testing.T) {
 				t.Errorf("DefaultApiService.SetDefaultBranch() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Response = nil
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DefaultApiService.SetDefaultBranch() = %v, want %v", got, tt.want)
 			}
