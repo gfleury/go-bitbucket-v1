@@ -10,7 +10,12 @@
 package swagger
 
 import (
+	"encoding/json"
 	"net/http"
+	"strconv"
+	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 func AddGroupToUser(w http.ResponseWriter, r *http.Request) {
@@ -54,6 +59,27 @@ func CountPullRequestTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
+	repositorySlug := mux.Vars(r)["repositorySlug"]
+	if strings.Compare(repositorySlug, "repo1_test1") == 0 {
+		HandleError(w, http.StatusBadRequest, map[string]interface{}{"errors": []interface{}{
+			map[string]interface{}{
+				"context":       nil,
+				"message":       "title must be supplied for this request",
+				"exceptionName": nil,
+			},
+		}})
+		return
+	} else if strings.Compare(repositorySlug, "repo1_test2") == 0 {
+		HandleError(w, http.StatusNotFound, map[string]interface{}{"errors": []interface{}{
+			map[string]interface{}{
+				"context":       nil,
+				"message":       "Repository \"repo1\" of project with key \"PROJ\" has no branch \"refs/heads/feature\"",
+				"exceptionName": "com.atlassian.bitbucket.commit.NoSuchCommitException",
+			},
+		}})
+		return
+	}
+
 	HandleRequest(w, r)
 }
 
@@ -62,10 +88,37 @@ func CreateBranch(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateComment(w http.ResponseWriter, r *http.Request) {
+	commit_id := mux.Vars(r)["commitId"]
+	if strings.Compare(commit_id, "657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30") == 0 {
+		HandleError(w, http.StatusNotFound, map[string]interface{}{"errors": []interface{}{
+			map[string]interface{}{
+				"context":       nil,
+				"message":       "Commit '657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30' does not exist in repository 'repo1'.",
+				"exceptionName": "com.atlassian.bitbucket.commit.NoSuchCommitException",
+			},
+		}})
+		return
+	}
+
 	HandleRequest(w, r)
 }
 
 func CreateCommentCommit(w http.ResponseWriter, r *http.Request) {
+	pr_id := mux.Vars(r)["pullRequestId"]
+	if id, err := strconv.Atoi(pr_id); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	} else if id == 1 {
+		HandleError(w, http.StatusNotFound, map[string]interface{}{"errors": []interface{}{
+			map[string]interface{}{
+				"context":       nil,
+				"message":       "Pull request 1 does not exist in PROJ/repo1.",
+				"exceptionName": "com.atlassian.bitbucket.pull.NoSuchPullRequestException",
+			},
+		}})
+		return
+	}
+
 	HandleRequest(w, r)
 }
 
@@ -102,7 +155,30 @@ func Decline(w http.ResponseWriter, r *http.Request) {
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
+	pr_id := mux.Vars(r)["pullRequestId"]
+	if id, err := strconv.Atoi(pr_id); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	} else if id < 0 {
+		HandleError(w, http.StatusNotFound, map[string]interface{}{"errors": []interface{}{
+			map[string]interface{}{
+				"context":       nil,
+				"message":       "No pull request exists with ID -1 for this repository 1",
+				"exceptionName": "com.atlassian.bitbucket.pull.NoSuchPullRequestException",
+			},
+		}})
+		return
+	}
+
 	HandleRequest(w, r)
+}
+
+func HandleError(w http.ResponseWriter, httpStatus int, body interface{}) {
+	w.WriteHeader(httpStatus)
+	bodyData, err := json.Marshal(body)
+	if err == nil {
+		w.Write(bodyData)
+	}
 }
 
 func DeleteAvatar(w http.ResponseWriter, r *http.Request) {
@@ -796,5 +872,9 @@ func SetCommitStatus(w http.ResponseWriter, r *http.Request) {
 }
 
 func SearchCode(w http.ResponseWriter, r *http.Request) {
+	HandleRequest(w, r)
+}
+
+func GetSSHKeys(w http.ResponseWriter, r *http.Request) {
 	HandleRequest(w, r)
 }
