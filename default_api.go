@@ -3057,8 +3057,8 @@ func (a *DefaultApiService) ForkRepository(projectKey, repositorySlug string,
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %s, Url: %s, Body: %s", localVarHTTPResponse.Status, localVarPath, bodyBytes))
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %s, Url: %s, Body: %s", localVarHTTPResponse.Status, localVarPath, bodyBytes))
 	}
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
@@ -5304,8 +5304,8 @@ func (a *DefaultApiService) SetRepositoryPermissionGroups(projectKey, repository
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 	if localVarHTTPResponse.StatusCode == 204 {
 		return nil, nil
@@ -8419,8 +8419,8 @@ func (a *DefaultApiService) CreateRepoSSHKey(projectKey, repositorySlug, sshPubK
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
@@ -11226,8 +11226,8 @@ func (a *DefaultApiService) CreateAccessToken(userSlug, tokenName string, repoAd
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
@@ -14686,7 +14686,6 @@ func (a *DefaultApiService) SearchCode(query SearchQuery) (*APIResponse, error) 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
-//  "http://<ourstashurl>/stash/rest/api/latest/projects/<projectname>/repos/<reponame>/commits?at=refs/heads/deploy&start=0&limit=0"
 func (a *DefaultApiService) GetHeadCommit(project, repository, branch string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
@@ -14694,6 +14693,7 @@ func (a *DefaultApiService) GetHeadCommit(project, repository, branch string, lo
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
+
 	// create path and map variables
 	if err := typeCheckParameter(localVarOptionals["apibasepath"], "string", "apibasepath"); err != nil {
 		return nil, err
@@ -14740,8 +14740,8 @@ func (a *DefaultApiService) GetHeadCommit(project, repository, branch string, lo
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
