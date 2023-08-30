@@ -6,7 +6,6 @@ package bitbucketv1
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/url"
@@ -3281,7 +3280,7 @@ func (a *DefaultApiService) GetApplicationProperties() (*APIResponse, error) {
 
 @return the size of the archive written out
 */
-func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}, writer io.Writer) (int64, error) {
+func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}, writer io.Writer) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3291,7 +3290,7 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 
 	// create path and map variables
 	if err := typeCheckParameter(localVarOptionals["apibasepath"], "string", "apibasepath"); err != nil {
-		return 0, err
+		return nil, err
 	}
 	apibasepath, _ := localVarOptionals["apibasepath"].(string)
 	if apibasepath == "" {
@@ -3308,19 +3307,19 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	localVarFormParams := url.Values{}
 
 	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
-		return 0, err
+		return nil, err
 	}
 	if err := typeCheckParameter(localVarOptionals["filename"], "string", "filename"); err != nil {
-		return 0, err
+		return nil, err
 	}
 	if err := typeCheckParameter(localVarOptionals["format"], "string", "format"); err != nil {
-		return 0, err
+		return nil, err
 	}
 	if err := typeCheckParameter(localVarOptionals["path"], "string", "path"); err != nil {
-		return 0, err
+		return nil, err
 	}
 	if err := typeCheckParameter(localVarOptionals["prefix"], "string", "prefix"); err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
@@ -3359,19 +3358,25 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	}
 	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHTTPResponse == nil {
-		return 0, err
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
 		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
-		return 0, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
-	return io.Copy(writer, localVarHTTPResponse.Body)
+
+	_, err = io.Copy(writer, localVarHTTPResponse.Body)
+	if err != nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+
+	return NewRawAPIResponse(localVarHTTPResponse)
 }
 
 /*
@@ -8249,43 +8254,7 @@ func (a *DefaultApiService) GetSSHKeys(user string) (*APIResponse, error) {
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
-// https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp17
-type KeysResponse struct {
-	Size       int  `json:"size"`
-	Limit      int  `json:"limit"`
-	IsLastPage bool `json:"isLastPage"`
-	Values     []struct {
-		Key struct {
-			ID    int    `json:"id"`
-			Text  string `json:"text"`
-			Label string `json:"label"`
-		} `json:"key"`
-		Project struct {
-			Key         string `json:"key"`
-			ID          int    `json:"id"`
-			Name        string `json:"name"`
-			Description string `json:"description"`
-			Public      bool   `json:"public"`
-			Type        string `json:"type"`
-			Links       struct {
-				Self []struct {
-					Href string `json:"href"`
-				} `json:"self"`
-			} `json:"links"`
-		} `json:"project"`
-		Permission string `json:"permission"`
-	} `json:"values"`
-	Start int `json:"start"`
-}
-
-/*
-GetSSHRepoKeys retrieve ssh keys per repo, params
-
-https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp17
-
-/REST/KEYS/1.0//PROJECTS/{PROJECTKEY}/REPOS/{REPOSITORYSLUG}/SSH?FILTER&EFFECTIVE&PERMISSION
-*/
-func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFilter string, repoKeysOnly, writeKeysOnly bool) (*KeysResponse, error) {
+func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFilter string, repoKeysOnly, writeKeysOnly bool) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -8335,33 +8304,18 @@ func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFil
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(r)
-	if err != nil {
-		return nil, err
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
 	}
 	defer localVarHTTPResponse.Body.Close()
-	bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
-
 	if localVarHTTPResponse.StatusCode >= 300 {
-		return nil, errors.New(fmt.Sprintf("Error reading %s: %s", localVarPath, localVarHTTPResponse.Status))
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
-	typedResp := KeysResponse{}
-	err = json.Unmarshal(bodyBytes, &typedResp)
-	return &typedResp, err
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
-/*
-CreateSSHKey create ssh key for repository, params user and text
-/rest/keys/1.0/projects/{projectKey}/repos/{repositorySlug}/ssh
-
-	{
-	    "key": {
-	        "text": "ssh-rsa AAAAB3... me@127.0.0.1"
-	    },
-	    "permission": "REPO_WRITE"
-	}
-
-https://docs.atlassian.com/bitbucket-server/rest/6.2.0/bitbucket-ssh-rest.html#idp16
-*/
 func (a *DefaultApiService) CreateRepoSSHKey(projectKey, repositorySlug, sshPubKey string, isWrite bool) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")

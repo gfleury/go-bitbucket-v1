@@ -2288,10 +2288,10 @@ func TestDefaultApiService_GetArchive(t *testing.T) {
 		name                     string
 		fields                   fields
 		args                     args
-		want                     int64
+		want                     *APIResponse
 		wantErr, integrationTest bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, 0, true, false},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//archive: context canceled"}, true, false},
 	}
 	for _, tt := range tests {
 		if tt.integrationTest != runIntegrationTests {
