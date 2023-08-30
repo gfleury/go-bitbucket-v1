@@ -2282,6 +2282,7 @@ func TestDefaultApiService_GetArchive(t *testing.T) {
 		project           string
 		repository        string
 		localVarOptionals map[string]interface{}
+		writer            io.Writer
 	}
 	tests := []struct {
 		name                     string
@@ -2300,7 +2301,7 @@ func TestDefaultApiService_GetArchive(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.GetArchive(tt.args.project, tt.args.repository, tt.args.localVarOptionals)
+			got, err := a.GetArchive(tt.args.project, tt.args.repository, tt.args.localVarOptionals, tt.args.writer)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.GetArchive() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -2963,13 +2964,13 @@ func TestDefaultApiService_GetContent_11(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.GetContent_11(tt.args.projectKey, tt.args.repositorySlug, tt.args.path, tt.args.localVarOptionals)
+			got, err := a.GetRawContent(tt.args.projectKey, tt.args.repositorySlug, tt.args.path, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("DefaultApiService.GetContent_11() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("DefaultApiService.GetRawContent() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DefaultApiService.GetContent_11() = %v, want %v", got, tt.want)
+				t.Errorf("DefaultApiService.GetRawContent() = %v, want %v", got, tt.want)
 			}
 		})
 	}

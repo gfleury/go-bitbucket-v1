@@ -3056,7 +3056,7 @@ func (a *DefaultApiService) ForkRepository(projectKey, repositorySlug string,
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
 		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
-		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %s, Url: %s, Body: %s", localVarHTTPResponse.Status, localVarPath, bodyBytes))
 	}
 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
@@ -3267,16 +3267,20 @@ func (a *DefaultApiService) GetApplicationProperties() (*APIResponse, error) {
 /*
 	 DefaultApiService
 	 Streams an archive of the repository&#39;s contents at the requested commit. If no &lt;code&gt;at&#x3D;&lt;/code&gt; commit is  requested, an archive of the default branch is streamed.  &lt;p&gt;  The &lt;code&gt;filename&#x3D;&lt;/code&gt; query parameter may be used to specify the exact filename to include in the  &lt;code&gt;\&quot;Content-Disposition\&quot;&lt;/code&gt; header. If an explicit filename is not provided, one will be automatically  generated based on what is being archived. Its format depends on the &lt;code&gt;at&#x3D;&lt;/code&gt; value:  &lt;ul&gt;      &lt;li&gt;No &lt;code&gt;at&#x3D;&lt;/code&gt; commit:      &lt;code&gt;&amp;lt;slug&amp;gt;-&amp;lt;default-branch-name&amp;gt;@&amp;lt;commit&amp;gt;.&amp;lt;format&amp;gt;&lt;/code&gt;;      e.g. example-master@43c2f8a0fe8.zip&lt;/li&gt;      &lt;li&gt;&lt;code&gt;at&#x3D;sha&lt;/code&gt;: &lt;code&gt;&amp;lt;slug&amp;gt;-&amp;lt;at&amp;gt;.&amp;lt;format&amp;gt;&lt;/code&gt;; e.g.      example-09bcbb00100cfbb5310fb6834a1d5ce6cac253e9.tar.gz&lt;/li&gt;      &lt;li&gt;&lt;code&gt;at&#x3D;branchOrTag&lt;/code&gt;: &lt;code&gt;&amp;lt;slug&amp;gt;-&amp;lt;branchOrTag&amp;gt;@&amp;lt;commit&amp;gt;.&amp;lt;format&amp;gt;&lt;/code&gt;;      e.g. example-feature@bbb225f16e1.tar      &lt;ul&gt;          &lt;li&gt;If the branch or tag is qualified (e.g. &lt;code&gt;refs/heads/master&lt;/code&gt;, the short name          (&lt;code&gt;master&lt;/code&gt;) will be included in the filename&lt;/li&gt;          &lt;li&gt;If the branch or tag&#39;s &lt;i&gt;short name&lt;/i&gt; includes slashes (e.g. &lt;code&gt;release/4.6&lt;/code&gt;),          they will be converted to hyphens in the filename (&lt;code&gt;release-4.5&lt;/code&gt;)&lt;/li&gt;      &lt;/ul&gt;      &lt;/li&gt;  &lt;/ul&gt;  &lt;p&gt;  Archives may be requested in the following formats by adding the &lt;code&gt;format&#x3D;&lt;/code&gt; query parameter:  &lt;ul&gt;      &lt;li&gt;&lt;code&gt;zip&lt;/code&gt;: A zip file using standard compression (Default)&lt;/li&gt;      &lt;li&gt;&lt;code&gt;tar&lt;/code&gt;: An uncompressed tarball&lt;/li&gt;      &lt;li&gt;&lt;code&gt;tar.gz&lt;/code&gt; or &lt;code&gt;tgz&lt;/code&gt;: A GZip-compressed tarball&lt;/li&gt;  &lt;/ul&gt;  The contents of the archive may be filtered by using the &lt;code&gt;path&#x3D;&lt;/code&gt; query parameter to specify paths to  include. &lt;code&gt;path&#x3D;&lt;/code&gt; may be specified multiple times to include multiple paths.  &lt;p&gt;  The &lt;code&gt;prefix&#x3D;&lt;/code&gt; query parameter may be used to define a directory (or multiple directories) where  the archive&#39;s contents should be placed. If the prefix does not end with &lt;code&gt;/&lt;/code&gt;, one will be added  automatically. The prefix is &lt;i&gt;always&lt;/i&gt; treated as a directory; it is not possible to use it to prepend  characters to the entries in the archive.  &lt;p&gt;  Archives of public repositories may be streamed by any authenticated or anonymous user. Streaming archives for  non-public repositories requires an &lt;i&gt;authenticated user&lt;/i&gt; with at least &lt;b&gt;REPO_READ&lt;/b&gt; permission.
-
+	 * @param ctx context.Context for authentication, logging, tracing, etc.
 	 @param optional (nil or map[string]interface{}) with one or more of:
 		 @param "at" (string) the commit to stream an archive of; if not supplied, an archive of the default branch is streamed
 		 @param "filename" (string) a filename to include the \&quot;Content-Disposition\&quot; header
 		 @param "format" (string) the format to stream the archive in; must be one of: zip, tar, tar.gz or tgz
 		 @param "path" (string) paths to include in the streamed archive; may be repeated to include multiple paths
 		 @param "prefix" (string) a prefix to apply to all entries in the streamed archive; if the supplied prefix does not end                  with a trailing &lt;code&gt;/&lt;/code&gt;, one will be added automatically
-	 @return
+		 @param "apibasepath" (string) defaults to "/api/1.0" - in some installations, the value is "/archive/latest". Used as part of the URL endpoint. Not used as an actual parameter
+
+	 @param writer Where the archive's content is streamed out.
+
+@return the size of the archive written out
 */
-func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetArchive(project, repository string, localVarOptionals map[string]interface{}, writer io.Writer) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3285,7 +3289,16 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive"
+	if err := typeCheckParameter(localVarOptionals["apibasepath"], "string", "apibasepath"); err != nil {
+		return nil, err
+	}
+	apibasepath, _ := localVarOptionals["apibasepath"].(string)
+	if apibasepath == "" {
+		apibasepath = "/api/1.0"
+	}
+
+	//localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/archive"
+	localVarPath := a.client.cfg.BasePath + apibasepath + "/projects/{projectKey}/repos/{repositorySlug}/archive"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
 
@@ -3319,7 +3332,9 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 		localVarQueryParams.Add("format", parameterToString(localVarTempParam, ""))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["path"].(string); localVarOk {
-		localVarQueryParams.Add("path", parameterToString(localVarTempParam, ""))
+		for _, path := range strings.Split(parameterToString(localVarTempParam, ""), ",") {
+			localVarQueryParams.Add("path", path)
+		}
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["prefix"].(string); localVarOk {
 		localVarQueryParams.Add("prefix", parameterToString(localVarTempParam, ""))
@@ -3354,6 +3369,11 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	if localVarHTTPResponse.StatusCode >= 300 {
 		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	_, err = io.Copy(writer, localVarHTTPResponse.Body)
+	if err != nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
 	}
 
 	return NewRawAPIResponse(localVarHTTPResponse)
@@ -4562,7 +4582,7 @@ func (a *DefaultApiService) GetContent_10(projectKey, repositorySlug string, loc
 /*
 	 DefaultApiService
 	 Retrieve the raw content for a file path at a specified revision.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_READ&lt;/strong&gt; permission for the specified repository to call this  resource.
-
+	 * @param ctx context.Context for authentication, logging, tracing, etc.
 	 @param path the file path to retrieve content from
 	 @param optional (nil or map[string]interface{}) with one or more of:
 		 @param "at" (string) the commit ID or ref to retrieve the content for.
@@ -4571,21 +4591,18 @@ func (a *DefaultApiService) GetContent_10(projectKey, repositorySlug string, loc
 		 @param "htmlEscape" (bool) (Optional) true if HTML should be escaped in the input markup, false otherwise.                    If not specified, {@link MarkupService} will use the value of the                    &lt;code&gt;markup.render.html.escape&lt;/code&gt; property, which is &lt;code&gt;true&lt;/code&gt; by default
 	 @return
 */
-func (a *DefaultApiService) GetContent_11(projectKey, repositorySlug, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetRawContent(projectKey, repositorySlug, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
-
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/raw/{path}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"path"+"}", fmt.Sprintf("%v", path), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -4648,7 +4665,9 @@ func (a *DefaultApiService) GetContent_11(projectKey, repositorySlug, path strin
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
-	return NewRawAPIResponse(localVarHTTPResponse)
+	result := NewAPIResponse(localVarHTTPResponse)
+	result.Payload, err = io.ReadAll(localVarHTTPResponse.Body)
+	return result, err
 }
 
 /*
@@ -5236,10 +5255,72 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_14(projectKey string, 
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
+func (a *DefaultApiService) SetRepositoryPermissionGroups(projectKey, repositorySlug, permission string, groupNames []string, localVarHTTPContentTypes []string) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Put")
+		localVarFileName   string
+		localVarFileBytes  []byte
+		localVarPostBody   interface{}
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/permissions/groups"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{
+		"name":       groupNames,
+		"permission": []string{permission},
+	}
+	localVarFormParams := url.Values{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil {
+		if localVarHTTPResponse != nil {
+			return NewBitbucketAPIResponse(localVarHTTPResponse)
+		}
+		return nil, err
+	}
+	if localVarHTTPResponse == nil {
+		return nil, nil
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+	if localVarHTTPResponse.StatusCode == 204 {
+		return nil, nil
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
 /*
 	 DefaultApiService
 	 Retrieve a page of groups that have no granted permissions for the specified repository.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;REPO_ADMIN&lt;/strong&gt; permission for the specified repository or a higher  project or global permission to call this resource.
-
+	 * @param ctx context.Context for authentication, logging, tracing, etc.
 	 @param optional (nil or map[string]interface{}) with one or more of:
 		 @param "filter" (string) if specified only group names containing the supplied string will be returned
 	 @return
@@ -8172,6 +8253,131 @@ func (a *DefaultApiService) GetSSHKeys(user string) (*APIResponse, error) {
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
+func (a *DefaultApiService) GetSSHRepoKeys(projectKey, repositorySlug, sshKeyFilter string, repoKeysOnly, writeKeysOnly bool) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/keys/1.0/projects/{projectKey}/repos/{repositorySlug}/ssh"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if writeKeysOnly {
+		localVarQueryParams.Set("permission", "REPO_WRITE")
+	}
+	if repoKeysOnly {
+		localVarQueryParams.Add("effective", "true")
+	}
+	if sshKeyFilter != "" {
+		localVarQueryParams.Add("filter", sshKeyFilter)
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+func (a *DefaultApiService) CreateRepoSSHKey(projectKey, repositorySlug, sshPubKey string, isWrite bool) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/keys/1.0/projects/{projectKey}/repos/{repositorySlug}/ssh"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", projectKey), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repositorySlug), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	permission := "REPO_READ"
+	if isWrite {
+		permission = "REPO_WRITE"
+	}
+	localVarPostBody = map[string]interface{}{
+		"key": map[string]interface{}{
+			"text": sshPubKey,
+		},
+		"permission": permission,
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
 /*CreateSSHKey create ssh key for user, params user and text  */
 func (a *DefaultApiService) CreateSSHKey(localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
@@ -8199,7 +8405,9 @@ func (a *DefaultApiService) CreateSSHKey(localVarOptionals map[string]interface{
 		localVarQueryParams.Add("user", parameterToString(localVarTempParam, ""))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["text"].(string); localVarOk {
-		localVarFormParams.Add("text", parameterToString(localVarTempParam, ""))
+		localVarPostBody = map[string]interface{}{
+			"text": localVarTempParam,
+		}
 	}
 
 	// to determine the Content-Type header
@@ -10906,6 +11114,78 @@ func (a *DefaultApiService) SetPermissionForUsers_33(projectKey string, localVar
 }
 
 /*
+		DefaultApiService
+
+	 @param optional (nil or map[string]interface{}) with one or more of:
+		 @param "name" (string) the names of the users
+		 @param "permission" (string) the permission to grant
+	 @return
+*/
+func (a *DefaultApiService) CreateAccessToken(userSlug, tokenName string, repoAdmin, projectRead bool) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Put")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	// /rest/access-tokens/1.0/users/{userSlug}
+	localVarPath := a.client.cfg.BasePath + "/access-tokens/1.0/users/" + userSlug
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+
+	permissions := make([]string, 0)
+	if repoAdmin {
+		permissions = append(permissions, "REPO_ADMIN")
+	}
+	if projectRead {
+		permissions = append(permissions, "PROJECT_READ")
+	}
+	localVarPostBody = map[string]interface{}{
+		"name":        tokenName,
+		"permissions": permissions,
+	}
+
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/*
 	DefaultApiService
 
 Set the current log level for the root logger.  &lt;p&gt;  The authenticated user must have &lt;strong&gt;ADMIN&lt;/strong&gt; permission or higher to call this resource.
@@ -12291,9 +12571,6 @@ func (a *DefaultApiService) StreamFiles(projectKey, repositorySlug string, local
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
-		return nil, err
-	}
 	if err := typeCheckParameter(localVarOptionals["limit"], "int", "limit"); err != nil {
 		return nil, err
 	}
@@ -14351,6 +14628,67 @@ func (a *DefaultApiService) SearchCode(query SearchQuery) (*APIResponse, error) 
 	localVarHTTPResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHTTPResponse == nil {
 		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+func (a *DefaultApiService) GetHeadCommit(project, repository, branch string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	if err := typeCheckParameter(localVarOptionals["apibasepath"], "string", "apibasepath"); err != nil {
+		return nil, err
+	}
+	apibasepath, _ := localVarOptionals["apibasepath"].(string)
+	if apibasepath == "" {
+		apibasepath = "/api/1.0" // or "apibasepath": "/api/latest"
+	}
+
+	localVarPath := a.client.cfg.BasePath + apibasepath + "/projects/{projectKey}/repos/{repositorySlug}/commits?until=refs/heads/{branch}&start=0&limit=1"
+	localVarPath = strings.Replace(localVarPath, "{"+"projectKey"+"}", fmt.Sprintf("%v", project), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"repositorySlug"+"}", fmt.Sprintf("%v", repository), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"branch"+"}", fmt.Sprintf("%v", branch), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewBitbucketAPIResponse(localVarHTTPResponse)
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {

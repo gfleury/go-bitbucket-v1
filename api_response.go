@@ -538,6 +538,23 @@ func (p PermissionRepository) String() string {
 	return string(p)
 }
 
+type AccessTokenResponse struct {
+	ID                string   `json:"id"`
+	CreatedDate       int64    `json:"createdDate"`
+	LastAuthenticated int64    `json:"lastAuthenticated"`
+	Name              string   `json:"name"`
+	Permissions       []string `json:"permissions"`
+	User              User     `json:"user"`
+	Token             string   `json:"token"`
+}
+
+// GetAccessTokenResponse cast AccessTokenResponse into structure
+func GetAccessTokenResponse(r *APIResponse) (AccessTokenResponse, error) {
+	var m AccessTokenResponse
+	err := mapstructure.Decode(r.Values, &m)
+	return m, err
+}
+
 func (k *SSHKey) String() string {
 	parts := make([]string, 1, 2)
 	parts[0] = strings.TrimSpace(k.Text)
