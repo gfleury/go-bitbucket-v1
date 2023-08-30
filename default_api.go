@@ -256,7 +256,7 @@ Approve a pull request as the current user. Implicitly adds the user as a partic
 @param pullRequestId the id of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) Approve(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) Approve(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -317,7 +317,7 @@ Assigns a participant to an explicit role in pull request. Currently only the RE
 @param pullRequestId the id of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) AssignParticipantRole(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) AssignParticipantRole(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -378,7 +378,7 @@ Test whether a pull request can be merged.  &lt;p&gt;  A pull request may not be
 @param pullRequestId the ID of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) CanMerge(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) CanMerge(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -560,7 +560,7 @@ Retrieve the total number of {@link TaskState#OPEN open} and  {@link TaskState#R
 
 @return
 */
-func (a *DefaultApiService) CountPullRequestTasks(projectKey, repositorySlug string, pullRequestId int64) (*APIResponse, error) {
+func (a *DefaultApiService) CountPullRequestTasks(projectKey, repositorySlug string, pullRequestId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -1472,7 +1472,7 @@ func (a *DefaultApiService) CreateWebhook(projectKey, repositorySlug string, loc
 		 @param "version" (int32) the current version of the pull request. If the server&#39;s version isn&#39;t the same as the specified                 version the operation will fail. To determine the current version of the pull request it should be                 fetched from the server prior to this operation. Look for the &#39;version&#39; attribute in the returned                 JSON structure.
 	 @return
 */
-func (a *DefaultApiService) Decline(projectKey, repositorySlug string, pullRequestID int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) Decline(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -1540,7 +1540,7 @@ Deletes a pull request.  &lt;p&gt;  To call this resource, users must be authent
 @param pullRequestId the ID of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) DeletePullRequest(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) DeletePullRequest(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	return a.Delete(projectKey, repositorySlug, pullRequestID)
 }
 
@@ -1552,7 +1552,7 @@ Deletes a pull request.  &lt;p&gt;  To call this resource, users must be authent
 @param pullRequestId the ID of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) Delete(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) Delete(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	return a.DeleteWithVersion(projectKey, repositorySlug, pullRequestID, 0)
 }
 
@@ -1564,7 +1564,7 @@ Deletes a pull request.  &lt;p&gt;  To call this resource, users must be authent
 @param pullRequestId the ID of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) DeleteWithVersion(projectKey, repositorySlug string, pullRequestID, version int64) (*APIResponse, error) {
+func (a *DefaultApiService) DeleteWithVersion(projectKey, repositorySlug string, pullRequestID, version int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -1690,7 +1690,7 @@ func (a *DefaultApiService) DeleteAvatar(userSlug string) (*APIResponse, error) 
 		 @param "version" (int32) The expected version of the comment. This must match the server&#39;s version of the comment or                   the delete will fail. To determine the current version of the comment, the comment should be                   fetched from the server prior to the delete. Look for the &#39;version&#39; attribute in the returned                   JSON structure.
 	 @return
 */
-func (a *DefaultApiService) DeleteComment(projectKey, repositorySlug string, commitId string, commentId int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) DeleteComment(projectKey, repositorySlug string, commitId string, commentId int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -1760,7 +1760,7 @@ func (a *DefaultApiService) DeleteComment(projectKey, repositorySlug string, com
 		 @param "version" (int32) The expected version of the comment. This must match the server&#39;s version of the comment or                     the delete will fail. To determine the current version of the comment, the comment should be                     fetched from the server prior to the delete. Look for the &#39;version&#39; attribute in the                     returned JSON structure.
 	 @return
 */
-func (a *DefaultApiService) DeleteComment_2(projectKey, repositorySlug string, pullRequestId, commentId int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) DeleteComment_2(projectKey, repositorySlug string, pullRequestId, commentId int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -2132,7 +2132,7 @@ Delete a task.  &lt;p&gt;  Note that only the task&#39;s creator, the context&#3
 @param taskId the id identifying the task to delete
 @return
 */
-func (a *DefaultApiService) DeleteTask(taskId int64) (*APIResponse, error) {
+func (a *DefaultApiService) DeleteTask(taskId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -3125,11 +3125,11 @@ func (a *DefaultApiService) GetLicense() (*APIResponse, error) {
 
 	 @param pullRequestId the id of the pull request within the repository
 	 @param optional (nil or map[string]interface{}) with one or more of:
-		 @param "fromId" (int64) (optional) the id of the activity item to use as the first item in the returned page
+		 @param "fromId" (int) (optional) the id of the activity item to use as the first item in the returned page
 		 @param "fromType" (string) (required if &lt;strong&gt;fromId&lt;/strong&gt; is present) the type of the activity item specified by                  &lt;strong&gt;fromId&lt;/strong&gt; (either &lt;strong&gt;COMMENT&lt;/strong&gt; or &lt;strong&gt;ACTIVITY&lt;/strong&gt;)
 	 @return
 */
-func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pullRequestID int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3147,7 +3147,7 @@ func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pul
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if err := typeCheckParameter(localVarOptionals["fromId"], "int64", "fromId"); err != nil {
+	if err := typeCheckParameter(localVarOptionals["fromId"], "int", "fromId"); err != nil {
 		return nil, err
 	}
 	if err := typeCheckParameter(localVarOptionals["fromType"], "string", "fromType"); err != nil {
@@ -3166,7 +3166,7 @@ func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pul
 	if localVarTempParam, localVarOk := localVarOptionals["start"].(int); localVarOk {
 		localVarQueryParams.Add("start", parameterToString(localVarTempParam, ""))
 	}
-	if localVarTempParam, localVarOk := localVarOptionals["fromId"].(int64); localVarOk {
+	if localVarTempParam, localVarOk := localVarOptionals["fromId"].(int); localVarOk {
 		localVarQueryParams.Add("fromId", parameterToString(localVarTempParam, ""))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["fromType"].(string); localVarOk {
@@ -3710,7 +3710,7 @@ Retrieves a commit discussion comment.  &lt;p&gt;  The authenticated user must h
 @param commitId2 the &lt;i&gt;full {@link Commit#getId() ID}&lt;/i&gt; of the commit within the repository
 @return
 */
-func (a *DefaultApiService) GetComment(projectKey, repositorySlug, commitId string, commentId int64) (*APIResponse, error) {
+func (a *DefaultApiService) GetComment(projectKey, repositorySlug, commitId string, commentId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3772,7 +3772,7 @@ Retrieves a pull request comment.  &lt;p&gt;  The authenticated user must have &
 @param commentId the id of the comment to retrieve
 @return
 */
-func (a *DefaultApiService) GetComment_6(projectKey, repositorySlug string, pullRequestId, commentId int64) (*APIResponse, error) {
+func (a *DefaultApiService) GetComment_6(projectKey, repositorySlug string, pullRequestId, commentId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -3914,7 +3914,7 @@ func (a *DefaultApiService) GetComments(projectKey, repositorySlug, commitId str
 		 @param "toHash" (string) the to commit hash to stream comments for a {@code RANGE} or {@code COMMIT} arbitrary change scope
 	 @return
 */
-func (a *DefaultApiService) GetComments_7(projectKey, repositorySlug string, pullRequestId int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetComments_7(projectKey, repositorySlug string, pullRequestId int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -4198,7 +4198,7 @@ func (a *DefaultApiService) GetCommits(project, repository string, localVarOptio
 		 @param "withCounts" (bool) if set to true, the service will add \&quot;authorCount\&quot; and \&quot;totalCount\&quot; at the end of the page.                      \&quot;authorCount\&quot; is the number of different authors and \&quot;totalCount\&quot; is the total number of commits.
 	 @return
 */
-func (a *DefaultApiService) GetCommits_8(projectKey, repositorySlug string, pullRequestID int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) GetCommits_8(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -6278,7 +6278,7 @@ Retrieve the tasks associated with a pull request.
 
 @return
 */
-func (a *DefaultApiService) GetPullRequestTasks(projectKey, repositorySlug string, pullRequestId int64) (*APIResponse, error) {
+func (a *DefaultApiService) GetPullRequestTasks(projectKey, repositorySlug string, pullRequestId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -8066,7 +8066,7 @@ Retrieve a existing task.
 @param taskId the id identifying the task to delete
 @return
 */
-func (a *DefaultApiService) GetTask(taskId int64) (*APIResponse, error) {
+func (a *DefaultApiService) GetTask(taskId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -9047,7 +9047,7 @@ Retrieve a pull request.  &lt;p&gt;  The authenticated user must have &lt;strong
 @param pullRequestId the ID of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) Get_27(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) Get_27(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -9168,7 +9168,7 @@ Retrieves a page of the participants for a given pull request.  &lt;p&gt;  The a
 @param pullRequestId the id of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) ListParticipants(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) ListParticipants(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -9615,7 +9615,7 @@ func (a *DefaultApiService) RenameUser() (*APIResponse, error) {
 		 @param "version" (int32) the current version of the pull request. If the server&#39;s version isn&#39;t the same as the specified                 version the operation will fail. To determine the current version of the pull request it should be                 fetched from the server prior to this operation. Look for the &#39;version&#39; attribute in the returned                 JSON structure.
 	 @return
 */
-func (a *DefaultApiService) Reopen(projectKey, repositorySlug string, pullRequestID int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) Reopen(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -11302,7 +11302,7 @@ func (a *DefaultApiService) StreamChanges(projectKey, repositorySlug string, loc
 		 @param "withComments" (bool) {@code true} to apply comment counts in the changes (the default); otherwise, {@code false}                      to stream changes without comment counts
 	 @return
 */
-func (a *DefaultApiService) StreamChanges_35(projectKey, repositorySlug string, pullRequestID int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) StreamChanges_35(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -12169,7 +12169,7 @@ func (a *DefaultApiService) GetPullRequestDiff(projectKey, repositorySlug string
 		 @param "withComments" (bool) &lt;code&gt;true&lt;/code&gt; to embed comments in the diff (the default); otherwise, &lt;code&gt;false&lt;/code&gt;                      to stream the diff without comments
 	 @return
 */
-func (a *DefaultApiService) StreamDiff_41(projectKey, repositorySlug string, pullRequestID int64, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) StreamDiff_41(projectKey, repositorySlug string, pullRequestID int, path string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -12571,7 +12571,7 @@ func (a *DefaultApiService) TestWebhook(projectKey, repositorySlug string, local
 		 @param "username" (string) the participant&#39;s user name
 	 @return
 */
-func (a *DefaultApiService) UnassignParticipantRole(projectKey, repositorySlug string, pullRequestID int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+func (a *DefaultApiService) UnassignParticipantRole(projectKey, repositorySlug string, pullRequestID int, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -12641,7 +12641,7 @@ Unassigns a participant from the REVIEWER role they may have been given in a pul
 	@param pullRequestId2 the id of the pull request within the repository
 	@return
 */
-func (a *DefaultApiService) UnassignParticipantRole_44(projectKey, repositorySlug string, pullRequestID int64, userSlug string) (*APIResponse, error) {
+func (a *DefaultApiService) UnassignParticipantRole_44(projectKey, repositorySlug string, pullRequestID int, userSlug string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -12764,7 +12764,7 @@ Make the authenticated user stop watching the specified pull request.  &lt;p&gt;
 @param pullRequestId the id of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) Unwatch_45(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) Unwatch_45(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -12884,7 +12884,7 @@ Update the text of a comment. Only the user who created a comment may update it.
 @param commitId2 the &lt;i&gt;full {@link Commit#getId() ID}&lt;/i&gt; of the commit within the repository
 @return
 */
-func (a *DefaultApiService) UpdateComment(projectKey, repositorySlug string, commitId string, commentId int64) (*APIResponse, error) {
+func (a *DefaultApiService) UpdateComment(projectKey, repositorySlug string, commitId string, commentId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -12946,7 +12946,7 @@ Update the text of a comment. Only the user who created a comment may update it.
 @param commentId the id of the comment to retrieve
 @return
 */
-func (a *DefaultApiService) UpdateComment_46(projectKey, repositorySlug string, pullRequestID, commentId int64) (*APIResponse, error) {
+func (a *DefaultApiService) UpdateComment_46(projectKey, repositorySlug string, pullRequestID, commentId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -13308,7 +13308,7 @@ Change the current user&#39;s status for a pull request. Implicitly adds the use
 @param pullRequestId2 the id of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) UpdateStatus(projectKey, repositorySlug string, pullRequestID int64, userSlug string, participant UserWithMetadata) (*APIResponse, error) {
+func (a *DefaultApiService) UpdateStatus(projectKey, repositorySlug string, pullRequestID int, userSlug string, participant UserWithMetadata) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -13375,7 +13375,7 @@ Update a existing task.  &lt;p&gt;  As of Stash 3.3, only the state and text of 
 @param taskId the id identifying the task to delete
 @return
 */
-func (a *DefaultApiService) UpdateTask(taskId int64) (*APIResponse, error) {
+func (a *DefaultApiService) UpdateTask(taskId int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -13719,7 +13719,7 @@ Update the title, description, reviewers or destination branch of an existing pu
 @param pullRequestId the ID of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) Update_50(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) Update_50(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -13957,7 +13957,7 @@ Make the authenticated user watch the specified pull request.  &lt;p&gt;  The au
 @param pullRequestId the id of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) Watch_52(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) Watch_52(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -14018,7 +14018,7 @@ Remove approval from a pull request as the current user. This does not remove th
 @param pullRequestId the id of the pull request within the repository
 @return
 */
-func (a *DefaultApiService) WithdrawApproval(projectKey, repositorySlug string, pullRequestID int64) (*APIResponse, error) {
+func (a *DefaultApiService) WithdrawApproval(projectKey, repositorySlug string, pullRequestID int) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}

@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -708,7 +707,7 @@ func NewBitbucketAPIResponse(r *http.Response) (*APIResponse, error) {
 
 	if decoder.More() {
 		// there's more data in the stream, so discard whatever is left
-		_, _ = io.Copy(ioutil.Discard, r.Body)
+		_, _ = io.Copy(io.Discard, r.Body)
 	}
 
 	return response, err
