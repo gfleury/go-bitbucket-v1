@@ -212,7 +212,7 @@ func TestDefaultApiService_Approve(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -250,7 +250,7 @@ func TestDefaultApiService_AssignParticipantRole(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -288,7 +288,7 @@ func TestDefaultApiService_CanMerge(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -397,7 +397,7 @@ func TestDefaultApiService_CountPullRequestTasks(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestId  int64
+		pullRequestId  int
 	}
 	tests := []struct {
 		name                     string
@@ -1213,7 +1213,7 @@ func TestDefaultApiService_Decline(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestID     int64
+		pullRequestID     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -1252,7 +1252,7 @@ func TestDefaultApiService_Delete(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -1350,7 +1350,7 @@ func TestDefaultApiService_DeleteComment(t *testing.T) {
 		projectKey        string
 		repositorySlug    string
 		commitId          string
-		commentId         int64
+		commentId         int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -1389,8 +1389,8 @@ func TestDefaultApiService_DeleteComment_2(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestId     int64
-		commentId         int64
+		pullRequestId     int
+		commentId         int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -1609,7 +1609,7 @@ func TestDefaultApiService_DeleteTask(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		taskId int64
+		taskId int
 	}
 	tests := []struct {
 		name                     string
@@ -2207,7 +2207,7 @@ func TestDefaultApiService_GetActivities(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestID     int64
+		pullRequestID     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -2556,7 +2556,7 @@ func TestDefaultApiService_GetComment(t *testing.T) {
 		projectKey     string
 		repositorySlug string
 		commitId       string
-		commentId      int64
+		commentId      int
 	}
 	tests := []struct {
 		name                     string
@@ -2594,8 +2594,8 @@ func TestDefaultApiService_GetComment_6(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestId  int64
-		commentId      int64
+		pullRequestId  int
+		commentId      int
 	}
 	tests := []struct {
 		name                     string
@@ -2673,7 +2673,7 @@ func TestDefaultApiService_GetComments_7(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestId     int64
+		pullRequestId     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -2789,7 +2789,7 @@ func TestDefaultApiService_GetCommits_8(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestID     int64
+		pullRequestID     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -3827,7 +3827,7 @@ func TestDefaultApiService_GetPullRequestTasks(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -4869,7 +4869,7 @@ func TestDefaultApiService_GetTask(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		taskId int64
+		taskId int
 	}
 	tests := []struct {
 		name                     string
@@ -5421,7 +5421,7 @@ func TestDefaultApiService_Get_27(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -5497,7 +5497,7 @@ func TestDefaultApiService_ListParticipants(t *testing.T) {
 		projectKey     string
 		repositorySlug string
 
-		pullRequestID int64
+		pullRequestID int
 	}
 	tests := []struct {
 		name                     string
@@ -5757,7 +5757,7 @@ func TestDefaultApiService_Reopen(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestID     int64
+		pullRequestID     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -6686,7 +6686,7 @@ func TestDefaultApiService_StreamChanges_35(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestID     int64
+		pullRequestID     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -7001,7 +7001,7 @@ func TestDefaultApiService_StreamDiff_41(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestID     int64
+		pullRequestID     int
 		path              string
 		localVarOptionals map[string]interface{}
 	}
@@ -7195,7 +7195,7 @@ func TestDefaultApiService_UnassignParticipantRole(t *testing.T) {
 	type args struct {
 		projectKey        string
 		repositorySlug    string
-		pullRequestID     int64
+		pullRequestID     int
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -7234,7 +7234,7 @@ func TestDefaultApiService_UnassignParticipantRole_44(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 		userSlug       string
 	}
 	tests := []struct {
@@ -7311,7 +7311,7 @@ func TestDefaultApiService_Unwatch_45(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -7385,7 +7385,7 @@ func TestDefaultApiService_UpdateComment(t *testing.T) {
 		projectKey     string
 		repositorySlug string
 		commitId       string
-		commentId      int64
+		commentId      int
 	}
 	tests := []struct {
 		name                     string
@@ -7423,8 +7423,8 @@ func TestDefaultApiService_UpdateComment_46(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
-		commentId      int64
+		pullRequestID  int
+		commentId      int
 	}
 	tests := []struct {
 		name                     string
@@ -7685,7 +7685,7 @@ func TestDefaultApiService_UpdateStatus(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 		userSlug       string
 		participant    UserWithMetadata
 	}
@@ -7723,7 +7723,7 @@ func TestDefaultApiService_UpdateTask(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
-		taskId int64
+		taskId int
 	}
 	tests := []struct {
 		name                     string
@@ -7941,7 +7941,7 @@ func TestDefaultApiService_Update_50(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -8089,7 +8089,7 @@ func TestDefaultApiService_Watch_52(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
@@ -8127,7 +8127,7 @@ func TestDefaultApiService_WithdrawApproval(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
-		pullRequestID  int64
+		pullRequestID  int
 	}
 	tests := []struct {
 		name                     string
