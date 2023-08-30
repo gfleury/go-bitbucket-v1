@@ -717,7 +717,7 @@ func NewBitbucketAPIResponse(r *http.Response) (*APIResponse, error) {
 // NewRawAPIResponse create new API response from http.response with raw data
 func NewRawAPIResponse(r *http.Response) (*APIResponse, error) {
 	response := &APIResponse{Response: r}
-	raw, err := ioutil.ReadAll(r.Body)
+	raw, err := io.ReadAll(r.Body)
 	if err != nil {
 		return nil, err
 	}

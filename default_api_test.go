@@ -6,6 +6,7 @@ package bitbucketv1
 
 import (
 	"io"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -14,12 +15,21 @@ import (
 	"time"
 
 	"golang.org/x/net/context"
+
+	sw "github.com/gfleury/go-bitbucket-v1/test/bb-mock-server/go"
 )
 
 var runIntegrationTests bool
 
 func TestAAAAA(t *testing.T) {
 	runIntegrationTests = os.Getenv("INTEGRATION") == "TRUE"
+
+	if runIntegrationTests {
+		go func() {
+			log.Fatal(sw.RunServer(7990))
+		}()
+		time.Sleep(2 * time.Second)
+	}
 }
 
 func generateContextCanceled() context.Context {
@@ -437,10 +447,10 @@ func TestDefaultApiService_Create(t *testing.T) {
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true, false},
 		{"InvalidRequest", fields{client: generateConfigRealLocalServer()},
 			args{projectKey: "PROJ",
-				repositorySlug:    "repo1",
+				repositorySlug:    "repo1_test1",
 				localVarOptionals: map[string]interface{}{"values": "values"}},
 			&APIResponse{
-				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}",
+				Message: "Status: 400 Bad Request, Body: {errors:[{context:null,exceptionName:null,message:title must be supplied for this request}]}",
 				Values: map[string]interface{}{
 					"errors": []interface{}{
 						map[string]interface{}{
@@ -454,7 +464,7 @@ func TestDefaultApiService_Create(t *testing.T) {
 			true, true},
 		{"ValidRequestNoBranch", fields{client: generateConfigRealLocalServer()},
 			args{projectKey: "PROJ",
-				repositorySlug: "repo1",
+				repositorySlug: "repo1_test2",
 				localVarOptionals: map[string]interface{}{
 					"title":       "test PR",
 					"description": "test Desc",
@@ -483,7 +493,7 @@ func TestDefaultApiService_Create(t *testing.T) {
 				},
 			},
 			&APIResponse{
-				Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`,
+				Message: `Status: 404 Not Found, Body: {errors:[{context:null,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\}]}`,
 				Values: map[string]interface{}{
 					"errors": []interface{}{
 						map[string]interface{}{
@@ -538,11 +548,11 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Post https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests: context canceled"}, true, false},
 		{"InvalidRequest", fields{client: generateConfigRealLocalServer()},
 			args{projectKey: "PROJ",
-				repositorySlug:    "repo1",
+				repositorySlug:    "repo1_test1",
 				localVarOptionals: PullRequest{},
 			},
 			&APIResponse{
-				Message: "Status: 400 , Body: {errors:[{context:null,message:title must be supplied for this request,exceptionName:null}]}",
+				Message: "Status: 400 Bad Request, Body: {errors:[{context:null,exceptionName:null,message:title must be supplied for this request}]}",
 				Values: map[string]interface{}{
 					"errors": []interface{}{
 						map[string]interface{}{
@@ -556,7 +566,7 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 			true, true},
 		{"ValidRequestNoBranch", fields{client: generateConfigRealLocalServer()},
 			args{projectKey: "PROJ",
-				repositorySlug: "repo1",
+				repositorySlug: "repo1_test2",
 				localVarOptionals: PullRequest{
 					Title:       "test PR",
 					Description: "test Desc",
@@ -584,7 +594,7 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 					Locked: false,
 				},
 			},
-			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`,
+			&APIResponse{Message: `Status: 404 Not Found, Body: {errors:[{context:null,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException,message:Repository \repo1\ of project with key \PROJ\ has no branch \refs/heads/feature\}]}`,
 				Values: map[string]interface{}{
 					"errors": []interface{}{
 						map[string]interface{}{
@@ -763,7 +773,7 @@ func TestDefaultApiService_CreateCommentWithComment(t *testing.T) {
 				commitId:       "657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30",
 				comment:        Comment{Text: "Simple comment"},
 			},
-			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Commit '657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30' does not exist in repository 'repo1'.,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException}]}`,
+			&APIResponse{Message: `Status: 404 Not Found, Body: {errors:[{context:null,exceptionName:com.atlassian.bitbucket.commit.NoSuchCommitException,message:Commit '657f55ce41710f9bfde15c374837136728fae9d9e0eca0b97cb7bfea5095af30' does not exist in repository 'repo1'.}]}`,
 				Values: map[string]interface{}{
 					"errors": []interface{}{
 						map[string]interface{}{
@@ -826,7 +836,7 @@ func TestDefaultApiService_CreatePullRequestComment(t *testing.T) {
 				comment:                  Comment{Text: "Simple comment"},
 				localVarHTTPContentTypes: []string{"application/json"},
 			},
-			&APIResponse{Message: `Status: 404 , Body: {errors:[{context:null,message:Pull request 1 does not exist in PROJ/repo1.,exceptionName:com.atlassian.bitbucket.pull.NoSuchPullRequestException}]}`,
+			&APIResponse{Message: `Status: 404 Not Found, Body: {errors:[{context:null,exceptionName:com.atlassian.bitbucket.pull.NoSuchPullRequestException,message:Pull request 1 does not exist in PROJ/repo1.}]}`,
 				Values: map[string]interface{}{
 					"errors": []interface{}{
 						map[string]interface{}{
@@ -1260,7 +1270,7 @@ func TestDefaultApiService_Delete(t *testing.T) {
 				pullRequestID:  -1,
 			},
 			&APIResponse{
-				Message: "Status: 404 , Body: {errors:[{context:null,message:No pull request exists with ID -1 for this repository 1,exceptionName:com.atlassian.bitbucket.pull.NoSuchPullRequestException}]}",
+				Message: "Status: 404 Not Found, Body: {errors:[{context:null,exceptionName:com.atlassian.bitbucket.pull.NoSuchPullRequestException,message:No pull request exists with ID -1 for this repository 1}]}",
 				Values: map[string]interface{}{
 					"errors": []interface{}{
 						map[string]interface{}{
@@ -4907,11 +4917,17 @@ func TestDefaultApiService_GetSSHKeys(t *testing.T) {
 		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/ssh/1.0/keys: context canceled"}, true, false},
 		{"realLocalServer", fields{client: generateConfigRealLocalServer()}, args{},
 			&APIResponse{Values: map[string]interface{}{
-				"size":       float64(0),
+				"size":       float64(1),
 				"limit":      float64(25),
 				"isLastPage": true,
-				"values":     []interface{}{},
-				"start":      float64(0),
+				"values": []interface{}{
+					map[string]interface{}{
+						"id":    float64(1),
+						"text":  "ssh-rsa AAAAB3... me@127.0.0.1",
+						"label": "me@127.0.0.1",
+					},
+				},
+				"start": float64(0),
 			}},
 			false, true},
 	}
@@ -6077,6 +6093,7 @@ func TestDefaultApiService_SetDefaultBranch(t *testing.T) {
 	type args struct {
 		projectKey     string
 		repositorySlug string
+		branchRef      string
 	}
 	tests := []struct {
 		name                     string
@@ -6095,7 +6112,7 @@ func TestDefaultApiService_SetDefaultBranch(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.SetDefaultBranch(tt.args.projectKey, tt.args.repositorySlug)
+			got, err := a.SetDefaultBranch(tt.args.projectKey, tt.args.repositorySlug, tt.args.branchRef)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.SetDefaultBranch() error = %v, wantErr %v", err, tt.wantErr)
 				return

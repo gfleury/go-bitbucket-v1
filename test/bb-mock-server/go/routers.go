@@ -1426,4 +1426,11 @@ var routes = Routes{
 		"/rest/search/latest/search",
 		SearchCode,
 	},
+
+	Route{
+		"GetSSHKeys",
+		strings.ToUpper("Get"),
+		"/rest/ssh/1.0/keys",
+		GetSSHKeys,
+	},
 }

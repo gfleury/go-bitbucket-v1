@@ -2,7 +2,6 @@ package swagger
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -19,14 +18,9 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 		if routeName != "" {
 			handlerName = routeName
 		}
-		path, err := route.GetPathTemplate()
-		if err == nil {
-			fmt.Println(path)
-		}
 	}
-	fmt.Println(handlerName)
-	fileName := fmt.Sprintf("mocked_responses/%s.json", handlerName)
-	response, err := ioutil.ReadFile(fileName)
+	fileName := fmt.Sprintf("test/bb-mock-server/mocked_responses/%s.json", handlerName)
+	response, err := os.ReadFile(fileName)
 	if err == nil {
 		w.Write(response)
 	} else {

@@ -1,0 +1,16 @@
+{
+        "query": {
+            "substituted": false
+        },
+        "code": {
+            "category": "primary",
+            "count": 0,
+            "isLastPage": true,
+            "nextStart": 10,
+            "start": 0,
+            "values": []
+        },
+        "scope": {
+            "type": "GLOBAL"
+        }
+}

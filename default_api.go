@@ -7,7 +7,7 @@ package bitbucketv1
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/url"
 	"strings"
 
@@ -65,7 +65,7 @@ func (a *DefaultApiService) AddGroupToUser() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -122,7 +122,7 @@ func (a *DefaultApiService) AddUserToGroup() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -184,7 +184,7 @@ func (a *DefaultApiService) AddUserToGroups(name string, groups []string) (*APIR
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -241,7 +241,7 @@ func (a *DefaultApiService) AddUsersToGroup() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -302,7 +302,7 @@ func (a *DefaultApiService) Approve(projectKey, repositorySlug string, pullReque
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -363,7 +363,7 @@ func (a *DefaultApiService) AssignParticipantRole(projectKey, repositorySlug str
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -424,7 +424,7 @@ func (a *DefaultApiService) CanMerge(projectKey, repositorySlug string, pullRequ
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -481,7 +481,7 @@ func (a *DefaultApiService) ClearSenderAddress() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -546,7 +546,7 @@ func (a *DefaultApiService) ClearUserCaptchaChallenge(localVarOptionals map[stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -606,7 +606,7 @@ func (a *DefaultApiService) CountPullRequestTasks(projectKey, repositorySlug str
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -688,7 +688,7 @@ func (a *DefaultApiService) CreatePullRequest(projectKey, repositorySlug string,
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -750,7 +750,7 @@ func (a *DefaultApiService) UpdatePullRequest(projectKey, repositorySlug string,
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Description: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -809,7 +809,7 @@ func (a *DefaultApiService) CreateBranch(projectKey, repositorySlug string) (*AP
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -888,7 +888,7 @@ func (a *DefaultApiService) CreateCommentWithComment(projectKey, repositorySlug 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -949,7 +949,7 @@ func (a *DefaultApiService) CreatePullRequestComment(projectKey, repositorySlug 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1014,7 +1014,7 @@ func (a *DefaultApiService) CreateGroup(localVarOptionals map[string]interface{}
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1070,7 +1070,7 @@ func (a *DefaultApiService) CreateProject(localVarPostBody Project) (*APIRespons
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1135,7 +1135,7 @@ func (a *DefaultApiService) CreateRepositoryWithOptions(projectKey string, local
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1184,7 +1184,7 @@ func (a *DefaultApiService) CreatePullRequestWithOptions(projectKey, repo string
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1243,7 +1243,7 @@ func (a *DefaultApiService) CreateTag(projectKey, repositorySlug string) (*APIRe
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1300,7 +1300,7 @@ func (a *DefaultApiService) CreateTask() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1400,7 +1400,7 @@ func (a *DefaultApiService) CreateUser(localVarOptionals map[string]interface{})
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1456,7 +1456,7 @@ func (a *DefaultApiService) CreateWebhook(projectKey, repositorySlug string, loc
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1525,7 +1525,7 @@ func (a *DefaultApiService) Decline(projectKey, repositorySlug string, pullReque
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1614,7 +1614,7 @@ func (a *DefaultApiService) DeleteWithVersion(projectKey, repositorySlug string,
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1672,7 +1672,7 @@ func (a *DefaultApiService) DeleteAvatar(userSlug string) (*APIResponse, error) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1744,7 +1744,7 @@ func (a *DefaultApiService) DeleteComment(projectKey, repositorySlug string, com
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1814,7 +1814,7 @@ func (a *DefaultApiService) DeleteComment_2(projectKey, repositorySlug string, p
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1879,7 +1879,7 @@ func (a *DefaultApiService) DeleteGroup(localVarOptionals map[string]interface{}
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1936,7 +1936,7 @@ func (a *DefaultApiService) DeleteMailConfig() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -1994,7 +1994,7 @@ func (a *DefaultApiService) DeleteProject(projectKey string) (*APIResponse, erro
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2056,7 +2056,7 @@ func (a *DefaultApiService) DeleteRepository(projectKey, repositorySlug string) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2117,7 +2117,7 @@ func (a *DefaultApiService) DeleteRepositoryHook(projectKey, repositorySlug stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2176,7 +2176,7 @@ func (a *DefaultApiService) DeleteTask(taskId int64) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2241,7 +2241,7 @@ func (a *DefaultApiService) DeleteUser(localVarOptionals map[string]interface{})
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2302,7 +2302,7 @@ func (a *DefaultApiService) DeleteWebhook(projectKey, repositorySlug string, web
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2363,7 +2363,7 @@ func (a *DefaultApiService) DisableHook(projectKey, repositorySlug string, hookK
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2423,7 +2423,7 @@ func (a *DefaultApiService) DisableHook_3(projectKey, hookKey string) (*APIRespo
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2484,7 +2484,7 @@ func (a *DefaultApiService) EditFile(projectKey, repositorySlug, path string) (*
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2553,7 +2553,7 @@ func (a *DefaultApiService) EnableHook(projectKey, repositorySlug, hookKey strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2633,7 +2633,7 @@ func (a *DefaultApiService) EnableHook_4_WithOptions(projectKey, hookKey string,
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2705,7 +2705,7 @@ func (a *DefaultApiService) FindGroupsForUser(localVarOptionals map[string]inter
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2777,7 +2777,7 @@ func (a *DefaultApiService) FindOtherGroupsForUser(localVarOptionals map[string]
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2849,7 +2849,7 @@ func (a *DefaultApiService) FindUsersInGroup(localVarOptionals map[string]interf
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2921,7 +2921,7 @@ func (a *DefaultApiService) FindUsersNotInGroup(localVarOptionals map[string]int
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -2995,7 +2995,7 @@ func (a *DefaultApiService) FindWebhooks(projectKey, repositorySlug string, loca
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3055,7 +3055,7 @@ func (a *DefaultApiService) ForkRepository(projectKey, repositorySlug string,
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3112,7 +3112,7 @@ func (a *DefaultApiService) GetLicense() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3200,7 +3200,7 @@ func (a *DefaultApiService) GetActivities(projectKey, repositorySlug string, pul
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3257,7 +3257,7 @@ func (a *DefaultApiService) GetApplicationProperties() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3352,7 +3352,7 @@ func (a *DefaultApiService) GetArchive(project, repository string, localVarOptio
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3419,7 +3419,7 @@ func (a *DefaultApiService) GetAvatar(hookKey string, localVarOptionals map[stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3519,7 +3519,7 @@ func (a *DefaultApiService) GetBranches(project, repository string, localVarOpti
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3605,7 +3605,7 @@ func (a *DefaultApiService) GetChanges(projectKey, repositorySlug string, localV
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3693,7 +3693,7 @@ func (a *DefaultApiService) GetChanges_5(projectKey, repositorySlug, commitId st
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3757,7 +3757,7 @@ func (a *DefaultApiService) GetComment(projectKey, repositorySlug, commitId stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3819,7 +3819,7 @@ func (a *DefaultApiService) GetComment_6(projectKey, repositorySlug string, pull
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3895,7 +3895,7 @@ func (a *DefaultApiService) GetComments(projectKey, repositorySlug, commitId str
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -3991,7 +3991,7 @@ func (a *DefaultApiService) GetComments_7(projectKey, repositorySlug string, pul
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4060,7 +4060,7 @@ func (a *DefaultApiService) GetCommit(projectKey, repositorySlug, commitId strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4182,7 +4182,7 @@ func (a *DefaultApiService) GetCommits(project, repository string, localVarOptio
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4251,7 +4251,7 @@ func (a *DefaultApiService) GetCommits_8(projectKey, repositorySlug string, pull
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4362,7 +4362,7 @@ func (a *DefaultApiService) getContentWithPath(projectKey string, repositorySlug
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4464,7 +4464,7 @@ func (a *DefaultApiService) GetContent_9(projectKey, repositorySlug, path string
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4552,7 +4552,7 @@ func (a *DefaultApiService) GetContent_10(projectKey, repositorySlug string, loc
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4644,7 +4644,7 @@ func (a *DefaultApiService) GetContent_11(projectKey, repositorySlug, path strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4703,7 +4703,7 @@ func (a *DefaultApiService) GetDefaultBranch(projectKey, repositorySlug string) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4763,7 +4763,7 @@ func (a *DefaultApiService) GetForkedRepositories(projectKey, repositorySlug str
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4840,7 +4840,7 @@ func (a *DefaultApiService) GetGroups(localVarOptionals map[string]interface{}) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4917,7 +4917,7 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission(localVarOptionals map[str
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -4995,7 +4995,7 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission_12(projectKey string, loc
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5074,7 +5074,7 @@ func (a *DefaultApiService) GetGroupsWithAnyPermission_13(projectKey, repository
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5151,7 +5151,7 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission(localVarOptionals map[
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5229,7 +5229,7 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_14(projectKey string, 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5308,7 +5308,7 @@ func (a *DefaultApiService) GetGroupsWithoutAnyPermission_15(projectKey, reposit
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5385,7 +5385,7 @@ func (a *DefaultApiService) GetGroups_16(localVarOptionals map[string]interface{
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5442,7 +5442,7 @@ func (a *DefaultApiService) GetInformation() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5518,7 +5518,7 @@ func (a *DefaultApiService) GetLatestInvocation(projectKey, repositorySlug strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5577,7 +5577,7 @@ func (a *DefaultApiService) GetLevel(loggerName string) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5634,7 +5634,7 @@ func (a *DefaultApiService) GetMailConfig() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5693,7 +5693,7 @@ func (a *DefaultApiService) GetMergeConfig(scmId string) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5807,7 +5807,7 @@ func (a *DefaultApiService) GetPullRequestsPage(projectKey, repositorySlug strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5865,7 +5865,7 @@ func (a *DefaultApiService) GetProject(projectKey string) (*APIResponse, error) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -5931,7 +5931,7 @@ func (a *DefaultApiService) GetProjectAvatar(projectKey, repositorySlug string, 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6017,7 +6017,7 @@ func (a *DefaultApiService) GetProjects(localVarOptionals map[string]interface{}
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6072,7 +6072,7 @@ func (a *DefaultApiService) GetPullRequestCount() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6131,7 +6131,7 @@ func (a *DefaultApiService) GetPullRequestSettings(projectKey, repositorySlug st
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6192,7 +6192,7 @@ func (a *DefaultApiService) GetPullRequestSettings_17(projectKey, repositorySlug
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6264,7 +6264,7 @@ func (a *DefaultApiService) GetPullRequestSuggestions(localVarOptionals map[stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6324,7 +6324,7 @@ func (a *DefaultApiService) GetPullRequestTasks(projectKey, repositorySlug strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6429,7 +6429,7 @@ func (a *DefaultApiService) GetPullRequests(localVarOptionals map[string]interfa
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6507,7 +6507,7 @@ func (a *DefaultApiService) GetPullRequests_18(localVarOptionals map[string]inte
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6567,7 +6567,7 @@ func (a *DefaultApiService) GetRelatedRepositories(projectKey, repositorySlug st
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6644,7 +6644,7 @@ func (a *DefaultApiService) GetRepositoriesWithOptions(projectKey string, localV
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6721,7 +6721,7 @@ func (a *DefaultApiService) GetRepositoriesRecentlyAccessed(localVarOptionals ma
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6819,7 +6819,7 @@ func (a *DefaultApiService) GetRepositories_19(localVarOptionals map[string]inte
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6881,7 +6881,7 @@ func (a *DefaultApiService) GetRepository(projectKey, repositorySlug string) (*A
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -6943,7 +6943,7 @@ func (a *DefaultApiService) GetUserRepository(username, repositorySlug string) (
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7004,7 +7004,7 @@ func (a *DefaultApiService) GetPullRequest(projectKey, repositorySlug string, pu
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7065,7 +7065,7 @@ func (a *DefaultApiService) GetPullRequestActivity(projectKey, repositorySlug st
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7140,7 +7140,7 @@ func (a *DefaultApiService) GetPullRequestActivityWithOptions(projectKey, reposi
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7220,7 +7220,7 @@ func (a *DefaultApiService) GetPullRequestCommitsWithOptions(projectKey, reposit
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7271,7 +7271,7 @@ func (a *DefaultApiService) GetCommitBuildStatuses(commitSHA string) (*APIRespon
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7332,7 +7332,7 @@ func (a *DefaultApiService) GetRepositoryHook(projectKey, repositorySlug string,
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7393,7 +7393,7 @@ func (a *DefaultApiService) GetRepositoryHook_20(projectKey, repositorySlug stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7472,7 +7472,7 @@ func (a *DefaultApiService) GetRepositoryHooks(projectKey, repositorySlug string
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7550,7 +7550,7 @@ func (a *DefaultApiService) GetRepositoryHooks_21(projectKey string, localVarOpt
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7607,7 +7607,7 @@ func (a *DefaultApiService) GetRootLevel() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7617,7 +7617,7 @@ func (a *DefaultApiService) GetRootLevel() (*APIResponse, error) {
 /*
 	DefaultApiService
 
-Retrieves the server email address
+# Retrieves the server email address
 
 @return
 */
@@ -7664,7 +7664,7 @@ func (a *DefaultApiService) GetSenderAddress() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7725,7 +7725,7 @@ func (a *DefaultApiService) GetSettings(projectKey, repositorySlug string, hookK
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7786,7 +7786,7 @@ func (a *DefaultApiService) GetSettings_22(projectKey, repositorySlug string, ho
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7855,7 +7855,7 @@ func (a *DefaultApiService) GetStatistics(projectKey, repositorySlug string, web
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7916,7 +7916,7 @@ func (a *DefaultApiService) GetStatisticsSummary(projectKey, repositorySlug stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -7977,7 +7977,7 @@ func (a *DefaultApiService) GetTag(projectKey, repositorySlug string, name strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8051,7 +8051,7 @@ func (a *DefaultApiService) GetTags(project, repository string, localVarOptional
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8110,7 +8110,7 @@ func (a *DefaultApiService) GetTask(taskId int64) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8165,7 +8165,7 @@ func (a *DefaultApiService) GetSSHKeys(user string) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8230,7 +8230,7 @@ func (a *DefaultApiService) CreateSSHKey(localVarOptionals map[string]interface{
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8289,7 +8289,7 @@ func (a *DefaultApiService) GetUser(username string) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8347,7 +8347,7 @@ func (a *DefaultApiService) GetUserSettings(userSlug string) (*APIResponse, erro
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8424,7 +8424,7 @@ func (a *DefaultApiService) GetUsers(localVarOptionals map[string]interface{}) (
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8501,7 +8501,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission(localVarOptionals map[stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8579,7 +8579,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_23(projectKey string, loca
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8658,7 +8658,7 @@ func (a *DefaultApiService) GetUsersWithAnyPermission_24(projectKey string, repo
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8735,7 +8735,7 @@ func (a *DefaultApiService) GetUsersWithoutAnyPermission(localVarOptionals map[s
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8813,7 +8813,7 @@ func (a *DefaultApiService) GetUsersWithoutPermission(projectKey string, localVa
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8892,7 +8892,7 @@ func (a *DefaultApiService) GetUsersWithoutPermission_25(projectKey, repositoryS
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -8963,7 +8963,7 @@ func (a *DefaultApiService) GetUsers_26(localVarOptionals map[string]interface{}
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9032,7 +9032,7 @@ func (a *DefaultApiService) GetWebhook(projectKey, repositorySlug string, webhoo
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9093,7 +9093,7 @@ func (a *DefaultApiService) Get_27(projectKey, repositorySlug string, pullReques
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9153,7 +9153,7 @@ func (a *DefaultApiService) HasAllUserPermission(projectKey, permission string) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9214,7 +9214,7 @@ func (a *DefaultApiService) ListParticipants(projectKey, repositorySlug string, 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9280,7 +9280,7 @@ func (a *DefaultApiService) Merge(projectKey, repositorySlug string, pullRequest
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9349,7 +9349,7 @@ func (a *DefaultApiService) ModifyAllUserPermission(projectKey, repositorySlug s
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9428,7 +9428,7 @@ func (a *DefaultApiService) Preview(localVarOptionals map[string]interface{}) (*
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9485,7 +9485,7 @@ func (a *DefaultApiService) RemoveGroupFromUser() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9542,7 +9542,7 @@ func (a *DefaultApiService) RemoveUserFromGroup() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9599,7 +9599,7 @@ func (a *DefaultApiService) RenameUser() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9668,7 +9668,7 @@ func (a *DefaultApiService) Reopen(projectKey, repositorySlug string, pullReques
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9728,7 +9728,7 @@ func (a *DefaultApiService) RetryCreateRepository(projectKey, repositorySlug str
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9793,7 +9793,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup(localVarOptionals map[stri
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9859,7 +9859,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup_28(projectKey string, loca
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9926,7 +9926,7 @@ func (a *DefaultApiService) RevokePermissionsForGroup_29(projectKey, repositoryS
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -9991,7 +9991,7 @@ func (a *DefaultApiService) RevokePermissionsForUser(localVarOptionals map[strin
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10057,7 +10057,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_30(projectKey string, local
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10124,7 +10124,7 @@ func (a *DefaultApiService) RevokePermissionsForUser_31(projectKey string, repos
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10217,7 +10217,7 @@ func (a *DefaultApiService) Search(projectKey, repositorySlug string, localVarOp
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10231,13 +10231,17 @@ Update the default branch of a repository.  &lt;p&gt;  The authenticated user mu
 
 @return
 */
-func (a *DefaultApiService) SetDefaultBranch(projectKey, repositorySlug string) (*APIResponse, error) {
+func (a *DefaultApiService) SetDefaultBranch(projectKey, repositorySlug, branchRef string) (*APIResponse, error) {
 	var (
 		localVarHTTPMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
 	)
+
+	localVarPostBody = map[string]interface{}{
+		"id": branchRef,
+	}
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/1.0/projects/{projectKey}/repos/{repositorySlug}/branches/default"
@@ -10276,7 +10280,7 @@ func (a *DefaultApiService) SetDefaultBranch(projectKey, repositorySlug string) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10337,7 +10341,7 @@ func (a *DefaultApiService) SetLevel(levelName string, loggerName string) (*APIR
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10394,7 +10398,7 @@ func (a *DefaultApiService) SetMailConfig() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10453,7 +10457,7 @@ func (a *DefaultApiService) SetMergeConfig(scmId string) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10527,7 +10531,7 @@ func (a *DefaultApiService) SetPermissionForGroup(projectKey string, repositoryS
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10600,7 +10604,7 @@ func (a *DefaultApiService) SetPermissionForGroups(localVarOptionals map[string]
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10673,7 +10677,7 @@ func (a *DefaultApiService) SetPermissionForGroups_32(projectKey string, localVa
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10749,7 +10753,7 @@ func (a *DefaultApiService) SetPermissionForUser(projectKey string, repositorySl
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10821,7 +10825,7 @@ func (a *DefaultApiService) SetPermissionForUsers(localVarOptionals map[string]i
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10894,7 +10898,7 @@ func (a *DefaultApiService) SetPermissionForUsers_33(projectKey string, localVar
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -10953,7 +10957,7 @@ func (a *DefaultApiService) SetRootLevel(levelName string) (*APIResponse, error)
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11010,7 +11014,7 @@ func (a *DefaultApiService) SetSenderAddress() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11071,7 +11075,7 @@ func (a *DefaultApiService) SetSettings(projectKey, repositorySlug string, hookK
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11132,7 +11136,7 @@ func (a *DefaultApiService) SetSettings_34(projectKey, repositorySlug string, ho
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11199,7 +11203,7 @@ func (a *DefaultApiService) Stream(projectKey, repositorySlug string, localVarOp
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11280,7 +11284,7 @@ func (a *DefaultApiService) StreamChanges(projectKey, repositorySlug string, loc
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11369,7 +11373,7 @@ func (a *DefaultApiService) StreamChanges_35(projectKey, repositorySlug string, 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11448,7 +11452,7 @@ func (a *DefaultApiService) StreamCommits(project, repository string, localVarOp
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11552,7 +11556,7 @@ func (a *DefaultApiService) StreamDiff(projectKey, repositorySlug string, commit
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11659,7 +11663,7 @@ func (a *DefaultApiService) StreamDiff_36(projectKey, repositorySlug string, com
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11760,7 +11764,7 @@ func (a *DefaultApiService) StreamDiff_37(project, repository, path string, loca
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11855,7 +11859,7 @@ func (a *DefaultApiService) StreamDiff_38(projectKey, repositorySlug string, loc
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -11952,7 +11956,7 @@ func (a *DefaultApiService) StreamDiff_39(projectKey, repositorySlug string, pat
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12033,7 +12037,7 @@ func (a *DefaultApiService) GetPullRequestDiffRaw(projectKey, repositorySlug str
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12143,7 +12147,7 @@ func (a *DefaultApiService) GetPullRequestDiff(projectKey, repositorySlug string
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12255,7 +12259,7 @@ func (a *DefaultApiService) StreamDiff_41(projectKey, repositorySlug string, pul
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12334,7 +12338,7 @@ func (a *DefaultApiService) StreamFiles(projectKey, repositorySlug string, local
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12415,7 +12419,7 @@ func (a *DefaultApiService) StreamFiles_42(projectKey, repositorySlug string, pa
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12484,7 +12488,7 @@ func (a *DefaultApiService) Stream_43(projectKey, repositorySlug string, path st
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12551,7 +12555,7 @@ func (a *DefaultApiService) TestWebhook(projectKey, repositorySlug string, local
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12620,7 +12624,7 @@ func (a *DefaultApiService) UnassignParticipantRole(projectKey, repositorySlug s
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12684,7 +12688,7 @@ func (a *DefaultApiService) UnassignParticipantRole_44(projectKey, repositorySlu
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12745,7 +12749,7 @@ func (a *DefaultApiService) Unwatch(projectKey, repositorySlug string, commitId 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12806,7 +12810,7 @@ func (a *DefaultApiService) Unwatch_45(projectKey, repositorySlug string, pullRe
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12863,7 +12867,7 @@ func (a *DefaultApiService) Update() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12927,7 +12931,7 @@ func (a *DefaultApiService) UpdateComment(projectKey, repositorySlug string, com
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -12989,7 +12993,7 @@ func (a *DefaultApiService) UpdateComment_46(projectKey, repositorySlug string, 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13047,7 +13051,7 @@ func (a *DefaultApiService) UpdateProject(projectKey string) (*APIResponse, erro
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13106,7 +13110,7 @@ func (a *DefaultApiService) UpdatePullRequestSettings(projectKey, repositorySlug
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13167,7 +13171,7 @@ func (a *DefaultApiService) UpdatePullRequestSettings_47(projectKey, repositoryS
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13229,7 +13233,7 @@ func (a *DefaultApiService) UpdateRepositoryWithOptions(projectKey, repositorySl
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13287,7 +13291,7 @@ func (a *DefaultApiService) UpdateSettings(userSlug string) (*APIResponse, error
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13356,7 +13360,7 @@ func (a *DefaultApiService) UpdateStatus(projectKey, repositorySlug string, pull
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13415,7 +13419,7 @@ func (a *DefaultApiService) UpdateTask(taskId int64) (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13472,7 +13476,7 @@ func (a *DefaultApiService) UpdateUserDetails() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13529,7 +13533,7 @@ func (a *DefaultApiService) UpdateUserDetails_48() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13586,7 +13590,7 @@ func (a *DefaultApiService) UpdateUserPassword() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13643,7 +13647,7 @@ func (a *DefaultApiService) UpdateUserPassword_49() (*APIResponse, error) {
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13700,7 +13704,7 @@ func (a *DefaultApiService) UpdateWebhook(projectKey, repositorySlug string, web
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13761,7 +13765,7 @@ func (a *DefaultApiService) Update_50(projectKey, repositorySlug string, pullReq
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13819,7 +13823,7 @@ func (a *DefaultApiService) UploadAvatar(projectKey string) (*APIResponse, error
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13877,7 +13881,7 @@ func (a *DefaultApiService) UploadAvatar_51(userSlug string) (*APIResponse, erro
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13938,7 +13942,7 @@ func (a *DefaultApiService) Watch(projectKey, repositorySlug string, commitId st
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -13999,7 +14003,7 @@ func (a *DefaultApiService) Watch_52(projectKey, repositorySlug string, pullRequ
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -14060,7 +14064,7 @@ func (a *DefaultApiService) WithdrawApproval(projectKey, repositorySlug string, 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -14117,7 +14121,7 @@ func (a *DefaultApiService) GetCommitStats(commitId string) (*APIResponse, error
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -14174,7 +14178,7 @@ func (a *DefaultApiService) GetCommitStatus(commitId string) (*APIResponse, erro
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -14232,7 +14236,7 @@ func (a *DefaultApiService) GetCommitsStats(commits []string) (*APIResponse, err
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -14292,7 +14296,7 @@ func (a *DefaultApiService) SetCommitStatus(commitId string, buildStatus BuildSt
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
@@ -14350,7 +14354,7 @@ func (a *DefaultApiService) SearchCode(query SearchQuery) (*APIResponse, error) 
 	}
 	defer localVarHTTPResponse.Body.Close()
 	if localVarHTTPResponse.StatusCode >= 300 {
-		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
 		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
 	}
 
