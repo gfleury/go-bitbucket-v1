@@ -103,6 +103,7 @@ Method | HTTP request | Description
 [**GetRepositoryHook_0**](DefaultApi.md#GetRepositoryHook_0) | **Get** /api/1.0/projects/{projectKey}/settings/hooks/{hookKey} | 
 [**GetRepositoryHooks**](DefaultApi.md#GetRepositoryHooks) | **Get** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks | 
 [**GetRepositoryHooks_0**](DefaultApi.md#GetRepositoryHooks_0) | **Get** /api/1.0/projects/{projectKey}/settings/hooks | 
+[**GetRepositoryPullRequests**](DefaultApi.md#getrepositorypullrequests)                             | **Get** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests 
 [**GetRootLevel**](DefaultApi.md#GetRootLevel) | **Get** /api/1.0/logs/rootLogger | 
 [**GetSenderAddress**](DefaultApi.md#GetSenderAddress) | **Get** /api/1.0/admin/mail-server/sender-address | 
 [**GetSettings**](DefaultApi.md#GetSettings) | **Get** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}/settings | 
@@ -3301,6 +3302,47 @@ Optional parameters are passed through a map[string]interface{}.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **type_** | **string**| the optional type to filter by. Valid values are &lt;code&gt;PRE_RECEIVE&lt;/code&gt; or &lt;code&gt;POST_RECEIVE&lt;/code&gt; | [default to ]
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **GetRepositoryPullRequests**
+> GetRepositoryPullRequests(projectKey, repositoryKey, optional)
+
+
+Retrieve a page of pull requests to or from the specified repository.  <p>  The authenticated user must have <strong>REPO_READ</strong> permission for the specified repository to call this resource.
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectKey** | **string** | context for logging, tracing, authentication, etc.
+ **repositoryKey** | **string** | optional parameters | nil if no parameters
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **direction** | **string**| the direction relative to the specified repository. Either INCOMING or OUTGOING. | [default to INCOMING ]
+ **at** | **string**| a fully-qualified branch ID to find pull requests to or from, such as {@code refs/heads/master}c | [default to ]
+ **state** | **string**| supply ALL to return pull request in any state. If a state is supplied only pull requests in the specified state will be returned. Either OPEN, DECLINED or MERGED | [default to OPEN ]
+ **order** | **string**|  the order to return pull requests in, either OLDEST (as in: "oldest first") or NEWEST. | [default to NEWEST ]
+ **withAttributes** | **boolean**| whether to return additional pull request attributes | [default to true ]
+ **withProperties** | **boolean**| whether to return additional pull request properties | [default to true ]
 
 ### Return type
 
