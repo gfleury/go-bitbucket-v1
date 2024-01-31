@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**GetRepositoryHook_0**](docs/DefaultApi.md#getrepositoryhook_0) | **Get** /api/1.0/projects/{projectKey}/settings/hooks/{hookKey} | 
 *DefaultApi* | [**GetRepositoryHooks**](docs/DefaultApi.md#getrepositoryhooks) | **Get** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks | 
 *DefaultApi* | [**GetRepositoryHooks_0**](docs/DefaultApi.md#getrepositoryhooks_0) | **Get** /api/1.0/projects/{projectKey}/settings/hooks | 
+*DefaultApi* | [**GetRepositoryPullRequests**](docs/DefaultApi.md#getrepositorypullrequests) | **Get** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests 
 *DefaultApi* | [**GetRootLevel**](docs/DefaultApi.md#getrootlevel) | **Get** /api/1.0/logs/rootLogger | 
 *DefaultApi* | [**GetSenderAddress**](docs/DefaultApi.md#getsenderaddress) | **Get** /api/1.0/admin/mail-server/sender-address | 
 *DefaultApi* | [**GetSettings**](docs/DefaultApi.md#getsettings) | **Get** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}/settings | 
