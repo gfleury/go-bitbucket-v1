@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"net/url"
+	"strconv"
 	"strings"
 
 	"github.com/mitchellh/mapstructure"
@@ -677,6 +678,117 @@ func (a *DefaultApiService) CreatePullRequest(projectKey, repositorySlug string,
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := io.ReadAll(localVarHTTPResponse.Body)
+		return NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+	}
+
+	return NewBitbucketAPIResponse(localVarHTTPResponse)
+}
+
+/*
+ */
+func (a *DefaultApiService) GetRepositoryPullRequests(projectKey, repositorySlug string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	if localVarOptionals == nil {
+		localVarOptionals = make(map[string]interface{})
+	}
+
+	localVarPath := a.client.cfg.BasePath + fmt.Sprintf("/api/1.0/projects/%s/repos/%s/pull-requests",
+		projectKey,
+		repositorySlug,
+	)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if err := typeCheckParameter(localVarOptionals["direction"], "string", "direction"); err != nil {
+		return nil, err
+	}
+
+	if err := typeCheckParameter(localVarOptionals["at"], "string", "at"); err != nil {
+		return nil, err
+	}
+
+	if err := typeCheckParameter(localVarOptionals["state"], "string", "state"); err != nil {
+		return nil, err
+	}
+
+	if err := typeCheckParameter(localVarOptionals["order"], "string", "order"); err != nil {
+		return nil, err
+	}
+
+	if err := typeCheckParameter(localVarOptionals["withAttributes"], "bool", "withAttributes"); err != nil {
+		return nil, err
+	}
+
+	if err := typeCheckParameter(localVarOptionals["withProperties"], "bool", "withProperties"); err != nil {
+		return nil, err
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["direction"].(string); localVarOk {
+		localVarQueryParams.Add("direction", parameterToString(localVarTempParam, ""))
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["at"].(string); localVarOk {
+		localVarQueryParams.Add("direatction", parameterToString(localVarTempParam, ""))
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["state"].(string); localVarOk {
+		localVarQueryParams.Add("state", parameterToString(localVarTempParam, ""))
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["order"].(string); localVarOk {
+		localVarQueryParams.Add("order", parameterToString(localVarTempParam, ""))
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["withAttributes"].(string); localVarOk {
+		if _, err := strconv.ParseBool(localVarTempParam); err == nil {
+			localVarQueryParams.Add("withAttributes", localVarTempParam)
+		}
+	}
+
+	if localVarTempParam, localVarOk := localVarOptionals["withProperties"].(string); localVarOk {
+		if _, err := strconv.ParseBool(localVarTempParam); err == nil {
+			localVarQueryParams.Add("withProperties", localVarTempParam)
+		}
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+
 	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err

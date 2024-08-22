@@ -630,6 +630,48 @@ func TestDefaultApiService_CreatePullRequest(t *testing.T) {
 	}
 }
 
+func TestDefaultApiService_GetRepositoryPullRequests(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	tests := []struct {
+		name                     string
+		projectKey               string
+		repositorySlug           string
+		want                     *APIResponse
+		updatePullRequestOptions *EditPullRequestOptions
+		wantErr                  bool
+		fields                   fields
+	}{
+		{
+			projectKey:               "test",
+			repositorySlug:           "repoTest",
+			want:                     &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/test/repos/repoTest/pull-requests: context canceled"},
+			updatePullRequestOptions: &EditPullRequestOptions{},
+			wantErr:                  true,
+			fields:                   fields{client: generateConfigFake()},
+		},
+	}
+	for _, tt := range tests {
+		client := &DefaultApiService{
+			client: tt.fields.client,
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := client.GetRepositoryPullRequests(tt.projectKey, tt.repositorySlug, nil)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.Create() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != nil {
+				got.Response = nil
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.Create() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestDefaultApiService_UpdatePullRequest(t *testing.T) {
 	type fields struct {
 		client *APIClient
