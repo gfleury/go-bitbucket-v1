@@ -3503,6 +3503,9 @@ func (a *DefaultApiService) GetBranches(project, repository string, localVarOpti
 	if err := typeCheckParameter(localVarOptionals["start"], "int", "start"); err != nil {
 		return nil, err
 	}
+	if err := typeCheckParameter(localVarOptionals["boostMatches"], "bool", "boostMatches"); err != nil {
+		return nil, err
+	}
 
 	if localVarTempParam, localVarOk := localVarOptionals["limit"].(int); localVarOk {
 		localVarQueryParams.Add("limit", parameterToString(localVarTempParam, ""))
@@ -3521,6 +3524,9 @@ func (a *DefaultApiService) GetBranches(project, repository string, localVarOpti
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["orderBy"].(string); localVarOk {
 		localVarQueryParams.Add("orderBy", parameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["boostMatches"].(bool); localVarOk {
+		localVarQueryParams.Add("boostMatches", parameterToString(localVarTempParam, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}

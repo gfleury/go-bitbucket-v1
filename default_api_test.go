@@ -2388,6 +2388,133 @@ func TestDefaultApiService_GetBranches(t *testing.T) {
 	}
 }
 
+func TestDefaultApiService_GetBranchesWithBoostMatches(t *testing.T) {
+	getBranch := func(res *APIResponse) (branch string) {
+		if res.Values == nil {
+			return ""
+		}
+		values, ok := res.Values["values"]
+		if !ok {
+			return ""
+		}
+		valuesArray, ok := values.([]interface{})
+		if !ok || len(valuesArray) == 0 {
+			return ""
+		}
+		value, ok := valuesArray[0].(map[string]interface{})
+		if !ok {
+			return ""
+		}
+
+		return value["displayId"].(string)
+	}
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		switch r.RequestURI {
+		case "/api/1.0/projects/PROJECT/repos/REPO/branches?boostMatches=true&filterText=foo&orderBy=ALPHABETICAL":
+			_, err := io.WriteString(w, `{
+				"size": 1,
+				"limit": 100,
+				"isLastPage": true,
+				"values": [
+					{
+						"id": "refs/heads/foo",
+						"displayId": "foo",
+						"type": "BRANCH",
+						"latestCommit": "8d51122def5632836d1cb1026e879069e10a1e13",
+						"latestChangeset": "8d51122def5632836d1cb1026e879069e10a1e13",
+						"isDefault": true
+					}
+				],
+				"start": 0
+			}`)
+			if err != nil {
+				t.Errorf("DefaultApiService.GetBranches() error = i/o error %v", err)
+			}
+		case "/api/1.0/projects/PROJECT/repos/REPO/branches?filterText=foo&orderBy=ALPHABETICAL":
+			_, err := io.WriteString(w, `{
+				"size": 1,
+				"limit": 100,
+				"isLastPage": true,
+				"values": [
+					{
+						"id": "refs/heads/_foo_bar",
+						"displayId": "_foo_bar",
+						"type": "BRANCH",
+						"latestCommit": "8d51122def5632836d1cb1026e879069e10a1e13",
+						"latestChangeset": "8d51122def5632836d1cb1026e879069e10a1e13",
+						"isDefault": true
+					}
+				],
+				"start": 0
+			}`)
+			if err != nil {
+				t.Errorf("DefaultApiService.GetBranches() error = i/o error %v", err)
+			}
+		default:
+			t.Errorf("DefaultApiService.GetBranches() error = unhandled request %s", r.RequestURI)
+		}
+	}))
+	defer ts.Close()
+
+	client := NewAPIClient(
+		context.TODO(),
+		NewConfiguration(ts.URL),
+	)
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		project           string
+		repository        string
+		localVarOptionals map[string]interface{}
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		wantBranch               string
+		wantErr, integrationTest bool
+	}{
+		{"withBoostMatches", fields{client: client}, args{
+			project: "PROJECT", repository: "REPO",
+			localVarOptionals: map[string]interface{}{
+				"boostMatches": true,
+				"filterText":   "foo",
+				"orderBy":      "ALPHABETICAL",
+			}}, "foo", false, false},
+		{"withoutBoostMatches", fields{client: client}, args{
+			project: "PROJECT", repository: "REPO",
+			localVarOptionals: map[string]interface{}{
+				"filterText": "foo",
+				"orderBy":    "ALPHABETICAL",
+			}}, "_foo_bar", false, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.GetBranches(tt.args.project, tt.args.repository, tt.args.localVarOptionals)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.GetBranches() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != nil {
+				got.Response = nil
+			}
+			gotBranch := getBranch(got)
+			if !reflect.DeepEqual(gotBranch, tt.wantBranch) {
+				t.Errorf("DefaultApiService.GetBranches() = branch: %v, want branch: %v", gotBranch, tt.wantBranch)
+			}
+		})
+	}
+}
+
 func TestDefaultApiService_GetBranchesPagination(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
