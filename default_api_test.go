@@ -7582,6 +7582,45 @@ func TestDefaultApiService_UpdateComment_46(t *testing.T) {
 		})
 	}
 }
+func TestDefaultApiService_UpdatePullRequestComment(t *testing.T) {
+	type fields struct {
+		client *APIClient
+	}
+	type args struct {
+		projectKey     string
+		repositorySlug string
+		pullRequestID  int
+		commentId      int
+		comment        UpdatePullRequestCommentRequest
+	}
+	tests := []struct {
+		name                     string
+		fields                   fields
+		args                     args
+		want                     *APIResponse
+		wantErr, integrationTest bool
+	}{
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Put https://stash.domain.com/rest/api/1.0/projects//repos//pull-requests/0/comments/0: context canceled"}, true, false},
+	}
+	for _, tt := range tests {
+		if tt.integrationTest != runIntegrationTests {
+			continue
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			a := &DefaultApiService{
+				client: tt.fields.client,
+			}
+			got, err := a.UpdatePullRequestComment(tt.args.projectKey, tt.args.repositorySlug, tt.args.pullRequestID, tt.args.commentId, tt.args.comment)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DefaultApiService.UpdatePullRequestComment() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DefaultApiService.UpdatePullRequestComment() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
 func TestDefaultApiService_UpdateProject(t *testing.T) {
 	type fields struct {
