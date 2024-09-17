@@ -177,6 +177,7 @@ Method | HTTP request | Description
 [**Update**](DefaultApi.md#Update) | **Post** /api/1.0/admin/license | 
 [**UpdateComment**](DefaultApi.md#UpdateComment) | **Put** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/comments/{commentId} | 
 [**UpdateComment_0**](DefaultApi.md#UpdateComment_0) | **Put** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments/{commentId} | 
+[**UpdatePullRequestComment**](DefaultApi.md#UpdatePullRequestComment) | **Put** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments/{commentId} | 
 [**UpdateProject**](DefaultApi.md#UpdateProject) | **Put** /api/1.0/projects/{projectKey} | 
 [**UpdatePullRequestSettings**](DefaultApi.md#UpdatePullRequestSettings) | **Post** /api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/pull-requests | 
 [**UpdatePullRequestSettings_0**](DefaultApi.md#UpdatePullRequestSettings_0) | **Post** /api/1.0/projects/{projectKey}/settings/pull-requests/{scmId} | 
@@ -5672,6 +5673,36 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **UpdatePullRequestComment**
+> UpdatePullRequestComment(projectKey, repositorySlug, pullRequestID, commentId, updateCommentRequest)
+
+
+Update the text of a comment. Only the user who created a comment may update it.  <p>  <strong>Note:</strong> the supplied supplied JSON object must contain a <code>version</code> that must match  the server's version of the comment or the update will fail. To determine the current version of the comment,  the comment should be fetched from the server prior to the update. Look for the 'version' attribute in the  returned JSON structure.  <p>  The authenticated user must have <strong>REPO_READ</strong> permission for the repository that the commit  is in to call this resource.
+
+### Required Parameters
+
+Name | Type       | Description                                      | Notes
+------------- |------------|--------------------------------------------------| -------------
+ **projectKey** | **string** | The project key                                  |
+ **repositorySlug** | **string** | The repository slug.                             |
+ **pullRequestId** | **int**    | The ID of the pull request within the repository |
+ **commentId** | **int**    | The ID the comment                               |
+ **updateCommentRequest** | **UpdatePullRequestCommentRequest**  | The update comment request body                  |
+
+### Return type
+
+RestComment
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 # **UpdateComment**
 > UpdateComment(ctx, commitId, commentId, commitId2)
 
